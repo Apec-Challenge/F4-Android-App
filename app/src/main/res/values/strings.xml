@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">FundingFor</string>
+    <string name="app_name">F4</string>
+    <string name="title_activity_home">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_funding">Funding</string>
+    <string name="title_place">Places</string>
+    <string name="title_menu">Menu</string>
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.k_rona.funding4.navigation.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_funding"
+        android:name="com.k_rona.funding4.navigation.funding.FundingFragment"
+        android:label="@string/title_funding"
+        tools:layout="@layout/fragment_funding" />
+
+    <fragment
+        android:id="@+id/navigation_placeinfo"
+        android:name="com.k_rona.funding4.navigation.placeinfo.PlaceInfoFragment"
+        android:label="@string/title_place"
+        tools:layout="@layout/fragment_place_info" />
+
+
+    <fragment
+        android:id="@+id/navigation_menu"
+        android:name="com.k_rona.funding4.navigation.menu.MenuFragment"
+        android:label="@string/title_menu"
+        tools:layout="@layout/fragment_menu"/>
+</navigation>
