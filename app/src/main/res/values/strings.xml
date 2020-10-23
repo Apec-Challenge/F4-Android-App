@@ -5,4 +5,7 @@
     <string name="title_funding">Funding</string>
     <string name="title_place">Places</string>
     <string name="title_menu">Menu</string>
+    <string name="home_recommend_fund">Recommend</string>
+    <string name="home_popular_fund">Popular</string>
+    <string name="home_near_by_place">Near By</string>
 </resources>
