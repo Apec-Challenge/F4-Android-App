@@ -62,4 +62,5 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         home_near_by_map.onResume()
         super.onResume()
     }
+
 }
