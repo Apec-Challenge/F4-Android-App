@@ -1,7 +1,6 @@
 package com.k_rona.funding4.navigation.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +12,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.k_rona.funding4.R
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.Exception
 
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var map: GoogleMap
-
+    private lateinit var googleMap: GoogleMap
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,7 +43,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     // TODO: 2020/10/24 onMapReady() Callback Method 진입이 안되는 현상 발생
     override fun onMapReady(googleMap: GoogleMap?) {
-        map = googleMap!!
+        this.googleMap = googleMap!!
 
         var SEOUL = LatLng(37.56, 126.97)
 
@@ -57,7 +54,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             .title("서울")
             .snippet("한국 수도")
 
-        map.addMarker(markerOptions)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 10F))
+        this.googleMap.addMarker(markerOptions)
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 15F))
+    }
+
+    override fun onResume() {
+        home_near_by_map.onResume()
+        super.onResume()
     }
 }
