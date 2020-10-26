@@ -8,16 +8,26 @@
     tools:context=".activity.LoginActivity">
 
     <LinearLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@drawable/imac">
+        android:background="@drawable/imac"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_gravity="center"
             android:src="@drawable/app_logo_light" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/app_slogan"
+            android:textColor="#C6FFFFFF"
+            android:textSize="20sp" />
     </LinearLayout>
 
 
@@ -92,7 +102,7 @@
             android:id="@+id/register_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/custom_button_dark"
             android:gravity="center"
             android:text="REGISTER"

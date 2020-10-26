@@ -8,4 +8,12 @@
     <string name="home_recommend_fund">Recommend</string>
     <string name="home_popular_fund">Popular</string>
     <string name="home_near_by_place">Near By</string>
+
+    <string name="password_reset_title">Reset Password</string>
+    <string name="password_reset_description">
+        Please enter your registered E-mail.\nWe will send you the password reset\nlink to your E-mail.
+    </string>
+    <string name="password_reset_confirm_title">Check your E-mail</string>
+    <string name="password_reset_confirm_description">We have sent a link to change your\npassword to your email.</string>
+    <string name="app_slogan">Funding Your Tourism.</string>
 </resources>

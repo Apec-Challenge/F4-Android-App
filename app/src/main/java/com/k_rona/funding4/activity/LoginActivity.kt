@@ -57,16 +57,16 @@ class LoginActivity : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 if (email.isEmpty()) {
                     email_edit_text.requestFocus()
-                    email_edit_text.error = "이메일을 입력해주세요"
+                    email_edit_text.error = "Input your E-mail Address"
                 }
                 if (password.isEmpty()) {
                     password_edit_text.requestFocus()
-                    password_edit_text.error = "비밀번호를 입력해주세요"
+                    password_edit_text.error = "Input your Password"
                 }
             } else if (!Patterns.EMAIL_ADDRESS.matcher(email_edit_text.text.toString()).matches()) {
-                email_edit_text.error = "이메일 형식이 올바르지 않습니다"
+                email_edit_text.error = "E-mail Address format is invalid"
             } else if (password_edit_text.text.toString().length !in 8..25) {
-                password_edit_text.error = "비밀번호는 8자 이상 25자 이하 입니다"
+                password_edit_text.error = "The password is from 8 to 25 characters"
             } else {
                 LoadingDialog(this).show()
                 requestLogin(email, password)
@@ -74,32 +74,33 @@ class LoginActivity : AppCompatActivity() {
         }
 
         reset_password_button.setOnClickListener {
-
+            startActivity(Intent(this, PasswordResetActivity::class.java))
         }
 
         register_button.setOnClickListener {
-
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
     private fun requestLogin(email: String, password: String) {
         retrofitService.requestLogin(email, password).enqueue(object : Callback<User> {
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                LoadingDialog(applicationContext).dismiss()
-                Toast.makeText(
-                    applicationContext,
-                    "An unexpected error occurred",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 when (response.code()) {
                     400 -> {  // 이메일 및 패스워드 오류
                         Log.e("login", "Password Invalid")
+                        Toast.makeText(
+                            applicationContext,
+                            "Email and password are not valid",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     404 -> {  // 미 인증 사용자
                         Log.e("login", "Not activated")
+                        Toast.makeText(
+                            applicationContext,
+                            "Unauthenticated user. Please complete email verification.",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     200 -> {  // 로그인 성공
                         LoadingDialog(applicationContext).dismiss()
@@ -110,13 +111,24 @@ class LoginActivity : AppCompatActivity() {
                         Paper.book().write("user_profile", response.body())
 
                         val intent = Intent(applicationContext, HomeActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_ANIMATION
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NO_ANIMATION
 
                         startActivity(intent)
                         finish()
                     }
                 }
             }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                LoadingDialog(applicationContext).dismiss()
+                Toast.makeText(
+                    applicationContext,
+                    "An unexpected error occurred",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         })
     }
 
