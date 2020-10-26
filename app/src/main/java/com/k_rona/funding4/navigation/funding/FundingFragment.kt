@@ -22,9 +22,7 @@ class FundingFragment : Fragment() {
         dashboardViewModel =
             ViewModelProviders.of(this).get(FundingViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_funding, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
         })
         return root
     }

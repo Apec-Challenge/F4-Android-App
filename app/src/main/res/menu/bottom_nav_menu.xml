@@ -8,17 +8,17 @@
 
     <item
         android:id="@+id/navigation_funding"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_baseline_monetization_on_24"
         android:title="@string/title_funding" />
 
     <item
         android:id="@+id/navigation_placeinfo"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_place_location"
         android:title="@string/title_place" />
 
 
     <item
         android:id="@+id/navigation_menu"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_menu"
         android:title="@string/title_menu" />
 </menu>

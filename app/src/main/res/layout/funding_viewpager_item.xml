@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
             <ImageView
-                android:src="@drawable/imac"
+                android:background="#616161"
                 android:id="@+id/main_funding_image"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
