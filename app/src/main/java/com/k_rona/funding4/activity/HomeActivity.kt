@@ -1,12 +1,12 @@
-package com.k_rona.funding4
+package com.k_rona.funding4.activity
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.k_rona.funding4.R
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,7 +20,10 @@ class HomeActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_funding, R.id.navigation_placeinfo, R.id.navigation_menu
+                R.id.navigation_home,
+                R.id.navigation_funding,
+                R.id.navigation_placeinfo,
+                R.id.navigation_menu
             )
         )
         navView.setupWithNavController(navController)

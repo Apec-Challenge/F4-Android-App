@@ -41,7 +41,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    // TODO: 2020/10/24 onMapReady() Callback Method 진입이 안되는 현상 발생
     override fun onMapReady(googleMap: GoogleMap?) {
         this.googleMap = googleMap!!
 
@@ -62,5 +61,4 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         home_near_by_map.onResume()
         super.onResume()
     }
-
 }
