@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#F9F9F9"
     android:orientation="vertical"
     tools:context=".navigation.funding.FundingFragment">
 
@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/imac" />
+                    android:src="@drawable/sample" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -87,13 +87,14 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/edit_text_keyword"
+                    android:id="@+id/search_funding_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_weight="0.8"
                     android:background="@drawable/custom_input"
+                    android:backgroundTint="#fff"
                     android:drawableStart="@drawable/ic_baseline_search_24"
                     android:drawablePadding="12dp"
                     android:ems="10"
@@ -103,21 +104,29 @@
                     android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/select_filter_button"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="0.35"
                     android:background="@drawable/custom_button"
                     android:backgroundTint="@color/colorAccent"
-                    android:drawableLeft="@drawable/ic_baseline_filter_list_24"
-                    android:text="Filter"
+                    android:drawableStart="@drawable/ic_baseline_filter_list_24"
                     android:drawablePadding="8dp"
                     android:drawableTint="#fff"
                     android:gravity="bottom"
                     android:padding="16dp"
+                    android:text="Filter"
                     android:textColor="#fff" />
 
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="16dp"
+                android:id="@+id/funding_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/funding_recyclerview_item" />
 
         </LinearLayout>
     </ScrollView>
