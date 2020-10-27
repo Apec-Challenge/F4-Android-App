@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/rank_1_title"
+                android:id="@+id/funding_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Funding Title"
@@ -31,14 +31,20 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/rank_1_description"
+                android:id="@+id/funding_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Funding Description. This funding is..."
+                android:text="This funding is for you..."
                 android:textSize="12sp" />
 
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:id="@+id/funding_progress_bar"
+                android:layout_width="160dp"
+                android:layout_height="10dp"/>
+
             <TextView
-                android:id="@+id/rank_1_progress"
+                android:id="@+id/funding_progress_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="280% in progress"
@@ -50,7 +56,7 @@
 
         <ImageView
             android:scaleType="centerCrop"
-            android:id="@+id/rank_1_image"
+            android:id="@+id/funding_image"
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
