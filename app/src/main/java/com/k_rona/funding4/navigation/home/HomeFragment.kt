@@ -36,7 +36,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         val mapView = view.findViewById<MapView>(R.id.home_near_by_map)
         mapView.onCreate(savedInstanceState)
-
         val map = mapView.getMapAsync(this)
 
     }

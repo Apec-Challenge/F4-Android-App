@@ -81,7 +81,7 @@ class FundingFragment : Fragment() {
             }
 
         search_funding_edit_text.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN && search_funding_edit_text.text.toString() != "") {
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 // Enter Action
                 userInputKeyword = search_funding_edit_text.text.toString() + " "
 
@@ -132,6 +132,9 @@ class FundingFragment : Fragment() {
                         SORT_FUNDING_AMOUNT->{
                             select_filter_button.text = getString(R.string.filter_funding_amount)
                             getFundingList(keyword = userInputKeyword, filter = SORT_FUNDING_AMOUNT)
+                        }
+                        else->{
+                            select_filter_button.text = getString(R.string.filter)
                         }
                     }
                 })
