@@ -9,10 +9,10 @@ import com.k_rona.funding4.R
 import com.k_rona.funding4.data.Funding
 import kotlinx.android.synthetic.main.funding_recyclerview_item.view.*
 
-class FundingRecyclerViewAdapter(
+class FundingListAdapter(
     private val fundingList: ArrayList<Funding>,
     private val context: Context
-): RecyclerView.Adapter<FundingRecyclerViewAdapter.ViewHolder>() {
+): RecyclerView.Adapter<FundingListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val view: View): RecyclerView.ViewHolder(view), View.OnClickListener{
         init{
@@ -27,14 +27,14 @@ class FundingRecyclerViewAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): FundingRecyclerViewAdapter.ViewHolder {
+    ): FundingListAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.funding_recyclerview_item, parent, false)
 
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FundingRecyclerViewAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FundingListAdapter.ViewHolder, position: Int) {
         holder.view.funding_title.text = fundingList[position].title
         holder.view.funding_description.text = fundingList[position].content
 

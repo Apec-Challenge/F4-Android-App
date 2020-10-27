@@ -16,4 +16,9 @@
     <string name="password_reset_confirm_title">Check your E-mail</string>
     <string name="password_reset_confirm_description">We have sent a link to change your\npassword to your email.</string>
     <string name="app_slogan">Funding Your Tourism.</string>
+    <string name="filter_recommend">Recommend</string>
+    <string name="filter_latest">Latest</string>
+    <string name="filter_closing_limit">Closing Limit</string>
+    <string name="filter_popular">Popularity</string>
+    <string name="filter_funding_amount">Funding Amount</string>
 </resources>
