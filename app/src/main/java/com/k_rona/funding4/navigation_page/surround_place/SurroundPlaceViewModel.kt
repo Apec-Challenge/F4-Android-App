@@ -1,10 +1,10 @@
-package com.k_rona.funding4.navigation.placeinfo
+package com.k_rona.funding4.navigation_page.surround_place
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PlaceInfoViewModel : ViewModel() {
+class SurroundPlaceViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

@@ -1,4 +1,4 @@
-package com.k_rona.funding4.navigation.home
+package com.k_rona.funding4.navigation_page.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

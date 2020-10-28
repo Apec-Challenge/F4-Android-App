@@ -1,4 +1,4 @@
-package com.k_rona.funding4.navigation.funding
+package com.k_rona.funding4.navigation_page.funding
 
 import android.app.AlertDialog
 import android.content.DialogInterface

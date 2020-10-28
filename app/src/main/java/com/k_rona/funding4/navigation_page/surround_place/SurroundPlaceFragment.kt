@@ -1,4 +1,4 @@
-package com.k_rona.funding4.navigation.placeinfo
+package com.k_rona.funding4.navigation_page.surround_place
 
 import android.annotation.SuppressLint
 import android.location.Address
@@ -20,16 +20,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.k_rona.funding4.R
-import kotlinx.android.synthetic.main.fragment_place_info.*
+import kotlinx.android.synthetic.main.fragment_surround_place.*
 import noman.googleplaces.NRPlaces
 import noman.googleplaces.PlaceType
 import noman.googleplaces.PlacesException
@@ -39,9 +36,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
+class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
 
-    private var notificationsViewModel: PlaceInfoViewModel? = null
+    private var notificationsViewModel: SurroundPlaceViewModel? = null
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
     private lateinit var placesClient: PlacesClient
@@ -64,8 +61,8 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
         savedInstanceState: Bundle?
     ): View? {
         notificationsViewModel =
-            ViewModelProviders.of(this).get(PlaceInfoViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_place_info, container, false)
+            ViewModelProviders.of(this).get(SurroundPlaceViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_surround_place, container, false)
         return root
     }
 
@@ -249,7 +246,7 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
     }
 
     companion object {
-        private val TAG = PlaceInfoFragment::class.java.simpleName
+        private val TAG = SurroundPlaceFragment::class.java.simpleName
         private const val DEFAULT_ZOOM = 17
 
         private const val KEY_CAMERA_POSITION = "camera_position"
@@ -274,6 +271,13 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
                     markerOptions.position(latLng)
                     markerOptions.title(place.name)
                     markerOptions.snippet(markerSnippet)
+
+                    // 백엔드 API 호출했을 때 응답으로 온 Place List 내에 해당 place 의 ID가 있으면
+                    // 마커 색깔을 다르게 하자
+
+                    /*if(place.placeId in placeList){
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                    }*/
 
                     val item: Marker = map!!.addMarker(markerOptions)
                     previousMarker?.add(item)

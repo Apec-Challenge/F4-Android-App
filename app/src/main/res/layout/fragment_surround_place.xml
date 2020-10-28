@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navigation_page.surround_place.SurroundPlaceFragment">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/place_info_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <EditText
+        android:id="@+id/search_funding_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/custom_input"
+        android:backgroundTint="#fff"
+        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="@string/place_search"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="14sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
+        android:id="@+id/register_place_info_button"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/custom_button_round"
+        android:backgroundTint="@color/colorAccent"
+        android:drawableStart="@drawable/ic_baseline_add_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="#fff"
+        android:gravity="bottom"
+        android:padding="16dp"
+        android:text="Register Info"
+        android:textColor="#fff" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/show_place_info_card_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:elevation="8dp"
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Place Name"
+                    android:textColor="@color/title"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Place Address 165-7"
+                    android:textColor="@color/sub_title"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="★★★★☆"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

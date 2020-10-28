@@ -1,4 +1,4 @@
-package com.k_rona.funding4.navigation.menu
+package com.k_rona.funding4.navigation_page.menu
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
