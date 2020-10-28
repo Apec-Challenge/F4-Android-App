@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.k_rona.funding4.R
 import kotlinx.android.synthetic.main.fragment_home.*
 
-
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var homeViewModel: HomeViewModel

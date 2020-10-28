@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FundingDetailActivity">
+
+    <ImageView
+        android:id="@+id/funding_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#616161"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/main_funding_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            tools:text="Funding Title" />
+
+        <TextView
+            android:id="@+id/main_funding_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This funding is for you."
+            android:textColor="@color/sub_title"
+            android:textSize="16sp" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/funding_achievement_rate"
+                android:text="287%"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"/>
+            <TextView
+                android:textColor="@color/colorAccent"
+                android:id="@+id/funding_amount"
+                android:layout_alignParentRight="true"
+                android:text="$ 3,052,460"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

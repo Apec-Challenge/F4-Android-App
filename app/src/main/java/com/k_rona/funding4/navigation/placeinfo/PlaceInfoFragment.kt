@@ -1,20 +1,21 @@
 package com.k_rona.funding4.navigation.placeinfo
 
 import android.annotation.SuppressLint
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.provider.SettingsSlicesContract.KEY_LOCATION
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.common.api.internal.GoogleServices.initialize
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.libraries.places.api.Places
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -23,13 +24,22 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.k_rona.funding4.R
-import kotlinx.android.synthetic.main.fragment_place_info.*
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.k_rona.funding4.R
+import kotlinx.android.synthetic.main.fragment_place_info.*
+import noman.googleplaces.NRPlaces
+import noman.googleplaces.PlaceType
+import noman.googleplaces.PlacesException
+import noman.googleplaces.PlacesListener
+import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
-class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
+class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
 
     private var notificationsViewModel: PlaceInfoViewModel? = null
     private var map: GoogleMap? = null
@@ -46,6 +56,8 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
     private var likelyPlaceAttributions: Array<List<*>?> = arrayOfNulls(0)
     private var likelyPlaceLatLngs: Array<LatLng?> = arrayOfNulls(0)
 
+    private var previousMarker: ArrayList<Marker>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,22 +72,29 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
-        // Construct a PlacesClient
+        previousMarker = ArrayList<Marker>()
+
         Places.initialize(requireContext(), getString(R.string.google_maps_key))
         placesClient = Places.createClient(requireContext())
 
-        // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
 
         val mapView = view.findViewById<MapView>(R.id.place_info_map)
         mapView.onCreate(savedInstanceState)
+
+        val locationButton= (mapView.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2"))
+        val rlp=locationButton.layoutParams as (RelativeLayout.LayoutParams)
+        // position on right bottom
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,0)
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE)
+        rlp.setMargins(0,0,30,30);
+
         mapView.getMapAsync(this)
 
     }
@@ -92,16 +111,12 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
         Log.d("Map", "onMapReady()")
         this.map = googleMap
 
-        // Use a custom info window adapter to handle multiple lines of text in the
-        // info window contents.
         this.map?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            // Return null here, so that getInfoContents() is called next.
             override fun getInfoWindow(arg0: Marker): View? {
                 return null
             }
 
             override fun getInfoContents(marker: Marker): View {
-                // Inflate the layouts for the info window, title and snippet.
                 val infoWindow = layoutInflater.inflate(
                     R.layout.custom_place_info_contents,
                     place_info_map, false
@@ -113,13 +128,10 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
                 return infoWindow
             }
         })
-        // Turn on the My Location layer and the related control on the map
         updateLocationUI()
 
-        // Get the current location of the device and set the position of the map
         getDeviceLocation()
 
-//        showCurrentPlace()
     }
 
     override fun onResume() {
@@ -135,7 +147,6 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
             locationResult.addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d("Map", "updateLocationUI() try success")
-                    // Set the map's camera position to the current location of the device.
                     lastKnownLocation = task.result
                     if (lastKnownLocation != null) {
                         Log.d("Test", "Map on")
@@ -148,10 +159,17 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
                             )
                         )
 
+                        showPlaceInformation(
+                            LatLng(
+                                lastKnownLocation!!.latitude,
+                                lastKnownLocation!!.longitude
+                            )
+                        )
+
                         Log.d("Map", "getDeviceLocation() try success")
                         Log.d("Map", lastKnownLocation!!.latitude.toString())
                         Log.d("Map", lastKnownLocation!!.longitude.toString())
-                    }else{
+                    } else {
                         Log.d("Map", "getDeviceLocation() lastKnownLocation null")
                     }
                 } else {
@@ -171,10 +189,6 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    /**
-     * Prompts the user to select the current place from a list of likely places, and shows the
-     * current place on the map - provided the user has granted location permission.
-     */
     @SuppressLint("MissingPermission")
     private fun showCurrentPlace() {
         if (map == null) {
@@ -182,17 +196,13 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
         }
         val placeFields = listOf(Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG)
 
-        // Use the builder to create a FindCurrentPlaceRequest.
         val request = FindCurrentPlaceRequest.newInstance(placeFields)
 
-        // Get the likely places - that is, the businesses and other points of interest that
-        // are the best match for the device's current location.
         val placeResult = placesClient.findCurrentPlace(request)
         placeResult.addOnCompleteListener { task ->
             if (task.isSuccessful && task.result != null) {
                 val likelyPlaces = task.result
 
-                // Set the count, handling cases where less than 5 entries are returned.
                 val count =
                     if (likelyPlaces != null && likelyPlaces.placeLikelihoods.size < M_MAX_ENTRIES) {
                         likelyPlaces.placeLikelihoods.size
@@ -205,7 +215,6 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
                 likelyPlaceAttributions = arrayOfNulls<List<*>?>(count)
                 likelyPlaceLatLngs = arrayOfNulls(count)
                 for (placeLikelihood in likelyPlaces?.placeLikelihoods ?: emptyList()) {
-                    // Build a list of likely places to show the user.
                     likelyPlaceNames[i] = placeLikelihood.place.name
                     likelyPlaceAddresses[i] = placeLikelihood.place.address
                     likelyPlaceAttributions[i] = placeLikelihood.place.attributions
@@ -241,14 +250,84 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
         private val TAG = PlaceInfoFragment::class.java.simpleName
-        private const val DEFAULT_ZOOM = 15
+        private const val DEFAULT_ZOOM = 17
 
-        // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
 
-        // Used for selecting the current place.
         private const val M_MAX_ENTRIES = 5
     }
 
+    override fun onPlacesFailure(e: PlacesException?) {
+    }
+
+    override fun onPlacesStart() {
+    }
+
+    override fun onPlacesSuccess(places: MutableList<noman.googleplaces.Place>?) {
+        activity?.runOnUiThread(java.lang.Runnable {
+            if (places != null) {
+                for (place in places) {
+                    val latLng: LatLng = LatLng(place.latitude, place.longitude)
+                    val markerSnippet: String = getCurrentAddress(latLng)
+                    val markerOptions = MarkerOptions()
+                    markerOptions.position(latLng)
+                    markerOptions.title(place.name)
+                    markerOptions.snippet(markerSnippet)
+
+                    val item: Marker = map!!.addMarker(markerOptions)
+                    previousMarker?.add(item)
+                }
+
+                val hashSet: HashSet<Marker> = HashSet<Marker>()
+                previousMarker?.let { hashSet.addAll(it) }
+                previousMarker?.clear()
+                previousMarker?.addAll(hashSet)
+            }
+        })
+
+    }
+
+    override fun onPlacesFinished() {
+    }
+
+    private fun showPlaceInformation(location: LatLng) {
+        map?.clear() //지도 클리어
+        previousMarker?.clear() //지역정보 마커 클리어
+        NRPlaces.Builder()
+            .listener(this)
+            .key("AIzaSyCKW59a-kBh992dFN_RvDKDPgrBfquVQmM")
+            .latlng(location.latitude, location.longitude) //현재 위치
+            .radius(500) //500 미터 내에서 검색
+            .type(PlaceType.RESTAURANT) //음식점
+            .build()
+            .execute()
+    }
+
+    private fun getCurrentAddress(latlng: LatLng): String {
+        // GPS 를 주소로 변환
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        val addresses: List<Address>
+        addresses = try {
+            geocoder.getFromLocation(
+                latlng.latitude,
+                latlng.longitude,
+                1
+            )
+        } catch (ioException: IOException) {
+            // 네트워크 문제
+            Toast.makeText(context, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+            return "지오코더 서비스 사용불가"
+        } catch (illegalArgumentException: IllegalArgumentException) {
+            Toast.makeText(context, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+            return "잘못된 GPS 좌표"
+        }
+        return if (addresses.isEmpty()) {
+            Toast.makeText(context, "주소 미발견", Toast.LENGTH_LONG).show()
+            "주소 미발견"
+        } else {
+            val address: Address = addresses[0]
+            address.getAddressLine(0).toString()
+        }
+    }
 }
