@@ -1,4 +1,4 @@
-package com.k_rona.funding4.activity
+package com.k_rona.funding4.user
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +10,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
 import com.k_rona.funding4.data.User
+import com.k_rona.funding4.home.HomeActivity
 import com.k_rona.funding4.network.RetrofitService
-import com.k_rona.funding4.network.Server
 import com.k_rona.funding4.network.Server.Companion.BASE_URL
 import com.k_rona.funding4.utility.LoadingDialog
 import io.paperdb.Paper

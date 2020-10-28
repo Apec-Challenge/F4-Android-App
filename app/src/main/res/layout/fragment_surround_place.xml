@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigation_page.surround_place.SurroundPlaceFragment">
+    tools:context=".place.SurroundPlaceFragment">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/place_info_map"

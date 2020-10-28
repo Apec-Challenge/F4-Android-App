@@ -1,12 +1,12 @@
-package com.k_rona.funding4.utility
+package com.k_rona.funding4.user
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.k_rona.funding4.R
 
-class PlaceRegisterActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_place_register)
+        setContentView(R.layout.activity_register)
     }
 }

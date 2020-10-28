@@ -1,4 +1,4 @@
-package com.k_rona.funding4.navigation_page.surround_place
+package com.k_rona.funding4.place
 
 import android.annotation.SuppressLint
 import android.location.Address

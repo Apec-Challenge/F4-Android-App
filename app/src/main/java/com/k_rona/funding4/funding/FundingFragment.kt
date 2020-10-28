@@ -1,4 +1,4 @@
-package com.k_rona.funding4.navigation_page.funding
+package com.k_rona.funding4.funding
 
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -113,23 +113,23 @@ class FundingFragment : Fragment() {
             alertDialog.setTitle("Set Filter")
                 .setItems(sortFilter, DialogInterface.OnClickListener { dialog, which ->
                     when (which) {
-                        SORT_RECOMMEND->{
+                        SORT_RECOMMEND ->{
                             select_filter_button.text = getString(R.string.filter_recommend)
                             getFundingList(keyword = userInputKeyword, filter = SORT_RECOMMEND)
                         }
-                        SORT_LATEST->{
+                        SORT_LATEST ->{
                             select_filter_button.text = getString(R.string.filter_latest)
                             getFundingList(keyword = userInputKeyword, filter = SORT_LATEST)
                         }
-                        SORT_CLOSING_LIMIT->{
+                        SORT_CLOSING_LIMIT ->{
                             select_filter_button.text = getString(R.string.filter_closing_limit)
                             getFundingList(keyword = userInputKeyword, filter = SORT_CLOSING_LIMIT)
                         }
-                        SORT_POPULAR->{
+                        SORT_POPULAR ->{
                             select_filter_button.text = getString(R.string.filter_popular)
                             getFundingList(keyword = userInputKeyword, filter = SORT_POPULAR)
                         }
-                        SORT_FUNDING_AMOUNT->{
+                        SORT_FUNDING_AMOUNT ->{
                             select_filter_button.text = getString(R.string.filter_funding_amount)
                             getFundingList(keyword = userInputKeyword, filter = SORT_FUNDING_AMOUNT)
                         }

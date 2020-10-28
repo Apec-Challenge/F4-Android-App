@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FundingDetailActivity">
+    tools:context=".funding.FundingDetailActivity">
 
     <ImageView
         android:id="@+id/funding_title_image"

@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+
+/app/src/main/res/values/google_api.xml

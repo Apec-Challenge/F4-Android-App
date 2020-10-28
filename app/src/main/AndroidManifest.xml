@@ -16,12 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".utility.PlaceRegisterActivity"></activity>
-        <activity android:name=".FundingDetailActivity" />
-        <activity android:name=".activity.PasswordResetConfirmActivity" />
-        <activity android:name=".activity.PasswordResetActivity" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".place.PlaceRegisterActivity"></activity>
+        <activity android:name=".funding.FundingDetailActivity" />
+        <activity android:name=".user.PasswordResetConfirmActivity" />
+        <activity android:name=".user.PasswordResetActivity" />
+        <activity android:name=".user.RegisterActivity" />
+        <activity android:name=".user.LoginActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -31,7 +31,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".home.HomeActivity"
             android:label="@string/title_activity_home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

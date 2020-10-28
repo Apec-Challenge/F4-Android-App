@@ -1,4 +1,4 @@
-package com.k_rona.funding4.activity
+package com.k_rona.funding4.home
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView

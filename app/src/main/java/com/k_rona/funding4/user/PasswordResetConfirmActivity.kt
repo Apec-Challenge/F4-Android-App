@@ -1,4 +1,4 @@
-package com.k_rona.funding4.activity
+package com.k_rona.funding4.user
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
