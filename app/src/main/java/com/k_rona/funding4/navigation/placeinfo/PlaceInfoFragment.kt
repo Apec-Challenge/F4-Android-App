@@ -297,9 +297,9 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
         NRPlaces.Builder()
             .listener(this)
             .key(getString(R.string.google_maps_key))
-            .latlng(location.latitude, location.longitude) //현재 위치
-            .radius(500) //500 미터 내에서 검색
-            .type(PlaceType.RESTAURANT) //음식점
+            .latlng(location.latitude, location.longitude) // 현재 위치
+            .radius(2000) // 2000 미터 내에서 검색
+            .type(PlaceType.LODGING) // 숙박 업소
             .build()
             .execute()
     }
