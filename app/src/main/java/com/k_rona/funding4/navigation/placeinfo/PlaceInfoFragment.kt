@@ -296,7 +296,7 @@ class PlaceInfoFragment : Fragment(), OnMapReadyCallback, PlacesListener {
         previousMarker?.clear() //지역정보 마커 클리어
         NRPlaces.Builder()
             .listener(this)
-            .key("AIzaSyCKW59a-kBh992dFN_RvDKDPgrBfquVQmM")
+            .key(getString(R.string.google_maps_key))
             .latlng(location.latitude, location.longitude) //현재 위치
             .radius(500) //500 미터 내에서 검색
             .type(PlaceType.RESTAURANT) //음식점
