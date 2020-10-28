@@ -146,4 +146,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
 
-app/src/main/res/values/google_api.xml
+src/main/res/values/google_api.xml
