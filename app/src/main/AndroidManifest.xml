@@ -16,8 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".place.PlaceRegisterActivity"></activity>
-        <activity android:name=".funding.FundingDetailActivity" />
+        <activity android:name=".place.PlaceDetailActivity"></activity>
+        <activity android:name=".place.PlaceRegisterActivity" />
+        <activity android:name=".funding.FundingDetailActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".user.PasswordResetConfirmActivity" />
         <activity android:name=".user.PasswordResetActivity" />
         <activity android:name=".user.RegisterActivity" />
@@ -33,11 +40,6 @@
         <activity
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

@@ -7,41 +7,6 @@
     android:orientation="vertical"
     tools:context=".place.PlaceRegisterActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#8A8A8A">
-
-
-        <LinearLayout
-            android:id="@+id/empty_place_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_baseline_image_24"
-                app:tint="#fff" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Add a image"
-                android:textColor="#fff"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/main_place_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -49,41 +14,203 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Place Name"
-                android:textColor="@color/title"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
-                android:text="Input or edit place name."
-                android:textColor="#434343"
-                android:textSize="15sp" />
-
-
-            <EditText
-                android:id="@+id/place_name_edit_text"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/custom_input_register"
-                android:ems="10"
-                android:hint="Place Name"
-                android:inputType="textEmailAddress"
-                android:paddingStart="16dp"
-                android:textSize="14sp" />
+                android:layout_height="250dp"
+                android:background="#8A8A8A">
 
+                <LinearLayout
+                    android:id="@+id/empty_place_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_baseline_image_24"
+                        app:tint="#fff" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Add a Image"
+                        android:textColor="#fff"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/main_place_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Place Name"
+                    android:textColor="@color/title"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Input or edit place name."
+                    android:textColor="#434343"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/place_description_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/custom_input_register"
+                    android:ems="10"
+                    android:hint="Place Name"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="16dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Place Description"
+                    android:textColor="@color/title"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Input or Edit place description"
+                    android:textColor="#434343"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/place_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/custom_input_register"
+                    android:ems="10"
+                    android:hint="Place Description"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="16dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="PPE"
+                    android:textColor="@color/title"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Input or Edit place PPE Information"
+                    android:textColor="#434343"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Hand Sanitizer"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/hand_sanitizer_seekbar"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="4"
+                    android:progress="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Mask"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/mask_seekbar"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="4"
+                    android:progress="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Sanitary Glove"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/sanitory_glove_seekbar"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="4"
+                    android:progress="2" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/submit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/custom_button"
+                    android:backgroundTint="@color/colorAccent"
+                    android:gravity="bottom|center"
+                    android:padding="16dp"
+                    android:text="submit"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

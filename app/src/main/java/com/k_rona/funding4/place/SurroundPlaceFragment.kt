@@ -25,12 +25,18 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
+import com.k_rona.funding4.network.RetrofitService
+import com.k_rona.funding4.network.Server
 import kotlinx.android.synthetic.main.fragment_surround_place.*
 import noman.googleplaces.NRPlaces
 import noman.googleplaces.PlaceType
 import noman.googleplaces.PlacesException
 import noman.googleplaces.PlacesListener
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -54,6 +60,17 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
     private var likelyPlaceLatLngs: Array<LatLng?> = arrayOfNulls(0)
 
     private var previousMarker: ArrayList<Marker>? = null
+
+    private val gson: Gson = GsonBuilder()
+        .setDateFormat("yyyy-MM-dd")
+        .create()
+
+    private val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(Server.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
+
+    private val retrofitService: RetrofitService = retrofit.create(RetrofitService::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,

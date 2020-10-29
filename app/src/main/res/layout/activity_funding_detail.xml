@@ -7,142 +7,167 @@
     android:orientation="vertical"
     tools:context=".funding.FundingDetailActivity">
 
-    <ImageView
-        android:id="@+id/funding_title_image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#616161"
-        android:scaleType="centerCrop" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-
-                android:layout_centerVertical="true"
-                android:id="@+id/main_funding_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/title"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                tools:text="Funding Title" />
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:id="@+id/select_filter_button"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:background="none"
-                android:backgroundTint="@color/colorAccent"
-                android:drawableStart="@drawable/ic_baseline_favorite_24"
-                android:drawablePadding="8dp"
-                android:drawableTint="@color/colorPrimary"
-                android:gravity="bottom"
-                android:padding="16dp"
-                android:text="1,462"
-                android:textColor="#515151" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/main_funding_summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This funding is for you."
-            android:textColor="@color/sub_title"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/funding_people"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="324 Participants"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/funding_achievement_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="287%"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/funding_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="$ 300,000"
-                android:textStyle="bold"
-                android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:background="#F4F4F4"
-            android:layout_marginTop="24dp"
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/place_icon"
-                android:layout_centerVertical="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_place_location"/>
+                android:id="@+id/funding_title_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="#616161"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="16dp"
-                android:layout_toEndOf="@id/place_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:padding="24dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/main_funding_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/title"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:text="Funding Title" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/select_filter_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:backgroundTint="@color/colorAccent"
+                        android:drawableStart="@drawable/ic_baseline_favorite_24"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/colorPrimary"
+                        android:gravity="bottom"
+                        android:padding="16dp"
+                        android:text="1,462"
+                        android:textColor="#515151" />
+
+                </RelativeLayout>
 
                 <TextView
-                    android:textColor="#505050"
+                    android:id="@+id/main_funding_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="This funding is for you."
+                    android:textColor="@color/sub_title"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/funding_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="324 Participants"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
-                    android:text="Place Name"/>
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <ProgressBar
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Place Address 162-5"/>
+                    android:layout_marginTop="8dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/funding_achievement_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="287%"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/funding_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="$ 300,000"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="24dp"
+                    android:background="#F4F4F4"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/place_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_place_location" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_toEndOf="@id/place_icon"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Place Name"
+                            android:textColor="#505050"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Place Address 162-5"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/funding_detail_tab"
+                    app:tabTextColor="@color/sub_title"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/funding_detail_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+
+                </androidx.viewpager.widget.ViewPager>
+
 
             </LinearLayout>
 
-        </RelativeLayout>
-
-    </LinearLayout>
-
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
