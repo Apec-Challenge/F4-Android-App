@@ -1,5 +1,6 @@
 package com.k_rona.funding4.data
 
+import java.io.Serializable
 import java.util.*
 
 class Funding(
@@ -14,4 +15,4 @@ class Funding(
     var like_count: String,
     var created_at: Date,
     var ended_at: Date
-)
+): Serializable

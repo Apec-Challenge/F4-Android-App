@@ -12,13 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.k_rona.funding4.R
+import com.k_rona.funding4.data.Funding
 import com.k_rona.funding4.funding.funding_detail_tab.FundingBackedListFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingCommentFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingPPEFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingSummaryFragment
 import kotlinx.android.synthetic.main.activity_funding_detail.*
+import kotlinx.android.synthetic.main.funding_recyclerview_item.view.*
 
 class FundingDetailActivity : AppCompatActivity() {
 
@@ -29,6 +32,20 @@ class FundingDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_funding_detail)
+
+        val fundingDetail: Funding = intent.getSerializableExtra("funding_object") as Funding
+        Log.d("Funding intent test", fundingDetail.title)
+
+        Glide.with(this)
+            .load(fundingDetail.thumbnail_image)
+            .centerCrop()
+            .thumbnail(0.1f)
+            .into(funding_thumbnail_image)
+
+        funding_title.text = fundingDetail.title
+        funding_description.text = fundingDetail.description
+//        funding_backed_count.text = fundingDetail.backed
+        funding_owner.text = fundingDetail.user
 
         tabLayout = findViewById(R.id.funding_detail_tab)
         pagerAdapter = PagerAdaper(supportFragmentManager)

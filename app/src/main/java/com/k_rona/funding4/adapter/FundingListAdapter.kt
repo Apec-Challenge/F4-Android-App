@@ -1,6 +1,8 @@
 package com.k_rona.funding4.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.k_rona.funding4.R
 import com.k_rona.funding4.data.Funding
+import com.k_rona.funding4.funding.FundingDetailActivity
 import kotlinx.android.synthetic.main.funding_recyclerview_item.view.*
 
 class FundingListAdapter(
@@ -21,7 +24,11 @@ class FundingListAdapter(
         }
 
         override fun onClick(v: View?) {
-
+            val intent = Intent(context, FundingDetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("funding_object", fundingList[adapterPosition - 1])
+            intent.putExtras(bundle)
+            context.startActivity(intent)
         }
     }
 
@@ -36,7 +43,8 @@ class FundingListAdapter(
     }
 
     override fun onBindViewHolder(holder: FundingListAdapter.ViewHolder, position: Int) {
-        val achievementRate: Double = fundingList[position].funding_amount.toDouble() / fundingList[position].funding_goal_amount.toDouble()
+        val achievementRate: Double =
+            fundingList[position].funding_amount.toDouble() / fundingList[position].funding_goal_amount.toDouble()
 
         Glide.with(holder.view)
             .load(fundingList[position].thumbnail_image)
