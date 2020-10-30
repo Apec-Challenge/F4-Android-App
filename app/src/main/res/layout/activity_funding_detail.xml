@@ -151,6 +151,7 @@
                 </RelativeLayout>
 
                 <com.google.android.material.tabs.TabLayout
+                    app:tabTextAppearance="@style/TabLayoutStyle"
                     android:id="@+id/funding_detail_tab"
                     app:tabTextColor="@color/sub_title"
                     android:layout_marginTop="16dp"
@@ -162,9 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp">
 
-
                 </androidx.viewpager.widget.ViewPager>
-
 
             </LinearLayout>
 

@@ -28,6 +28,7 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
+import com.k_rona.funding4.data.LodgingPlace
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import kotlinx.android.synthetic.main.fragment_surround_place.*
@@ -35,6 +36,9 @@ import noman.googleplaces.NRPlaces
 import noman.googleplaces.PlaceType
 import noman.googleplaces.PlacesException
 import noman.googleplaces.PlacesListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -48,6 +52,8 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
     private lateinit var placesClient: PlacesClient
+
+    private var surroundLodgingPlaceList: ArrayList<LodgingPlace> = arrayListOf()
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -102,15 +108,23 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
         val mapView = view.findViewById<MapView>(R.id.place_info_map)
         mapView.onCreate(savedInstanceState)
 
-        val locationButton= (mapView.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(Integer.parseInt("2"))
-        val rlp=locationButton.layoutParams as (RelativeLayout.LayoutParams)
+        val locationButton =
+            (mapView.findViewById<View>(Integer.parseInt("1")).parent as View).findViewById<View>(
+                Integer.parseInt("2")
+            )
+        val rlp = locationButton.layoutParams as (RelativeLayout.LayoutParams)
         // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP,0)
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE)
-        rlp.setMargins(0,0,30,30);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+        rlp.setMargins(0, 0, 30, 30);
 
         mapView.getMapAsync(this)
 
+    }
+
+    override fun onResume() {
+        place_info_map.onResume()
+        super.onResume()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -143,14 +157,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
             }
         })
         updateLocationUI()
-
         getDeviceLocation()
-
-    }
-
-    override fun onResume() {
-        place_info_map.onResume()
-        super.onResume()
     }
 
     @SuppressLint("MissingPermission")
@@ -281,24 +288,52 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
     override fun onPlacesSuccess(places: MutableList<noman.googleplaces.Place>?) {
         activity?.runOnUiThread(java.lang.Runnable {
             if (places != null) {
-                for (place in places) {
-                    val latLng: LatLng = LatLng(place.latitude, place.longitude)
-                    val markerSnippet: String = getCurrentAddress(latLng)
-                    val markerOptions = MarkerOptions()
-                    markerOptions.position(latLng)
-                    markerOptions.title(place.name)
-                    markerOptions.snippet(markerSnippet)
+                retrofitService.requestSurroundPlaceList()
+                    .enqueue(object : Callback<ArrayList<LodgingPlace>> {
+                        override fun onResponse(
+                            call: Call<ArrayList<LodgingPlace>>,
+                            response: Response<ArrayList<LodgingPlace>>
+                        ) {
+                            if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                                surroundLodgingPlaceList = response.body()!!
+                                for (place in places) {
+                                    val latLng: LatLng = LatLng(place.latitude, place.longitude)
+                                    val markerSnippet: String = getCurrentAddress(latLng)
+                                    val markerOptions = MarkerOptions()
+                                    markerOptions.position(latLng)
+                                    markerOptions.title(place.name)
+                                    markerOptions.snippet(markerSnippet)
 
-                    // 백엔드 API 호출했을 때 응답으로 온 Place List 내에 해당 place 의 ID가 있으면
-                    // 마커 색깔을 다르게 하자
+                                    // 백엔드 API 호출했을 때 응답으로 온 Place List 내에 해당 place 의 ID가 있으면
+                                    // 마커 색깔을 다르게 표시 (기본 (정보가 없는 장소) : HUE_MAGENTA)
 
-                    /*if(place.placeId in placeList){
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-                    }*/
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+//                                    for(lodgingPlace in surroundLodgingPlaceList){
+//                                        if(place.placeId == lodgingPlace.place_id){
+//                                        }
+//                                    }
+                                    val isThisPlaceHaveInfo = surroundLodgingPlaceList.any { it.place_id == place.placeId }
 
-                    val item: Marker = map!!.addMarker(markerOptions)
-                    previousMarker?.add(item)
-                }
+                                    if(isThisPlaceHaveInfo){
+                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                    }
+
+                                    val item: Marker = map!!.addMarker(markerOptions)
+                                    previousMarker?.add(item)
+                                }
+
+                            } else {
+                                Log.d("Error lodging place", response.errorBody().toString())
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<ArrayList<LodgingPlace>>,
+                            t: Throwable
+                        ) {
+                            Log.e("Error lodging place", t.message)
+                        }
+                    })
 
                 val hashSet: HashSet<Marker> = HashSet<Marker>()
                 previousMarker?.let { hashSet.addAll(it) }

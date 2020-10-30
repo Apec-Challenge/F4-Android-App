@@ -2,6 +2,7 @@ package com.k_rona.funding4.funding
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,16 +31,11 @@ class FundingDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_funding_detail)
 
         tabLayout = findViewById(R.id.funding_detail_tab)
-        tabLayout.addTab(tabLayout.newTab().setText("Summary"))
-        tabLayout.addTab(tabLayout.newTab().setText("Backed"))
-        tabLayout.addTab(tabLayout.newTab().setText("PPE"))
-        tabLayout.addTab(tabLayout.newTab().setText("Comment"))
-
         pagerAdapter = PagerAdaper(supportFragmentManager)
         viewPager = this.findViewById(R.id.funding_detail_viewpager)
         viewPager.adapter = pagerAdapter
 
-        funding_detail_tab.setupWithViewPager(viewPager)
+        tabLayout.setupWithViewPager(viewPager)
     }
 }
 
@@ -95,8 +91,10 @@ class PagerAdaper(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         }
     }
 
+    private val tabTitle : ArrayList<String> = arrayListOf<String>("Summary", "Backed", "PPE", "Comment")
+
     override fun getPageTitle(position: Int): CharSequence? {
-        return super.getPageTitle(position)
+        return tabTitle[position]
     }
 }
 
