@@ -102,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:text="Input or Edit place description"
                     android:textColor="#434343"
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="4dp"
-                    android:text="Input or Edit place PPE Information"
+                    android:text="@string/place_register_ppe"
                     android:textColor="#434343"
                     android:textSize="15sp" />
 
@@ -143,11 +143,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Hand Sanitizer"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/ppe_hand_sanitizer"
                     android:textColor="@color/sub_title"
                     android:textSize="15sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Please evaluate how well hand sanitizers are in place."
+                    android:textColor="#434343"
+                    android:textSize="15sp" />
 
                 <SeekBar
                     android:id="@+id/hand_sanitizer_seekbar"
@@ -156,17 +165,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:max="4"
-                    android:progress="2" />
+                    android:progress="2"
+                    android:soundEffectsEnabled="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="Mask"
+                    android:soundEffectsEnabled="true"
+                    android:text="@string/ppe_person_hygiene"
                     android:textColor="@color/sub_title"
                     android:textSize="15sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Please evaluate whether the employees at this place are wearing masks well."
+                    android:textColor="#434343"
+                    android:textSize="15sp" />
 
                 <SeekBar
                     android:id="@+id/mask_seekbar"
@@ -175,17 +195,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:max="4"
-                    android:progress="2" />
+                    android:progress="2"
+                    android:soundEffectsEnabled="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="Sanitary Glove"
+                    android:text="@string/ppe_temp_check"
                     android:textColor="@color/sub_title"
                     android:textSize="15sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Please evaluate whether the temperature is properly measured at the store."
+                    android:textColor="#434343"
+                    android:textSize="15sp" />
 
                 <SeekBar
                     android:id="@+id/sanitory_glove_seekbar"

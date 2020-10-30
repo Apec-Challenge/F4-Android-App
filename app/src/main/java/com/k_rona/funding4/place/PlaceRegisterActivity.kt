@@ -28,7 +28,7 @@ class PlaceRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_register)
 
-        register_place_info_button.setOnClickListener {
+        submit_button.setOnClickListener {
             when {
                 place_name_edit_text.text.toString().isEmpty() -> {
                     place_name_edit_text.error = "This field is required."

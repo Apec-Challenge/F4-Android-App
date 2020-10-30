@@ -46,7 +46,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
+class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
 
     private var notificationsViewModel: SurroundPlaceViewModel? = null
     private var map: GoogleMap? = null
@@ -98,6 +98,8 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
         }
 
         previousMarker = ArrayList<Marker>()
+        map?.setOnInfoWindowClickListener(this)
+        map?.setOnMarkerClickListener(this)
 
         Places.initialize(requireContext(), getString(R.string.google_maps_key))
         placesClient = Places.createClient(requireContext())
@@ -133,6 +135,14 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
             outState.putParcelable(KEY_LOCATION, lastKnownLocation)
         }
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onMarkerClick(marker: Marker?): Boolean {
+
+        return true
+    }
+
+    override fun onInfoWindowClick(marker: Marker?) {
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -319,6 +329,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener {
                                     }
 
                                     val item: Marker = map!!.addMarker(markerOptions)
+//                                    item.tag = place
                                     previousMarker?.add(item)
                                 }
 

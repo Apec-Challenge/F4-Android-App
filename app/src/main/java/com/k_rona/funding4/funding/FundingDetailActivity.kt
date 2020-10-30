@@ -91,7 +91,7 @@ class PagerAdaper(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         }
     }
 
-    private val tabTitle : ArrayList<String> = arrayListOf<String>("Summary", "Backed", "PPE", "Comment")
+    private val tabTitle : ArrayList<String> = arrayListOf("Summary", "Backed", "PPE", "Comment")
 
     override fun getPageTitle(position: Int): CharSequence? {
         return tabTitle[position]

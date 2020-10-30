@@ -1,16 +1,15 @@
 package com.k_rona.funding4.network
 
+import com.k_rona.funding4.data.Funding
 import com.k_rona.funding4.data.LodgingPlace
 import com.k_rona.funding4.data.User
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RetrofitService {
 
-    // Accounts
+    /** Account **/
+
     @FormUrlEncoded
     @POST("rest-auth/registration/")
     fun requestRegister(
@@ -40,8 +39,17 @@ interface RetrofitService {
         @Field("email") email: String
     ): Call<String>
 
-    // Place
+    /** Place **/
 
-    @GET("api/places/")
+    @GET("api/place/")
     fun requestSurroundPlaceList(): Call<ArrayList<LodgingPlace>>
+
+
+    /** Place **/
+    @GET("apl/funding/")
+    fun requestFundingList(
+        @Query("keyword") keyword: String,
+        @Query("q") filter: String
+    ): Call<ArrayList<Funding>>
+
 }

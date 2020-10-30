@@ -3,6 +3,7 @@ package com.k_rona.funding4.funding
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,9 @@ import com.k_rona.funding4.data.Funding
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import kotlinx.android.synthetic.main.fragment_funding.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -26,7 +30,9 @@ class FundingFragment : Fragment() {
 
     private lateinit var dashboardViewModel: FundingViewModel
 
-    private var fundingList: ArrayList<Funding> = ArrayList()
+    private var fundingList: ArrayList<Funding> = arrayListOf()
+    private var responseBody: ArrayList<Funding> = arrayListOf()
+
     private var userInputKeyword: String = ""
 
     lateinit var recyclerView: RecyclerView
@@ -50,6 +56,12 @@ class FundingFragment : Fragment() {
         const val SORT_CLOSING_LIMIT = 2  // 마감 임박 순
         const val SORT_POPULAR = 3  // 인기 순 (참여자 순)
         const val SORT_FUNDING_AMOUNT = 4  // 펀딩 금액 순 (달성율 순)
+
+        const val FILTER_RECOMMEND = "like_count"
+        const val FILTER_LATEST = ""
+        const val FILTER_CLOSING_LIMIT = "deadline"
+        const val FILTER_POPULAR = "hot"
+        const val FILTER_FUNDING_AMOUNT = "achievement"
     }
 
     override fun onCreateView(
@@ -79,6 +91,8 @@ class FundingFragment : Fragment() {
                 layoutManager = viewManager
                 adapter = viewAdapter
             }
+
+        getFundingList(keyword = userInputKeyword, filter = FILTER_RECOMMEND)
 
         search_funding_edit_text.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
@@ -113,27 +127,33 @@ class FundingFragment : Fragment() {
             alertDialog.setTitle("Set Filter")
                 .setItems(sortFilter, DialogInterface.OnClickListener { dialog, which ->
                     when (which) {
-                        SORT_RECOMMEND ->{
+                        SORT_RECOMMEND -> {
                             select_filter_button.text = getString(R.string.filter_recommend)
-                            getFundingList(keyword = userInputKeyword, filter = SORT_RECOMMEND)
+                            getFundingList(keyword = userInputKeyword, filter = FILTER_RECOMMEND)
                         }
-                        SORT_LATEST ->{
+                        SORT_LATEST -> {
                             select_filter_button.text = getString(R.string.filter_latest)
-                            getFundingList(keyword = userInputKeyword, filter = SORT_LATEST)
+                            getFundingList(keyword = userInputKeyword, filter = FILTER_LATEST)
                         }
-                        SORT_CLOSING_LIMIT ->{
+                        SORT_CLOSING_LIMIT -> {
                             select_filter_button.text = getString(R.string.filter_closing_limit)
-                            getFundingList(keyword = userInputKeyword, filter = SORT_CLOSING_LIMIT)
+                            getFundingList(
+                                keyword = userInputKeyword,
+                                filter = FILTER_CLOSING_LIMIT
+                            )
                         }
-                        SORT_POPULAR ->{
+                        SORT_POPULAR -> {
                             select_filter_button.text = getString(R.string.filter_popular)
-                            getFundingList(keyword = userInputKeyword, filter = SORT_POPULAR)
+                            getFundingList(keyword = userInputKeyword, filter = FILTER_POPULAR)
                         }
-                        SORT_FUNDING_AMOUNT ->{
+                        SORT_FUNDING_AMOUNT -> {
                             select_filter_button.text = getString(R.string.filter_funding_amount)
-                            getFundingList(keyword = userInputKeyword, filter = SORT_FUNDING_AMOUNT)
+                            getFundingList(
+                                keyword = userInputKeyword,
+                                filter = FILTER_FUNDING_AMOUNT
+                            )
                         }
-                        else->{
+                        else -> {
                             select_filter_button.text = getString(R.string.filter)
                         }
                     }
@@ -145,9 +165,27 @@ class FundingFragment : Fragment() {
 
     private fun getFundingList(
         keyword: String = "",
-        filter: Int = 0
+        filter: String = FILTER_RECOMMEND
     ) {
+        retrofitService.requestFundingList(keyword, filter)
+            .enqueue(object : Callback<ArrayList<Funding>> {
+                override fun onResponse(
+                    call: Call<ArrayList<Funding>>,
+                    response: Response<ArrayList<Funding>>
+                ) {
+                    if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                        responseBody = response.body()!!
+                        fundingList.clear()
 
+                        fundingList.addAll(responseBody)
+                        viewAdapter.notifyDataSetChanged()
+                    }
+                }
+
+                override fun onFailure(call: Call<ArrayList<Funding>>, t: Throwable) {
+                    Log.e("Funding List error", t.message)
+                }
+            })
     }
 
 

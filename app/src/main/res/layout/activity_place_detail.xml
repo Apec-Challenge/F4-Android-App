@@ -40,7 +40,7 @@
                         android:textColor="@color/title"
                         android:textSize="32sp"
                         android:textStyle="bold"
-                        android:text="Funding Title" />
+                        android:text="Place Title" />
 
 
                     <TextView

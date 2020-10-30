@@ -38,26 +38,41 @@
                 android:textSize="12sp" />
 
             <ProgressBar
+                android:progress="70"
                 android:layout_marginTop="8dp"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/funding_progress_bar"
                 android:layout_width="160dp"
                 android:layout_height="10dp"/>
 
-            <TextView
-                android:id="@+id/funding_progress_text"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="280% in progress"
-                android:textColor="@color/colorAccent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/funding_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="280"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="% in progress"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView
             android:scaleType="centerCrop"
-            android:id="@+id/funding_image"
+            android:id="@+id/funding_thumbnail_image"
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
