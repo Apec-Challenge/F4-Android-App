@@ -10,14 +10,30 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <RatingBar
-        android:id="@+id/review_rating"
-        style="@style/Widget.AppCompat.RatingBar.Small"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="1dp"
-        android:rating="3.3" />
+        android:layout_height="wrap_content">
+
+        <RatingBar
+            android:id="@+id/review_rating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="1dp"
+            android:rating="3.3" />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="34"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_baseline_favorite_empty_24"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/review_content"

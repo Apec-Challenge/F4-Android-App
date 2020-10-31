@@ -17,14 +17,18 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/rank_1"
-            android:orientation="vertical">
+            android:layout_toLeftOf="@+id/funding_thumbnail_image"
+            android:orientation="vertical"
+            android:paddingRight="16dp">
 
             <TextView
                 android:id="@+id/funding_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Funding Title"
                 android:textColor="@color/sub_title"
                 android:textSize="16sp"
@@ -33,22 +37,24 @@
             <TextView
                 android:id="@+id/funding_description"
                 android:layout_width="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:layout_height="wrap_content"
                 android:text="This funding is for you..."
                 android:textSize="12sp" />
 
             <ProgressBar
-                android:progress="70"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:id="@+id/funding_progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="160dp"
-                android:layout_height="10dp"/>
+                android:layout_height="10dp"
+                android:layout_marginTop="8dp"
+                android:progress="70" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/funding_progress_text"
@@ -71,12 +77,12 @@
         </LinearLayout>
 
         <ImageView
-            android:scaleType="centerCrop"
             android:id="@+id/funding_thumbnail_image"
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/sample" />
+            android:background="@drawable/sample"
+            android:scaleType="centerCrop" />
     </RelativeLayout>
 </LinearLayout>

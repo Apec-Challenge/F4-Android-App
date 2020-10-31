@@ -40,7 +40,7 @@ class FundingFragment : Fragment() {
     lateinit var viewManager: RecyclerView.LayoutManager
 
     private val gson = GsonBuilder()
-        .setDateFormat("yyyy-MM-dd'T'HH:mm")
+        .setDateFormat("yyyy-MM-dd")
         .create()
 
     private val retrofit = Retrofit.Builder()
@@ -167,18 +167,18 @@ class FundingFragment : Fragment() {
         keyword: String = "",
         filter: String = FILTER_RECOMMEND
     ) {
-        retrofitService.requestFundingList(keyword, filter)
+        retrofitService.requestFundingList(filter) // keyword
             .enqueue(object : Callback<ArrayList<Funding>> {
-                override fun onResponse(
-                    call: Call<ArrayList<Funding>>,
-                    response: Response<ArrayList<Funding>>
-                ) {
+                override fun onResponse(call: Call<ArrayList<Funding>>, response: Response<ArrayList<Funding>>) {
                     if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                        responseBody.clear()
                         responseBody = response.body()!!
-                        fundingList.clear()
 
                         fundingList.addAll(responseBody)
                         viewAdapter.notifyDataSetChanged()
+                    }else{
+                        Log.d("requestFundingList()", "ERROR CODE : "+ response.code().toString())
+                        Log.d("requestFundingList()", "RESPONSE : " + response.body().toString())
                     }
                 }
 

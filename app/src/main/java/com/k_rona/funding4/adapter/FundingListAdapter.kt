@@ -26,7 +26,7 @@ class FundingListAdapter(
         override fun onClick(v: View?) {
             val intent = Intent(context, FundingDetailActivity::class.java)
             val bundle = Bundle()
-            bundle.putSerializable("funding_object", fundingList[adapterPosition - 1])
+            bundle.putSerializable("funding_object", fundingList[adapterPosition])
             intent.putExtras(bundle)
             context.startActivity(intent)
         }
@@ -55,8 +55,8 @@ class FundingListAdapter(
 
         holder.view.funding_title.text = fundingList[position].title
         holder.view.funding_description.text = fundingList[position].description
-        holder.view.funding_progress_bar.progress = achievementRate.toInt() * 100
-        holder.view.funding_progress_text.text = (achievementRate * 100).toString()
+        holder.view.funding_progress_bar.progress = (achievementRate * 100).toInt()
+        holder.view.funding_progress_text.text = (achievementRate * 100).toInt().toString()
     }
 
     override fun getItemCount(): Int {

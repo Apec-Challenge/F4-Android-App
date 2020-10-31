@@ -45,7 +45,7 @@ class FundingDetailActivity : AppCompatActivity() {
         funding_title.text = fundingDetail.title
         funding_description.text = fundingDetail.description
 //        funding_backed_count.text = fundingDetail.backed
-        funding_owner.text = fundingDetail.user
+//        funding_owner.text = fundingDetail.user
 
         tabLayout = findViewById(R.id.funding_detail_tab)
         pagerAdapter = PagerAdaper(supportFragmentManager)

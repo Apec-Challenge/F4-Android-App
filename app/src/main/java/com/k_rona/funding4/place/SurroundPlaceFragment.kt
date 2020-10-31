@@ -134,8 +134,8 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
     }
 
     override fun onResume() {
-        place_info_map.onResume()
         super.onResume()
+        place_info_map.onResume()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
