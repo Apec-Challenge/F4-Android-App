@@ -60,6 +60,9 @@ interface RetrofitService {
     fun requestFundingList(@Query("q") filter: String): Call<ArrayList<Funding>>
 //        @Query("keyword") keyword: String,
 
+    @GET("api/funding/")
+    fun requestPopularFundingList(@Query("q") filter: String): Call<ArrayList<Funding>>
+
     /** Review **/
     @GET("api/review/")
     fun requestReviewList(

@@ -58,6 +58,10 @@ class PopularPlaceListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return placeList.size
+        return if(5 > placeList.size){
+            placeList.size
+        }else{
+            5
+        }
     }
 }

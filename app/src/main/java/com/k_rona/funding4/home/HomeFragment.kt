@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
+import com.k_rona.funding4.adapter.PopularFundingListAdapter
 import com.k_rona.funding4.adapter.PopularPlaceListAdapter
 import com.k_rona.funding4.adapter.RecommendFundingListAdapter
 import com.k_rona.funding4.data.Funding
@@ -32,11 +33,18 @@ class HomeFragment : Fragment() {
     private var recommendResponseBody: ArrayList<Funding> = arrayListOf()
 
     private var popularPlaceList: ArrayList<LodgingPlace> = arrayListOf()
-    private var popularResponseBody: ArrayList<LodgingPlace> = arrayListOf()
+    private var popularPlaceResponseBody: ArrayList<LodgingPlace> = arrayListOf()
+
+    private var popularFundingList: ArrayList<Funding> = arrayListOf()
+    private var popularFundingResponseBody: ArrayList<Funding> = arrayListOf()
 
     lateinit var recommendFundingRecyclerView: RecyclerView
     lateinit var recommendFundingAdapter: RecyclerView.Adapter<*>
     lateinit var recommendFundingManager: RecyclerView.LayoutManager
+
+    lateinit var popularPlaceRecyclerView: RecyclerView
+    lateinit var popularPlaceAdapter: RecyclerView.Adapter<*>
+    lateinit var popularPlaceManager: RecyclerView.LayoutManager
 
     lateinit var popularFundingRecyclerView: RecyclerView
     lateinit var popularFundingAdapter: RecyclerView.Adapter<*>
@@ -80,18 +88,28 @@ class HomeFragment : Fragment() {
                 adapter = recommendFundingAdapter
             }
 
-        popularFundingManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        popularFundingAdapter = PopularPlaceListAdapter(popularPlaceList, requireContext())
+        popularFundingManager = LinearLayoutManager(requireContext())
+        popularFundingAdapter = PopularFundingListAdapter(popularFundingList, requireContext())
 
-        popularFundingRecyclerView =
-            view.findViewById<RecyclerView>(R.id.home_popular_place_recyclerview).apply {
+        popularPlaceRecyclerView =
+            view.findViewById<RecyclerView>(R.id.popular_funding_list).apply {
                 setHasFixedSize(true)
                 layoutManager = popularFundingManager
                 adapter = popularFundingAdapter
             }
 
+        popularPlaceManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        popularPlaceAdapter = PopularPlaceListAdapter(popularPlaceList, requireContext())
+
+        popularPlaceRecyclerView =
+            view.findViewById<RecyclerView>(R.id.home_popular_place_recyclerview).apply {
+                setHasFixedSize(true)
+                layoutManager = popularPlaceManager
+                adapter = popularPlaceAdapter
+            }
 
         getRecommendFundingList()
+        getPopularFundingList()
         getPopularPlaceList()
     }
 
@@ -117,6 +135,29 @@ class HomeFragment : Fragment() {
             })
     }
 
+    private fun getPopularFundingList(){
+        retrofitService.requestPopularFundingList("hot").enqueue(object : Callback<ArrayList<Funding>>{
+            override fun onResponse(
+                call: Call<ArrayList<Funding>>,
+                response: Response<ArrayList<Funding>>
+            ) {
+                if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                    popularFundingResponseBody.clear()
+                    popularFundingResponseBody = response.body()!!
+
+                    popularFundingList.addAll(popularFundingResponseBody)
+                    popularFundingAdapter.notifyDataSetChanged()
+
+                }else{
+
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<Funding>>, t: Throwable) {
+            }
+        })
+    }
+
     private fun getPopularPlaceList(){
         retrofitService.requestPopularPlaceList("like_count").enqueue(object : Callback<ArrayList<LodgingPlace>>{
             override fun onResponse(
@@ -124,11 +165,11 @@ class HomeFragment : Fragment() {
                 response: Response<ArrayList<LodgingPlace>>
             ) {
                 if (response.code() == 200 && !response.body().isNullOrEmpty()) {
-                    popularResponseBody.clear()
-                    popularResponseBody = response.body()!!
+                    popularPlaceResponseBody.clear()
+                    popularPlaceResponseBody = response.body()!!
 
-                    popularPlaceList.addAll(popularResponseBody)
-                    popularFundingAdapter.notifyDataSetChanged()
+                    popularPlaceList.addAll(popularPlaceResponseBody)
+                    popularPlaceAdapter.notifyDataSetChanged()
                 }else{
                     Log.d("requestPopularPlaceList", "ERROR CODE : "+ response.code().toString())
                     Log.d("requestPopularPlaceList", "RESPONSE : " + response.body().toString())
