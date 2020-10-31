@@ -9,7 +9,7 @@ class Funding(
     var place: String,
     var title: String,
     var description: String,
-    var backedList: ArrayList<String>,
+    var backed_list: ArrayList<Int>,
 //    var user: String,
     var content_image: String,
     var funding_goal_amount: Int,

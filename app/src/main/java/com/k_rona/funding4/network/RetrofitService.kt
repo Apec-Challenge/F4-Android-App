@@ -45,6 +45,11 @@ interface RetrofitService {
     @GET("api/place/")
     fun requestSurroundPlaceList(): Call<ArrayList<LodgingPlace>>
 
+    @GET("api/place/{place_id}")
+    fun requestFundingPlace(
+        @Path("place_id") placeID: String
+    ): Call<LodgingPlace>
+
     /** Funding **/
     @GET("api/funding/")
     fun requestFundingList(@Query("q") filter: String): Call<ArrayList<Funding>>

@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.k_rona.funding4.R
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment(), OnMapReadyCallback {
+class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var googleMap: GoogleMap
@@ -33,30 +33,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapView = view.findViewById<MapView>(R.id.home_near_by_map)
-        mapView.onCreate(savedInstanceState)
-        val map = mapView.getMapAsync(this)
-
-    }
-
-    override fun onMapReady(googleMap: GoogleMap?) {
-        this.googleMap = googleMap!!
-
-        var SEOUL = LatLng(37.56, 126.97)
-
-        var markerOptions = MarkerOptions()
-
-        markerOptions
-            .position(SEOUL)
-            .title("서울")
-            .snippet("한국 수도")
-
-        this.googleMap.addMarker(markerOptions)
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 15F))
     }
 
     override fun onResume() {
-        home_near_by_map.onResume()
         super.onResume()
     }
 }
