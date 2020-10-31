@@ -84,15 +84,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
                 android:text="@string/home_recommend_fund"
                 android:textColor="@color/title"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
+
+                android:nestedScrollingEnabled="false"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="8dp"
+                android:id="@+id/home_recommend_funding_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
+                tools:itemCount="4"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 tools:listitem="@layout/recommend_funding_recyclerview_item" />
 
@@ -111,6 +119,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rank_1_funding"
                     android:layout_marginBottom="8dp"
                     android:background="#fff"
                     android:layout_width="match_parent"
@@ -171,6 +180,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rank_2_funding"
                     android:layout_marginBottom="8dp"
                     android:background="#fff"
                     android:layout_width="match_parent"
@@ -231,6 +241,8 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rank_3_funding"
+                    android:layout_marginBottom="50dp"
                     android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
