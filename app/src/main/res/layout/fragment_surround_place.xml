@@ -29,14 +29,13 @@
         android:textSize="14sp" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
         android:id="@+id/register_place_info_button"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/custom_button_round"
         android:backgroundTint="@color/colorAccent"
         android:drawableStart="@drawable/ic_baseline_add_24"
@@ -45,18 +44,19 @@
         android:gravity="bottom"
         android:padding="16dp"
         android:text="Register Info"
-        android:textColor="#fff" />
+        android:textColor="#fff"
+        android:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/show_place_info_card_view"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="70dp"
         android:elevation="8dp"
+        android:visibility="gone"
         app:cardCornerRadius="10dp">
 
         <RelativeLayout
@@ -65,11 +65,12 @@
             android:padding="24dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/card_place_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Place Name"
@@ -78,26 +79,29 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/card_place_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Place Address 165-7"
                     android:textColor="@color/sub_title"
                     android:textSize="16sp" />
 
-                <TextView
+                <RatingBar
+                    android:id="@+id/card_place_rating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="8dp"
-                    android:text="★★★★☆"
-                    android:textColor="@color/colorPrimary" />
+                    android:rating="4" />
             </LinearLayout>
 
             <ImageView
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
 
         </RelativeLayout>
 

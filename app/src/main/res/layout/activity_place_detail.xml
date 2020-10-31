@@ -33,35 +33,33 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/place_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:id="@+id/place_title"
+                        android:layout_width="230dp"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/title"
-                        android:textSize="32sp"
+                        android:textSize="26sp"
                         android:textStyle="bold"
                         android:text="Place Title" />
 
-
                     <TextView
-                        android:id="@+id/place_ppe_rating"
+                        android:id="@+id/place_like_count"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@null"
-                        android:backgroundTint="@color/colorAccent"
-                        android:drawableStart="@drawable/ic_baseline_hand_24"
+                        android:drawableStart="@drawable/ic_baseline_favorite_empty_24"
                         android:drawablePadding="12dp"
-                        android:drawableTint="@color/colorPrimary"
+                        android:drawableTint="@color/colorAccent"
                         android:gravity="bottom"
                         android:padding="16dp"
-                        android:text="3.7"
+                        android:text="1,300"
                         android:textColor="#515151" />
 
                 </RelativeLayout>
 
                 <TextView
+                    android:layout_marginTop="8dp"
                     android:id="@+id/place_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,13 +67,77 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:id="@+id/place_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="This funding is for you."
                     android:textColor="@color/sub_title"
                     android:textSize="18sp" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/ppe_hand_sanitizer"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <SeekBar
+
+                    android:id="@+id/place_hand_sanitizer"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="4"
+                    android:progress="2"
+                    android:soundEffectsEnabled="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:soundEffectsEnabled="true"
+                    android:text="@string/ppe_person_hygiene"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <SeekBar
+                    android:id="@+id/place_hygiene"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="4"
+                    android:progress="2"
+                    android:soundEffectsEnabled="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/ppe_temp_check"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <SeekBar
+                    android:id="@+id/place_temperature"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="4"
+                    android:progress="2" />
+
 
                 <TextView
                     android:layout_marginTop="24dp"

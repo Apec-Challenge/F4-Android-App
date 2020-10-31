@@ -1,6 +1,7 @@
 package com.k_rona.funding4.place
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Address
@@ -37,6 +38,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
 import com.k_rona.funding4.data.LodgingPlace
+import com.k_rona.funding4.funding.FundingDetailActivity
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import kotlinx.android.synthetic.main.fragment_surround_place.*
@@ -54,7 +56,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, GoogleMap.OnMarkerClickListener{
+class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
+    GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private var notificationsViewModel: SurroundPlaceViewModel? = null
     private var map: GoogleMap? = null
@@ -143,10 +146,39 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
         super.onSaveInstanceState(outState)
     }
 
+    override fun onMapClick(p0: LatLng?) {
+        register_place_info_button.visibility = View.GONE
+        show_place_info_card_view.visibility = View.GONE
+    }
+
     override fun onMarkerClick(marker: Marker?): Boolean {
 
 //        Log.d("onMarkerClick()", "Marker Location : " + marker?.position)
 //        Log.d("onMarkerClick()", "Marker TAG : " + (marker?.tag as LodgingPlace).place_id)
+
+        if (marker?.tag != null) { // DB 정보가 있는 숙박업소라면
+            val lodgingPlace: LodgingPlace = marker.tag as LodgingPlace
+
+            register_place_info_button.visibility = View.GONE
+            show_place_info_card_view.visibility = View.VISIBLE
+
+            card_place_title.text = lodgingPlace.title
+            card_place_address.text = lodgingPlace.address
+//            card_place_rating = lodgingPlace.
+
+            show_place_info_card_view.setOnClickListener {
+                val intent = Intent(requireContext(), PlaceDetailActivity::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable("place_object", lodgingPlace)
+                intent.putExtras(bundle)
+
+                context?.startActivity(intent)
+            }
+
+        } else if (marker?.tag == null) {
+            register_place_info_button.visibility = View.VISIBLE
+            show_place_info_card_view.visibility = View.GONE
+        }
 
         return false
     }
@@ -354,15 +386,16 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
                                         markerOptions.icon(blueMarkerIcon)
                                         val item: Marker = map!!.addMarker(markerOptions)
 
-                                        for(lodgingPlace in surroundLodgingPlaceList){
-                                            if(lodgingPlace.place_id == place.placeId){
-                                                item.tag = lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
+                                        for (lodgingPlace in surroundLodgingPlaceList) {
+                                            if (lodgingPlace.place_id == place.placeId) {
+                                                item.tag =
+                                                    lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
                                             }
                                         }
 
                                         previousMarker?.add(item)
 
-                                    }else{
+                                    } else {
                                         val item: Marker = map!!.addMarker(markerOptions)
                                         previousMarker?.add(item)
                                     }
@@ -387,6 +420,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
                 previousMarker?.clear()
                 previousMarker?.addAll(hashSet)
                 map?.setOnMarkerClickListener(this)
+                map?.setOnMapClickListener(this)
             }
         })
 
