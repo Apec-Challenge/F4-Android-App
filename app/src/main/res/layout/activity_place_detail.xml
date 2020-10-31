@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F9F9F9"
     tools:context=".place.PlaceDetailActivity">
 
     <ScrollView
@@ -149,6 +150,8 @@
                     android:text="Review" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/review_recyclerview"
+                    tools:listitem="@layout/place_review_item"
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

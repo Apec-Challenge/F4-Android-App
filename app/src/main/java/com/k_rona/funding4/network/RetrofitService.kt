@@ -2,6 +2,7 @@ package com.k_rona.funding4.network
 
 import com.k_rona.funding4.data.Funding
 import com.k_rona.funding4.data.LodgingPlace
+import com.k_rona.funding4.data.Review
 import com.k_rona.funding4.data.User
 import retrofit2.Call
 import retrofit2.http.*
@@ -51,5 +52,11 @@ interface RetrofitService {
         @Query("keyword") keyword: String,
         @Query("q") filter: String
     ): Call<ArrayList<Funding>>
+
+    /** Review **/
+    @GET("api/review/")
+    fun requestReviewList(
+        @Query("place") placeID: String
+    ): Call<ArrayList<Review>>
 
 }

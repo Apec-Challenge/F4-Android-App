@@ -10,6 +10,7 @@ class LodgingPlace(
     var address: String,
     var lng: String,
     var lat: String,
+    var total_likes: Int,
     var hand_sanitizer: Int,
     var person_hygiene: Int,
     var body_temperature_check: Int

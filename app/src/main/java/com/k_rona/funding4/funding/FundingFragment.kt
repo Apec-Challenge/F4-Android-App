@@ -30,10 +30,10 @@ class FundingFragment : Fragment() {
 
     private lateinit var dashboardViewModel: FundingViewModel
 
+    private var userInputKeyword: String = ""
+
     private var fundingList: ArrayList<Funding> = arrayListOf()
     private var responseBody: ArrayList<Funding> = arrayListOf()
-
-    private var userInputKeyword: String = ""
 
     lateinit var recyclerView: RecyclerView
     lateinit var viewAdapter: RecyclerView.Adapter<*>
