@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#F9F9F9"
+    android:orientation="vertical"
     tools:context=".home.HomeFragment">
 
     <ScrollView
@@ -24,17 +24,17 @@
             <!--                android:layout_height="250dp"-->
             <!--                android:background="@color/title" />-->
 
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+            <!--            <RelativeLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content">-->
 
-<!--                <ImageView-->
-<!--                    android:layout_width="45dp"-->
-<!--                    android:layout_height="45dp"-->
-<!--                    android:layout_margin="16dp"-->
-<!--                    android:background="@drawable/app_logo" />-->
+            <!--                <ImageView-->
+            <!--                    android:layout_width="45dp"-->
+            <!--                    android:layout_height="45dp"-->
+            <!--                    android:layout_margin="16dp"-->
+            <!--                    android:background="@drawable/app_logo" />-->
 
-<!--            </RelativeLayout>-->
+            <!--            </RelativeLayout>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -84,8 +84,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/home_recommend_fund"
                 android:textColor="@color/title"
                 android:textSize="24sp"
@@ -93,15 +93,15 @@
 
             <androidx.recyclerview.widget.RecyclerView
 
+                android:id="@+id/home_recommend_funding_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="8dp"
-                android:id="@+id/home_recommend_funding_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="4"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:itemCount="4"
                 tools:listitem="@layout/recommend_funding_recyclerview_item" />
 
             <TextView
@@ -120,10 +120,10 @@
 
                 <RelativeLayout
                     android:id="@+id/rank_1_funding"
-                    android:layout_marginBottom="8dp"
-                    android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#fff"
                     android:paddingLeft="16dp">
 
                     <TextView
@@ -181,10 +181,10 @@
 
                 <RelativeLayout
                     android:id="@+id/rank_2_funding"
-                    android:layout_marginBottom="8dp"
-                    android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#fff"
                     android:paddingLeft="16dp">
 
                     <TextView
@@ -241,11 +241,11 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:layout_marginBottom="16dp"
                     android:id="@+id/rank_3_funding"
-                    android:layout_marginBottom="50dp"
-                    android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:background="#fff"
                     android:paddingLeft="16dp">
 
                     <TextView
@@ -256,7 +256,7 @@
                         android:layout_marginRight="16dp"
                         android:text="3"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="30sp"/>
+                        android:textSize="30sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -301,6 +301,32 @@
                         android:layout_centerVertical="true"
                         android:background="@drawable/imac" />
                 </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="Hot Place"
+                    android:textColor="@color/title"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <com.chauthai.overscroll.RecyclerViewBouncy
+                    android:id="@+id/home_popular_place_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    app:friction="200"
+                    app:gapLimit="220"
+                    app:maxAdapterSizeToEstimate="5"
+                    app:speedFactor="5"
+                    app:tension="1000"
+                    app:viewCountEstimateSize="5"
+                    tools:listitem="@layout/popular_place_item" />
 
             </LinearLayout>
 
