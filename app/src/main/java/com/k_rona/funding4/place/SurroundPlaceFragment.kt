@@ -317,7 +317,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
                                     // 백엔드 API 호출했을 때 응답으로 온 Place List 내에 해당 place 의 ID가 있으면
                                     // 마커 색깔을 다르게 표시 (기본 (정보가 없는 장소) : HUE_MAGENTA)
 
-                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
 //                                    for(lodgingPlace in surroundLodgingPlaceList){
 //                                        if(place.placeId == lodgingPlace.place_id){
 //                                        }
