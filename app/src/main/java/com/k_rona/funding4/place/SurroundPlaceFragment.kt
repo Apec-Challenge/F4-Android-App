@@ -1,17 +1,25 @@
 package com.k_rona.funding4.place
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -46,7 +54,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener{
+class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, GoogleMap.OnMarkerClickListener{
 
     private var notificationsViewModel: SurroundPlaceViewModel? = null
     private var map: GoogleMap? = null
@@ -98,8 +106,6 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
         }
 
         previousMarker = ArrayList<Marker>()
-        map?.setOnInfoWindowClickListener(this)
-        map?.setOnMarkerClickListener(this)
 
         Places.initialize(requireContext(), getString(R.string.google_maps_key))
         placesClient = Places.createClient(requireContext())
@@ -139,10 +145,10 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
-        return true
-    }
+//        Log.d("onMarkerClick()", "Marker Location : " + marker?.position)
+//        Log.d("onMarkerClick()", "Marker TAG : " + (marker?.tag as LodgingPlace).place_id)
 
-    override fun onInfoWindowClick(marker: Marker?) {
+        return false
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -287,6 +293,9 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
         private const val KEY_LOCATION = "location"
 
         private const val M_MAX_ENTRIES = 5
+
+        private const val MARKER_HEIGHT = 120
+        private const val MARKER_WIDTH = 120
     }
 
     override fun onPlacesFailure(e: PlacesException?) {
@@ -295,7 +304,26 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
     override fun onPlacesStart() {
     }
 
+    private fun vectorToBitmap(@DrawableRes id: Int): BitmapDescriptor? {
+        val vectorDrawable = ResourcesCompat.getDrawable(
+            resources, id, null
+        )!!
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+
     override fun onPlacesSuccess(places: MutableList<noman.googleplaces.Place>?) {
+
+        val grayMarkerIcon = vectorToBitmap(R.drawable.ic_vector_marker_gray)
+        val blueMarkerIcon = vectorToBitmap(R.drawable.ic_vector_marker_blue)
+
         activity?.runOnUiThread(java.lang.Runnable {
             if (places != null) {
                 retrofitService.requestSurroundPlaceList()
@@ -315,22 +343,30 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
                                     markerOptions.snippet(markerSnippet)
 
                                     // 백엔드 API 호출했을 때 응답으로 온 Place List 내에 해당 place 의 ID가 있으면
-                                    // 마커 색깔을 다르게 표시 (기본 (정보가 없는 장소) : HUE_MAGENTA)
+                                    // 마커 색깔을 다르게 표시 (기본 (정보가 없는 장소) : GRAY)
 
-                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-//                                    for(lodgingPlace in surroundLodgingPlaceList){
-//                                        if(place.placeId == lodgingPlace.place_id){
-//                                        }
-//                                    }
-                                    val isThisPlaceHaveInfo = surroundLodgingPlaceList.any { it.place_id == place.placeId }
+                                    markerOptions.icon(grayMarkerIcon)
 
-                                    if(isThisPlaceHaveInfo){
-                                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                    val isThisPlaceHaveInfo =
+                                        surroundLodgingPlaceList.any { it.place_id == place.placeId }
+
+                                    if (isThisPlaceHaveInfo) {
+                                        markerOptions.icon(blueMarkerIcon)
+                                        val item: Marker = map!!.addMarker(markerOptions)
+
+                                        for(lodgingPlace in surroundLodgingPlaceList){
+                                            if(lodgingPlace.place_id == place.placeId){
+                                                item.tag = lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
+                                            }
+                                        }
+
+                                        previousMarker?.add(item)
+
+                                    }else{
+                                        val item: Marker = map!!.addMarker(markerOptions)
+                                        previousMarker?.add(item)
                                     }
 
-                                    val item: Marker = map!!.addMarker(markerOptions)
-//                                    item.tag = place
-                                    previousMarker?.add(item)
                                 }
 
                             } else {
@@ -350,6 +386,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
                 previousMarker?.let { hashSet.addAll(it) }
                 previousMarker?.clear()
                 previousMarker?.addAll(hashSet)
+                map?.setOnMarkerClickListener(this)
             }
         })
 
@@ -365,7 +402,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
             .listener(this)
             .key(getString(R.string.google_maps_key))
             .latlng(location.latitude, location.longitude) // 현재 위치
-            .radius(2000) // 2000 미터 내에서 검색
+            .radius(10000) // 2000 미터 내에서 검색
             .type(PlaceType.LODGING) // 숙박 업소
             .build()
             .execute()
@@ -390,7 +427,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener, Go
             return "잘못된 GPS 좌표"
         }
         return if (addresses.isEmpty()) {
-            Toast.makeText(context, "주소 미발견", Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, "주소 미발견", Toast.LENGTH_LONG).show()
             "주소 미발견"
         } else {
             val address: Address = addresses[0]
