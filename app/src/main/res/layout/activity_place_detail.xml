@@ -224,6 +224,7 @@
                 </RelativeLayout>
 
                 <androidx.cardview.widget.CardView
+                    android:visibility="gone"
                     android:id="@+id/review_form"
                     app:cardElevation="0dp"
                     android:layout_marginTop="16dp"
@@ -236,12 +237,14 @@
                         android:layout_height="match_parent">
 
                         <RatingBar
-                            android:layout_marginLeft="16dp"
+                            android:layout_gravity="center_horizontal"
+                            style="@style/Widget.AppCompat.RatingBar"
                             android:id="@+id/review_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:rating="3.3" />
+                            android:numStars="5"
+                            android:rating="3.0" />
 
                         <EditText
                             android:layout_marginTop="8dp"
@@ -255,6 +258,15 @@
                             android:id="@+id/review_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"/>
+
+                        <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:text="@string/review_notice"/>
 
                         <LinearLayout
                             android:layout_gravity="right"
@@ -294,7 +306,7 @@
                 <com.chauthai.overscroll.RecyclerViewBouncy
                     android:id="@+id/review_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="500dp"
                     android:layout_marginTop="16dp"
                     app:friction="200"
                     app:gapLimit="220"

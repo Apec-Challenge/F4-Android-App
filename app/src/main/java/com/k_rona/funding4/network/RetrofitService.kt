@@ -91,9 +91,9 @@ interface RetrofitService {
     @FormUrlEncoded
     @POST("api/review/")
     fun requestPostReview(
-        @Field("user") nickname: String,
+        @Field("user") userID: Int,
         @Field("place") placeID: String,
         @Field("content") content: String,
-        @Field("rating") rating: Float
+        @Field("rating") rating: Int
     ): Call<Review>
 }

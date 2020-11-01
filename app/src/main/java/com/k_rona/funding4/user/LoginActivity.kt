@@ -68,7 +68,6 @@ class LoginActivity : AppCompatActivity() {
             } else if (password_edit_text.text.toString().length !in 8..25) {
                 password_edit_text.error = "The password is from 8 to 25 characters"
             } else {
-                LoadingDialog(this).show()
                 requestLogin(email, password)
             }
         }
@@ -78,6 +77,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         register_button.setOnClickListener {
+            LoadingDialog(applicationContext).show()
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
@@ -85,8 +85,10 @@ class LoginActivity : AppCompatActivity() {
     private fun requestLogin(email: String, password: String) {
         retrofitService.requestLogin(email, password).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
+                LoadingDialog(applicationContext).dismiss()
                 when (response.code()) {
                     400 -> {  // 이메일 및 패스워드 오류
+                        Toast.makeText(applicationContext, "Check your E-mail or password", Toast.LENGTH_LONG).show()
                         Log.e("login", "Password Invalid")
                         Toast.makeText(
                             applicationContext,
@@ -95,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
                         ).show()
                     }
                     404 -> {  // 미 인증 사용자
+                        Toast.makeText(applicationContext, "Please check your e-mail box!", Toast.LENGTH_LONG).show()
                         Log.e("login", "Not activated")
                         Toast.makeText(
                             applicationContext,
@@ -102,11 +105,12 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    201 -> {  // 로그인 성공
-                        LoadingDialog(applicationContext).dismiss()
+                    200 -> {  // 로그인 성공
                         Log.d("login", "Login success")
                         Log.d("login", response.body()!!.email)
                         Log.d("login", response.body()!!.nickname)
+
+                        Toast.makeText(applicationContext, "Welcome " + response.body()!!.nickname, Toast.LENGTH_LONG).show()
 
                         Paper.book().write("user_profile", response.body())
 
@@ -116,6 +120,11 @@ class LoginActivity : AppCompatActivity() {
 
                         startActivity(intent)
                         finish()
+                    }
+                    else -> {
+                        Toast.makeText(applicationContext, "Login Failed", Toast.LENGTH_LONG).show()
+                        Log.d("login", "Login failed (Server Error)")
+                        Log.d("login", response.code().toString())
                     }
                 }
             }

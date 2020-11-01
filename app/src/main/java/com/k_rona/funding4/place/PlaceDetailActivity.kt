@@ -1,7 +1,9 @@
 package com.k_rona.funding4.place
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -99,11 +101,16 @@ class PlaceDetailActivity : AppCompatActivity() {
             } else {
                 if (userProfile != null) {  // 사용자 정보가 유효하면
                     writeReview(
-                        nickname = userProfile.nickname,
+                        userID = userProfile.pk,
                         placeID = placeDetail.place_id,
                         content = review_edit_text.text.toString(),
-                        rating = review_rating.rating
+                        rating = review_rating.rating.toInt()
                     )
+
+                    Log.d("writeReview()", userProfile.pk.toString())
+                    Log.d("writeReview()", placeDetail.place_id)
+                    Log.d("writeReview()", review_edit_text.text.toString())
+                    Log.d("writeReview()", review_rating.rating.toString())
                 }
             }
         }
@@ -118,6 +125,8 @@ class PlaceDetailActivity : AppCompatActivity() {
                 response: Response<ArrayList<Review>>
             ) {
                 if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                    review_form.visibility = View.GONE
+
                     responseBody.clear()
                     responseBody = response.body()!!
 
@@ -131,16 +140,20 @@ class PlaceDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun writeReview(placeID: String, nickname: String, content: String, rating: Float) {
-        retrofitService.requestPostReview(nickname, placeID, content, rating)
+    private fun writeReview(placeID: String, userID: Int, content: String, rating: Int) {
+        retrofitService.requestPostReview(userID, placeID, content, rating)
             .enqueue(object : Callback<Review> {
                 override fun onResponse(call: Call<Review>, response: Response<Review>) {
                     if(response.code() == 201 && response.body() != null){
+                        Toast.makeText(this@PlaceDetailActivity, "Review Created!", Toast.LENGTH_LONG).show()
                         requestReviewList(placeID = placeID)
+                    }else{
+                        Log.d("writeReview()", response.code().toString())
                     }
                 }
 
                 override fun onFailure(call: Call<Review>, t: Throwable) {
+                    Log.e("writeReview()", t.message)
                 }
             })
     }

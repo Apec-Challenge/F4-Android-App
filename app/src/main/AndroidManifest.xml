@@ -27,6 +27,11 @@
         <activity android:name=".user.PasswordResetActivity" />
         <activity android:name=".user.RegisterActivity" />
         <activity android:name=".user.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data
@@ -39,11 +44,6 @@
         <activity
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
