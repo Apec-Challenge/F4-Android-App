@@ -48,8 +48,8 @@ class FundingListAdapter(
 
         Glide.with(holder.view)
             .load(fundingList[position].thumbnail_image)
-            .centerCrop()
             .override(600, 400)
+            .centerCrop()
             .thumbnail(0.1f)
             .into(holder.view.funding_thumbnail_image)
 

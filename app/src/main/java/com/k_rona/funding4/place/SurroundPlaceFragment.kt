@@ -156,7 +156,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
 //        Log.d("onMarkerClick()", "Marker Location : " + marker?.position)
 //        Log.d("onMarkerClick()", "Marker TAG : " + (marker?.tag as LodgingPlace).place_id)
 
-        if (marker?.tag != null) { // DB 정보가 있는 숙박업소라면
+        if (marker?.tag is LodgingPlace) { // DB 정보가 있는 숙박업소라면
             val lodgingPlace: LodgingPlace = marker.tag as LodgingPlace
 
             register_place_info_button.visibility = View.GONE
@@ -175,9 +175,25 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
                 context?.startActivity(intent)
             }
 
-        } else if (marker?.tag == null) {
+        } else if (marker?.tag is noman.googleplaces.Place) {
+            val googlePlace: noman.googleplaces.Place = marker.tag as noman.googleplaces.Place
+
             register_place_info_button.visibility = View.VISIBLE
             show_place_info_card_view.visibility = View.GONE
+
+            register_place_info_button.setOnClickListener {
+                val intent = Intent(requireContext(), PlaceRegisterActivity::class.java)
+                val bundle = Bundle()
+                bundle.putString("place_id", googlePlace.placeId)
+                bundle.putString("place_title", googlePlace.name)
+                bundle.putString("place_address", googlePlace.vicinity.toString())
+                bundle.putString("place_longitude", googlePlace.longitude.toString())
+                bundle.putString("place_latitude", googlePlace.latitude.toString())
+
+                intent.putExtras(bundle)
+
+                context?.startActivity(intent)
+            }
         }
 
         return false
@@ -385,18 +401,15 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
                                     if (isThisPlaceHaveInfo) {
                                         markerOptions.icon(blueMarkerIcon)
                                         val item: Marker = map!!.addMarker(markerOptions)
-
                                         for (lodgingPlace in surroundLodgingPlaceList) {
                                             if (lodgingPlace.place_id == place.placeId) {
-                                                item.tag =
-                                                    lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
+                                                item.tag = lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
                                             }
                                         }
-
                                         previousMarker?.add(item)
-
                                     } else {
                                         val item: Marker = map!!.addMarker(markerOptions)
+                                        item.tag = place // DB 정보가 없는 장소의 마커에 Google Place 객체를 붙여줌
                                         previousMarker?.add(item)
                                     }
 

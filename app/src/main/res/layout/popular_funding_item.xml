@@ -59,6 +59,7 @@
     </LinearLayout>
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/popular_funding_image"
         android:layout_width="110dp"
         android:layout_height="match_parent"

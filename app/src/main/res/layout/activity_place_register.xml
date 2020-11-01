@@ -45,7 +45,8 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/main_place_image"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/place_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
@@ -78,7 +79,7 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/place_description_edit_text"
+                    android:id="@+id/place_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="16dp"
@@ -109,7 +110,7 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/place_name_edit_text"
+                    android:id="@+id/place_description_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="16dp"
@@ -189,7 +190,7 @@
                     android:textSize="15sp" />
 
                 <SeekBar
-                    android:id="@+id/mask_seekbar"
+                    android:id="@+id/person_hygiene_seekbar"
                     style="@style/Widget.AppCompat.SeekBar.Discrete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -218,7 +219,7 @@
                     android:textSize="15sp" />
 
                 <SeekBar
-                    android:id="@+id/sanitory_glove_seekbar"
+                    android:id="@+id/temperature_check_seekbar"
                     style="@style/Widget.AppCompat.SeekBar.Discrete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

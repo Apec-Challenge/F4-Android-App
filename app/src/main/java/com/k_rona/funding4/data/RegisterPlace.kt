@@ -2,7 +2,7 @@ package com.k_rona.funding4.data
 
 import java.io.Serializable
 
-class LodgingPlace(
+class RegisterPlace(
     var place_id: String,
     var title: String,
     var place_image: String,
@@ -10,7 +10,6 @@ class LodgingPlace(
     var address: String,
     var lng: String,
     var lat: String,
-    var total_likes: Int = 0,
     var hand_sanitizer: Int,
     var person_hygiene: Int,
     var body_temperature_check: Int

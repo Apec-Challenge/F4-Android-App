@@ -49,8 +49,8 @@ class PopularPlaceListAdapter(
 
         Glide.with(holder.view)
             .load(placeList[position].place_image)
-            .centerCrop()
             .override(600, 400)
+            .centerCrop()
             .thumbnail(0.1f)
             .into(holder.view.popular_place_image)
 

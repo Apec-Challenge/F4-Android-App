@@ -67,4 +67,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
+
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 }
