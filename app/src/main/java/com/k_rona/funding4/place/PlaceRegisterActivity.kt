@@ -1,15 +1,22 @@
 package com.k_rona.funding4.place
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
@@ -109,7 +116,7 @@ class PlaceRegisterActivity : AppCompatActivity() {
             placeLongitude = it.getString("place_longitude")!!
         }
 
-        place_description_edit_text.setText(placeTitle)
+        place_name_edit_text.setText(placeTitle)
 
         place_image.setOnClickListener {
             CropImage.activity()
@@ -125,10 +132,46 @@ class PlaceRegisterActivity : AppCompatActivity() {
             when {
                 place_name_edit_text.text.toString().isEmpty() -> {
                     place_name_edit_text.error = "This field is required."
+                    val snackBar: Snackbar =
+                        Snackbar.make(
+                            place_register_layout,
+                            "Please enter a name of the place!",
+                            Snackbar.LENGTH_LONG
+                        )
+                    snackBar.setAction("OK", View.OnClickListener {
+                        snackBar.dismiss()
+                    }).show()
+                }
+
+                placeImageUri == null -> {
+                    val snackBar: Snackbar =
+                        Snackbar.make(
+                            place_register_layout,
+                            "Please register the image that\nrepresents the place!",
+                            Snackbar.LENGTH_LONG
+                        )
+                    snackBar.setAction("OK", View.OnClickListener {
+                        snackBar.dismiss()
+                    }).show()
                 }
 
                 else -> {
-                    registerPlace()
+                    val builder: AlertDialog.Builder =
+                        AlertDialog.Builder(this)
+                    builder.setTitle("Register")
+                    builder.setMessage("\nAre you all done?")
+                    builder.setPositiveButton("Yes",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            registerPlace()
+                        })
+                    builder.setNegativeButton("No",
+                    DialogInterface.OnClickListener{ dialog, which ->
+
+                    })
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                    alertDialog.getButton(Dialog.BUTTON_NEGATIVE)
+                        .setTextColor(Color.parseColor("#808080"))
                 }
             }
         }
@@ -184,11 +227,12 @@ class PlaceRegisterActivity : AppCompatActivity() {
                 call: Call<LodgingPlace>,
                 response: Response<LodgingPlace>
             ) {
-                if(response.code() == 201 && response.body() != null){
+                if (response.code() == 201 && response.body() != null) {
                     Log.d("registerPlace()", "Register Success")
-                }else{
+                } else {
                     Log.e("registerPlace()", "Error code : " + response.code().toString())
                 }
+                finish()
             }
 
             override fun onFailure(call: Call<LodgingPlace>, t: Throwable) {

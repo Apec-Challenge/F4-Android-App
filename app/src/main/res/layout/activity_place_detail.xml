@@ -28,23 +28,23 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingLeft="24dp"
+                android:paddingTop="16dp"
                 android:paddingRight="24dp"
-                android:paddingBottom="24dp"
-                android:paddingTop="16dp">
+                android:paddingBottom="24dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_centerVertical="true"
                         android:id="@+id/place_title"
                         android:layout_width="230dp"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Place Title"
                         android:textColor="@color/title"
                         android:textSize="26sp"
-                        android:textStyle="bold"
-                        android:text="Place Title" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/place_like_count"
@@ -63,15 +63,6 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/place_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Place Address 162-5"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_marginTop="16dp"
                     android:id="@+id/place_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,7 +70,35 @@
                     android:textColor="@color/sub_title"
                     android:textSize="18sp" />
 
+                <TextView
+                    android:padding="12dp"
+                    android:background="@drawable/custom_input"
+                    android:backgroundTint="#F4F4F4"
+                    android:id="@+id/place_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/ic_place_location"
+                    android:drawablePadding="4dp"
+                    android:text="Place Address 162-5"
+                    android:textSize="16sp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="PPE Information"
+                    android:textColor="@color/title"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/ppe_description"
+                    android:textColor="@color/sub_title"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -92,7 +111,6 @@
 
 
                 <SeekBar
-
                     android:id="@+id/place_hand_sanitizer"
                     style="@style/Widget.AppCompat.SeekBar.Discrete"
                     android:layout_width="match_parent"
@@ -144,21 +162,21 @@
 
 
                 <TextView
-                    android:layout_marginTop="24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Review"
                     android:textColor="@color/title"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:text="Review" />
+                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/review_recyclerview"
-                    tools:listitem="@layout/place_review_item"
-                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    tools:listitem="@layout/place_review_item" />
 
             </LinearLayout>
 

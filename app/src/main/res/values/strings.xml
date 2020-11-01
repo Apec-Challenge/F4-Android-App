@@ -31,4 +31,5 @@
     <string name="ppe_hand_sanitizer">Hand Sanitizer</string>
     <string name="ppe_person_hygiene">Person Hygiene</string>
     <string name="ppe_temp_check">Temperature Check</string>
+    <string name="ppe_description">Check this place\'s PPE Rating. The higher the score, the higher the level of quarantine, the safer it is.</string>
 </resources>
