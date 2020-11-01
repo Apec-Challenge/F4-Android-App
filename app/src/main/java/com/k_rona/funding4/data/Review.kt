@@ -3,6 +3,7 @@ package com.k_rona.funding4.data
 import java.util.*
 
 class Review(
+    var id: Int,
     var user: Int,
     var place: String,
     var content: String,

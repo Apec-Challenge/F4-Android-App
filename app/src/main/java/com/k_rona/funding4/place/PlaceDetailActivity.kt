@@ -1,6 +1,7 @@
 package com.k_rona.funding4.place
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +12,10 @@ import com.k_rona.funding4.R
 import com.k_rona.funding4.adapter.ReviewListAdapter
 import com.k_rona.funding4.data.LodgingPlace
 import com.k_rona.funding4.data.Review
+import com.k_rona.funding4.data.User
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_place_detail.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,6 +48,9 @@ class PlaceDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_detail)
+
+        Paper.init(this)
+        val userProfile: User? = Paper.book().read("user_profile")
 
         val placeDetail: LodgingPlace = intent.getSerializableExtra("place_object") as LodgingPlace
         val placePPE =
@@ -79,10 +85,33 @@ class PlaceDetailActivity : AppCompatActivity() {
         place_hygiene.setOnTouchListener { view, motionEvent -> true }
         place_temperature.setOnTouchListener { view, motionEvent -> true }
 
+        review_write_button.setOnClickListener {
+            review_form.visibility = View.VISIBLE
+        }
+
+        review_cancel_button.setOnClickListener {
+            review_form.visibility = View.GONE
+        }
+
+        review_submit_button.setOnClickListener {
+            if (review_edit_text.text.isNullOrBlank()) {
+                review_edit_text.error = "You have to write comment"
+            } else {
+                if (userProfile != null) {  // 사용자 정보가 유효하면
+                    writeReview(
+                        nickname = userProfile.nickname,
+                        placeID = placeDetail.place_id,
+                        content = review_edit_text.text.toString(),
+                        rating = review_rating.rating
+                    )
+                }
+            }
+        }
+
         requestReviewList(placeID = placeDetail.place_id)
     }
 
-    private fun requestReviewList(placeID: String){
+    private fun requestReviewList(placeID: String) {
         retrofitService.requestReviewList(placeID).enqueue(object : Callback<ArrayList<Review>> {
             override fun onResponse(
                 call: Call<ArrayList<Review>>,
@@ -100,5 +129,19 @@ class PlaceDetailActivity : AppCompatActivity() {
             override fun onFailure(call: Call<ArrayList<Review>>, t: Throwable) {
             }
         })
+    }
+
+    private fun writeReview(placeID: String, nickname: String, content: String, rating: Float) {
+        retrofitService.requestPostReview(nickname, placeID, content, rating)
+            .enqueue(object : Callback<Review> {
+                override fun onResponse(call: Call<Review>, response: Response<Review>) {
+                    if(response.code() == 201 && response.body() != null){
+                        requestReviewList(placeID = placeID)
+                    }
+                }
+
+                override fun onFailure(call: Call<Review>, t: Throwable) {
+                }
+            })
     }
 }

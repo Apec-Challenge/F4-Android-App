@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    200 -> {  // 로그인 성공
+                    201 -> {  // 로그인 성공
                         LoadingDialog(applicationContext).dismiss()
                         Log.d("login", "Login success")
                         Log.d("login", response.body()!!.email)

@@ -26,7 +26,8 @@
         <activity android:name=".user.PasswordResetConfirmActivity" />
         <activity android:name=".user.PasswordResetActivity" />
         <activity android:name=".user.RegisterActivity" />
-        <activity android:name=".user.LoginActivity" />
+        <activity android:name=".user.LoginActivity">
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

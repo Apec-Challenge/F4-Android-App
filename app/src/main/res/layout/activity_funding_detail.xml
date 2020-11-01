@@ -61,22 +61,20 @@
                                 android:textStyle="bold" />
 
 
-                            <androidx.appcompat.widget.AppCompatButton
+                            <TextView
                                 android:id="@+id/funding_like_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:background="@null"
-                                android:backgroundTint="@color/colorAccent"
-                                android:drawableStart="@drawable/ic_baseline_favorite_24"
+                                android:drawableStart="@drawable/ic_baseline_favorite_empty_24"
                                 android:drawablePadding="8dp"
-                                android:drawableTint="@color/colorPrimary"
+                                android:drawableTint="@color/colorAccent"
                                 android:gravity="bottom"
                                 android:paddingLeft="16dp"
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
-                                android:text="1,462"
+                                android:text="1,300"
                                 android:textColor="#515151" />
 
                         </RelativeLayout>

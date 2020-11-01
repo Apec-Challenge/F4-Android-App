@@ -60,19 +60,20 @@ interface RetrofitService {
     @Multipart
     @POST("api/place/")
     fun registerPlace(
-        @Part("place_id")placeID: RequestBody,
+        @Part("place_id") placeID: RequestBody,
         @Part("title") placeTitle: RequestBody,
         @Part place_image: MultipartBody.Part,
         @Part("description") placeDescription: RequestBody,
         @Part("address") placeAddress: RequestBody,
-        @Part("lng")placeLongitude: RequestBody,
-        @Part("lat")placeLatitude: RequestBody,
-        @Part("person_hygiene")personHygiene: RequestBody,
+        @Part("lng") placeLongitude: RequestBody,
+        @Part("lat") placeLatitude: RequestBody,
+        @Part("person_hygiene") personHygiene: RequestBody,
         @Part("body_temperature_check") temperatureCheck: RequestBody,
         @Part("hand_sanitizer") handSanitizer: RequestBody
     ): Call<LodgingPlace>
 
     /** Funding **/
+
     @GET("api/funding/")
     fun requestFundingList(@Query("q") filter: String): Call<ArrayList<Funding>>
 //        @Query("keyword") keyword: String,
@@ -81,9 +82,18 @@ interface RetrofitService {
     fun requestPopularFundingList(@Query("q") filter: String): Call<ArrayList<Funding>>
 
     /** Review **/
+
     @GET("api/review/")
     fun requestReviewList(
         @Query("place") placeID: String
     ): Call<ArrayList<Review>>
 
+    @FormUrlEncoded
+    @POST("api/review/")
+    fun requestPostReview(
+        @Field("user") nickname: String,
+        @Field("place") placeID: String,
+        @Field("content") content: String,
+        @Field("rating") rating: Float
+    ): Call<Review>
 }

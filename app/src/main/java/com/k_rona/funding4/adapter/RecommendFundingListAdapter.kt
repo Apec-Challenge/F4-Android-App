@@ -60,6 +60,10 @@ class RecommendFundingListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return fundingList.size
+        return if(4 > fundingList.size){
+            fundingList.size
+        }else{
+            4
+        }
     }
 }

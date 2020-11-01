@@ -4,6 +4,7 @@ import java.io.Serializable
 import java.util.*
 
 class Funding(
+    var id: Int,
     var thumbnail_image: String,
     var place: String,
     var title: String,

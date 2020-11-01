@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".funding.FundingFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -121,13 +121,20 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:padding="16dp"
+            <com.chauthai.overscroll.RecyclerViewBouncy
                 android:id="@+id/funding_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="600dp"
+                android:padding="16dp"
+                app:friction="200"
+                app:gapLimit="220"
+                app:maxAdapterSizeToEstimate="5"
+                app:speedFactor="5"
+                app:tension="1000"
+                app:viewCountEstimateSize="5"
+                tools:itemCount="5"
                 tools:listitem="@layout/funding_recyclerview_item" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
