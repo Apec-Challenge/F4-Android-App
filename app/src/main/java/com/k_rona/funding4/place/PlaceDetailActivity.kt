@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -58,6 +59,15 @@ class PlaceDetailActivity : AppCompatActivity() {
         val placePPE =
             (((placeDetail.body_temperature_check.toFloat() + placeDetail.hand_sanitizer.toFloat() + placeDetail.person_hygiene).toFloat() / 3) * 100).roundToInt() / 100f
 
+        val isAlreadyLikedPlace =
+            placeDetail.user_likes.any { it == userProfile?.pk }
+
+        if(isAlreadyLikedPlace){
+            place_like_count.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24),null, null, null)
+        }else{
+            place_like_count.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_empty_24),null, null, null)
+        }
+
         viewManager = LinearLayoutManager(this)
         viewAdapter = ReviewListAdapter(reviewList, this)
 
@@ -75,6 +85,7 @@ class PlaceDetailActivity : AppCompatActivity() {
             .into(place_image)
 
         place_like_count.text = placeDetail.total_likes.toString()
+
         place_title.text = placeDetail.title
         place_address.text = placeDetail.address
         place_description.text = placeDetail.description

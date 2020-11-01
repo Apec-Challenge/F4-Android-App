@@ -26,7 +26,7 @@ class FundingListAdapter(
         override fun onClick(v: View?) {
             val intent = Intent(context, FundingDetailActivity::class.java)
             val bundle = Bundle()
-            bundle.putSerializable("funding_object", fundingList[adapterPosition])
+            bundle.putSerializable("funding_object", fundingList[adapterPosition - 1])
             intent.putExtras(bundle)
             context.startActivity(intent)
         }

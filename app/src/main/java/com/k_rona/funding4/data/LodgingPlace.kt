@@ -8,6 +8,7 @@ class LodgingPlace(
     var place_image: String,
     var description: String,
     var address: String,
+    var user_likes: ArrayList<Int>,
     var lng: String,
     var lat: String,
     var total_likes: Int = 0,

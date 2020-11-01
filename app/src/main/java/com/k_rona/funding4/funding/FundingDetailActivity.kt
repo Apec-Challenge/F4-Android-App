@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -15,6 +16,7 @@ import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
 import com.k_rona.funding4.data.Funding
 import com.k_rona.funding4.data.LodgingPlace
+import com.k_rona.funding4.data.User
 import com.k_rona.funding4.funding.funding_detail_tab.FundingBackedListFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingCommentFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingPPEFragment
@@ -22,10 +24,12 @@ import com.k_rona.funding4.funding.funding_detail_tab.FundingContentFragment
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import com.k_rona.funding4.place.PlaceDetailActivity
+import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_funding_detail.*
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_description
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_thumbnail_image
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_title
+import kotlinx.android.synthetic.main.activity_place_detail.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,8 +63,20 @@ class FundingDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_funding_detail)
 
+        Paper.init(this)
+        val userProfile: User? = Paper.book().read("user_profile")
+
         fundingDetail = intent.getSerializableExtra("funding_object") as Funding
         Log.d("Funding intent test", fundingDetail.title)
+
+        val isAlreadyLikedFunding =
+            fundingDetail.user_likes.any { it == userProfile?.pk }
+
+        if(isAlreadyLikedFunding){
+            funding_like_button.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24),null, null, null)
+        }else{
+            funding_like_button.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_empty_24),null, null, null)
+        }
 
         val fundingDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val fundingEndedAt = fundingDateFormat.format(fundingDetail.ended_at)
