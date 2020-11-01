@@ -24,6 +24,7 @@
             android:rating="3.3" />
 
         <TextView
+            android:id="@+id/review_likes"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:layout_marginRight="8dp"

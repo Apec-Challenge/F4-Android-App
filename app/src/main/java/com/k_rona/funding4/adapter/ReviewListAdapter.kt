@@ -40,7 +40,7 @@ class ReviewListAdapter(
         holder.view.review_rating.rating = reviewList[position].rating
         holder.view.review_content.text = reviewList[position].content
         holder.view.review_writer.text = reviewList[position].user.toString()
-
+        holder.view.review_likes.text = reviewList[position].total_likes.toString()
     }
 
     override fun getItemCount(): Int {
