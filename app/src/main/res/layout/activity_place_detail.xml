@@ -7,7 +7,7 @@
     android:background="#E8E8E8"
     tools:context=".place.PlaceDetailActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -198,8 +198,15 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.chauthai.overscroll.RecyclerViewBouncy
                     android:id="@+id/review_recyclerview"
+                    app:friction="200"
+                    app:gapLimit="220"
+                    app:maxAdapterSizeToEstimate="5"
+                    app:speedFactor="5"
+                    app:tension="1000"
+                    tools:itemCount="5"
+                    app:viewCountEstimateSize="5"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginTop="8dp"
@@ -208,6 +215,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
