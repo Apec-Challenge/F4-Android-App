@@ -6,22 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.k_rona.funding4.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import kotlinx.android.synthetic.main.activity_place_detail.*
+import kotlinx.android.synthetic.main.fragment_funding_ppe.*
 
 class FundingPPEFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var fundingHandSanitizer: Int? = null
+    private var fundingTemperatureCheck: Int? = null
+    private var fundingPersonHygiene: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            fundingHandSanitizer = it.getInt("funding_hand_sanitizer")
+            fundingTemperatureCheck = it.getInt("funding_temperature_check")
+            fundingPersonHygiene = it.getInt("funding_person_hygiene")
         }
     }
 
@@ -29,7 +27,19 @@ class FundingPPEFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_funding_ppe, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        funding_hand_sanitizer.progress = fundingHandSanitizer!!
+        funding_hygiene.progress = fundingPersonHygiene!!
+        funding_temperature.progress = fundingTemperatureCheck!!
+
+        funding_hand_sanitizer.setOnTouchListener { view, motionEvent -> true }
+        funding_hygiene.setOnTouchListener { view, motionEvent -> true }
+        funding_temperature.setOnTouchListener { view, motionEvent -> true }
+
     }
 }

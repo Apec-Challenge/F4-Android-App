@@ -3,12 +3,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".funding.funding_detail_tab.FundingPPEFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
+        app:cardElevation="0dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PPE Information"
+                android:textColor="@color/title"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/ppe_description"
+                android:textColor="@color/sub_title"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/ppe_hand_sanitizer"
+                android:textColor="@color/sub_title"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <SeekBar
+                android:id="@+id/funding_hand_sanitizer"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:max="4"
+                android:progress="2"
+                android:soundEffectsEnabled="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:soundEffectsEnabled="true"
+                android:text="@string/ppe_person_hygiene"
+                android:textColor="@color/sub_title"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <SeekBar
+                android:id="@+id/funding_hygiene"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:max="4"
+                android:progress="2"
+                android:soundEffectsEnabled="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ppe_temp_check"
+                android:textColor="@color/sub_title"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <SeekBar
+                android:id="@+id/funding_temperature"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:max="4"
+                android:progress="2" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </FrameLayout>

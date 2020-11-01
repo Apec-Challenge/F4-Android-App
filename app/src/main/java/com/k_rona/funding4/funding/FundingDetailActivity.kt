@@ -4,11 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -23,7 +18,7 @@ import com.k_rona.funding4.data.LodgingPlace
 import com.k_rona.funding4.funding.funding_detail_tab.FundingBackedListFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingCommentFragment
 import com.k_rona.funding4.funding.funding_detail_tab.FundingPPEFragment
-import com.k_rona.funding4.funding.funding_detail_tab.FundingSummaryFragment
+import com.k_rona.funding4.funding.funding_detail_tab.FundingContentFragment
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import com.k_rona.funding4.place.PlaceDetailActivity
@@ -31,8 +26,6 @@ import kotlinx.android.synthetic.main.activity_funding_detail.*
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_description
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_thumbnail_image
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_title
-import kotlinx.android.synthetic.main.funding_recyclerview_item.*
-import kotlinx.android.synthetic.main.funding_recyclerview_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,11 +52,14 @@ class FundingDetailActivity : AppCompatActivity() {
 
     private val retrofitService: RetrofitService = retrofit.create(RetrofitService::class.java)
 
+    private lateinit var fundingDetail: Funding
+    private lateinit var fundingPlace: LodgingPlace
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_funding_detail)
 
-        val fundingDetail: Funding = intent.getSerializableExtra("funding_object") as Funding
+        fundingDetail = intent.getSerializableExtra("funding_object") as Funding
         Log.d("Funding intent test", fundingDetail.title)
 
         val fundingDateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -91,6 +87,7 @@ class FundingDetailActivity : AppCompatActivity() {
         funding_description.text = fundingDetail.description
         funding_like_button.text = fundingDetail.total_likes.toString()
         funding_backed_count.text = fundingDetail.backed_list.size.toString()
+        funding_owner.text = fundingDetail.owner_user
 
         funding_progress.progress = (achievementRate * 100).toInt()
         funding_achievement_rate.text = (achievementRate * 100).toInt().toString() + "%"
@@ -109,13 +106,13 @@ class FundingDetailActivity : AppCompatActivity() {
         viewPager = this.findViewById(R.id.funding_detail_viewpager)
         viewPager.adapter = pagerAdapter
 
-        tabLayout.setupWithViewPager(viewPager)
     }
-    private fun getFundingPlace(placeID: String){
-        retrofitService.requestFundingPlace(placeID).enqueue(object: Callback<LodgingPlace>{
+
+    private fun getFundingPlace(placeID: String) {
+        retrofitService.requestFundingPlace(placeID).enqueue(object : Callback<LodgingPlace> {
             override fun onResponse(call: Call<LodgingPlace>, response: Response<LodgingPlace>) {
-                if(response.code() == 200 && response.body() != null){
-                    val fundingPlace: LodgingPlace = response.body()!!
+                if (response.code() == 200 && response.body() != null) {
+                    fundingPlace = response.body()!!
                     funding_place_title.text = fundingPlace.title
                     funding_place_address.text = fundingPlace.address
 
@@ -126,6 +123,8 @@ class FundingDetailActivity : AppCompatActivity() {
                         intent.putExtras(bundle)
                         startActivity(intent)
                     }
+
+                    tabLayout.setupWithViewPager(viewPager)
                 }
             }
 
@@ -133,65 +132,70 @@ class FundingDetailActivity : AppCompatActivity() {
             }
         })
     }
-}
 
+    private val TAB_SUMMARY = 0
+    private val TAB_BACKED = 1
+    private val TAB_PPE = 2
+    private val TAB_COMMENT = 3
 
-private const val TAB_SUMMARY = 0
-private const val TAB_BACKED = 1
-private const val TAB_PPE = 2
-private const val TAB_COMMENT = 3
+    inner class PagerAdaper(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+        override fun getCount(): Int = 4
 
-class PagerAdaper(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-    override fun getCount(): Int = 4
-
-    override fun getItem(position: Int): Fragment {
-        when (position) {
-            TAB_SUMMARY -> {
-                val fundingSummaryFragment = FundingSummaryFragment()
-                fundingSummaryFragment.arguments = Bundle().apply {
-//                    putInt(ARG_OBJECT, position + 1)
+        override fun getItem(position: Int): Fragment {
+            when (position) {
+                TAB_SUMMARY -> {
+                    val fundingContentFragment = FundingContentFragment()
+                    fundingContentFragment.arguments = Bundle().apply {
+                        putString("funding_content_image", fundingDetail.content_image)
+                        putString("funding_content_text", fundingDetail.content_text)
+                    }
+                    return fundingContentFragment
                 }
-                return fundingSummaryFragment
-            }
 
-            TAB_BACKED -> {
-                val fundingBackedListFragment = FundingBackedListFragment()
-                fundingBackedListFragment.arguments = Bundle().apply {
-
+                TAB_BACKED -> {
+                    val fundingBackedListFragment = FundingBackedListFragment()
+                    fundingBackedListFragment.arguments = Bundle().apply {
+                        putStringArrayList("funding_backed_list", fundingDetail.backed_list)
+                    }
+                    return fundingBackedListFragment
                 }
-                return fundingBackedListFragment
-            }
 
-            TAB_PPE -> {
-                val fundingPPEFragment = FundingPPEFragment()
-                fundingPPEFragment.arguments = Bundle().apply {
-
+                TAB_PPE -> {
+                    val fundingPPEFragment = FundingPPEFragment()
+                    fundingPPEFragment.arguments = Bundle().apply {
+                        putInt("funding_hand_sanitizer", fundingPlace.hand_sanitizer)
+                        putInt("funding_temperature_check", fundingPlace.body_temperature_check)
+                        putInt("funding_person_hygiene", fundingPlace.person_hygiene)
+                    }
+                    return fundingPPEFragment
                 }
-                return fundingPPEFragment
-            }
 
-            TAB_COMMENT -> {
-                val fundingCommentFragment = FundingCommentFragment()
-                fundingCommentFragment.arguments = Bundle().apply {
+                TAB_COMMENT -> {
+                    val fundingCommentFragment = FundingCommentFragment()
+                    fundingCommentFragment.arguments = Bundle().apply {
 
+                    }
+                    return fundingCommentFragment
                 }
-                return fundingCommentFragment
-            }
 
-            else -> {
-                val fundingSummaryFragment = FundingSummaryFragment()
-                fundingSummaryFragment.arguments = Bundle().apply {
+                else -> {
+                    val fundingSummaryFragment = FundingContentFragment()
+                    fundingSummaryFragment.arguments = Bundle().apply {
 
+                    }
+                    return fundingSummaryFragment
                 }
-                return fundingSummaryFragment
             }
         }
-    }
 
-    private val tabTitle : ArrayList<String> = arrayListOf("Summary", "Backed", "PPE", "Comment")
+        private val tabTitle: ArrayList<String> = arrayListOf("Summary", "Backed", "PPE", "Comment")
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return tabTitle[position]
+        override fun getPageTitle(position: Int): CharSequence? {
+            return tabTitle[position]
+        }
     }
 }
+
+
+
 
