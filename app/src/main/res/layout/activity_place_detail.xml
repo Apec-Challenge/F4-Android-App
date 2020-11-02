@@ -58,11 +58,11 @@
 
                             <ImageView
                                 android:id="@+id/place_like_heart"
-                                android:layout_centerVertical="true"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
-                                android:src="@drawable/heart_state"
+                                android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/place_like_count"
+                                android:src="@drawable/heart_state"
                                 app:tint="@color/colorAccent" />
 
                             <TextView
@@ -71,13 +71,13 @@
                                 android:layout_height="50dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:gravity="bottom"
                                 android:layout_marginLeft="8dp"
+                                android:gravity="bottom"
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:text="1,300"
-                                android:textSize="16sp"
-                                android:textColor="#515151" />
+                                android:textColor="#515151"
+                                android:textSize="16sp" />
 
                         </RelativeLayout>
 
@@ -232,89 +232,217 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/review_form"
-                    app:cardElevation="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:id="@+id/review_write_layout"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <RatingBar
-                            android:layout_gravity="center_horizontal"
-                            style="@style/Widget.AppCompat.RatingBar"
                             android:id="@+id/review_rating"
+                            style="@style/Widget.AppCompat.RatingBar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="16dp"
                             android:numStars="5"
                             android:rating="3.0" />
 
                         <EditText
-                            android:layout_marginTop="8dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="16dp"
-                            android:gravity="start"
-                            android:padding="16dp"
-                            android:hint="Write the review"
-                            android:maxLines="3"
-                            android:background="@drawable/custom_input"
                             android:id="@+id/review_edit_text"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"/>
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/custom_input"
+                            android:gravity="start"
+                            android:hint="Write the review"
+                            android:maxLines="3"
+                            android:padding="16dp" />
 
                         <TextView
-                            android:layout_marginTop="16dp"
-                            android:layout_marginLeft="24dp"
-                            android:layout_marginRight="24dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="14sp"
-                            android:text="@string/review_notice"/>
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginRight="24dp"
+                            android:text="@string/review_notice"
+                            android:textSize="14sp" />
 
                         <LinearLayout
-                            android:layout_gravity="right"
-                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:orientation="horizontal">
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/review_cancel_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
-                                android:layout_marginBottom="16dp"
                                 android:layout_marginRight="16dp"
-                                android:textColor="#686868"
+                                android:layout_marginBottom="16dp"
                                 android:background="@drawable/custom_button"
                                 android:backgroundTint="#ECECEC"
                                 android:text="Cancel"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:textColor="#686868" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/review_submit_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
-                                android:layout_marginBottom="16dp"
                                 android:layout_marginRight="16dp"
-                                android:textColor="#fff"
+                                android:layout_marginBottom="16dp"
                                 android:background="@drawable/custom_button"
                                 android:backgroundTint="@color/colorAccent"
                                 android:text="Submit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:textColor="#fff" />
 
                         </LinearLayout>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <RelativeLayout
-                    android:layout_marginBottom="30dp"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="500dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:rating="1" />
+
+                            <ProgressBar
+                                android:progressTint="@color/colorPrimary"
+                                android:progress="50"
+                                android:id="@+id/raiting_1_sum_progress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:rating="2" />
+
+                            <ProgressBar
+                                android:progressTint="@color/colorPrimary"
+                                android:progress="30"
+                                android:id="@+id/raiting_2_sum_progress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:rating="3" />
+
+                            <ProgressBar
+                                android:progressTint="@color/colorPrimary"
+                                android:progress="70"
+                                android:id="@+id/raiting_3_sum_progress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:rating="4" />
+
+                            <ProgressBar
+                                android:progressTint="@color/colorPrimary"
+                                android:progress="10"
+                                android:id="@+id/raiting_4_sum_progress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <RatingBar
+                                style="@style/Widget.AppCompat.RatingBar.Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:rating="5" />
+
+                            <ProgressBar
+                                android:progressTint="@color/colorPrimary"
+                                android:progress="90"
+                                android:id="@+id/raiting_5_sum_progress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:layout_marginBottom="30dp">
 
                     <com.chauthai.overscroll.RecyclerViewBouncy
                         android:id="@+id/review_recyclerview"

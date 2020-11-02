@@ -12,7 +12,7 @@ class Funding(
     var description: String,
     var backed_list: ArrayList<String>,
     var user_likes: ArrayList<Int>,
-    var owner_user: String,
+    var owner_username: String,
     var content_image: String,
     var content_text: String,
     var funding_goal_amount: Int,

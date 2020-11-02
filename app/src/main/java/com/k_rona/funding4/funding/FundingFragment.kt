@@ -2,6 +2,8 @@ package com.k_rona.funding4.funding
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -80,6 +82,9 @@ class FundingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        funding_banner.setColorFilter(Color.parseColor("#88000000"))
+
         viewManager = LinearLayoutManager(context)
         viewAdapter = FundingListAdapter(
             fundingList,

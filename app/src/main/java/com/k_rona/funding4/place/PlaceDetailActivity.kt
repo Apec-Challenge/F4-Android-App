@@ -159,6 +159,28 @@ class PlaceDetailActivity : AppCompatActivity() {
 
                     reviewList.addAll(responseBody)
                     viewAdapter.notifyDataSetChanged()
+
+                    val ratingSum: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0)
+                    var totalRatingSum: Int = 0
+                    var ratingRatio: ArrayList<Float> = arrayListOf(0F, 0F, 0F, 0F, 0F)
+
+                    for (review in responseBody) {
+                        ratingSum[(review.rating - 1).toInt()]++
+                        totalRatingSum++
+                    }
+
+                    ratingRatio[0] = ((ratingSum[0].toFloat() / totalRatingSum)) * 100
+                    ratingRatio[1] = ((ratingSum[1].toFloat() / totalRatingSum)) * 100
+                    ratingRatio[2] = ((ratingSum[2].toFloat() / totalRatingSum)) * 100
+                    ratingRatio[3] = ((ratingSum[3].toFloat() / totalRatingSum)) * 100
+                    ratingRatio[4] = ((ratingSum[4].toFloat() / totalRatingSum)) * 100
+
+                    raiting_1_sum_progress.progress = ratingRatio[0].toInt()
+                    raiting_2_sum_progress.progress = ratingRatio[1].toInt()
+                    raiting_3_sum_progress.progress = ratingRatio[2].toInt()
+                    raiting_4_sum_progress.progress = ratingRatio[3].toInt()
+                    raiting_5_sum_progress.progress = ratingRatio[4].toInt()
+
                 }
             }
 

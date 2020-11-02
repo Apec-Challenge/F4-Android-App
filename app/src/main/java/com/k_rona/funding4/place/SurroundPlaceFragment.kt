@@ -42,6 +42,7 @@ import com.k_rona.funding4.data.LodgingPlace
 import com.k_rona.funding4.funding.FundingDetailActivity
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
+import com.k_rona.funding4.utility.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_surround_place.*
 import noman.googleplaces.NRPlaces
 import noman.googleplaces.PlaceType
@@ -379,6 +380,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
 
     override fun onPlacesSuccess(places: MutableList<noman.googleplaces.Place>?) {
 
+
         val grayMarkerIcon = vectorToBitmap(R.drawable.ic_vector_marker_gray)
         val blueMarkerIcon = vectorToBitmap(R.drawable.ic_vector_marker_blue)
 
@@ -423,9 +425,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
                                         item.tag = place // DB 정보가 없는 장소의 마커에 Google Place 객체를 붙여줌
                                         previousMarker?.add(item)
                                     }
-
                                 }
-
                             } else {
                                 Log.d("Error lodging place", response.errorBody().toString())
                             }
@@ -495,6 +495,6 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
         }catch(e: Exception) {
 
         }
-        return ""
+        return "Error"
     }
 }

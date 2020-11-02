@@ -82,7 +82,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/sample"
             android:scaleType="centerCrop" />
     </RelativeLayout>
 </LinearLayout>
