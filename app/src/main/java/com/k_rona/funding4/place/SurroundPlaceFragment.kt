@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -52,6 +53,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
@@ -353,17 +355,25 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
     }
 
     private fun vectorToBitmap(@DrawableRes id: Int): BitmapDescriptor? {
-        val vectorDrawable = ResourcesCompat.getDrawable(
-            resources, id, null
-        )!!
-        val bitmap = Bitmap.createBitmap(
-            vectorDrawable.intrinsicWidth,
-            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-        vectorDrawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
+        try{
+            val vectorDrawable: Drawable?  = ResourcesCompat.getDrawable(resources, id, null)
+
+            val bitmap = vectorDrawable?.intrinsicWidth?.let {
+                Bitmap.createBitmap(
+                    it,
+                    vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+                )
+            }
+            val canvas = bitmap?.let { Canvas(it) }
+            canvas?.height?.let { vectorDrawable.setBounds(0, 0, canvas.width, it) }
+            if (canvas != null) {
+                vectorDrawable.draw(canvas)
+            }
+            return BitmapDescriptorFactory.fromBitmap(bitmap)
+        }catch(e: Exception){
+
+        }
+        return BitmapDescriptorFactory.defaultMarker()
     }
 
 
@@ -403,7 +413,8 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
                                         val item: Marker = map!!.addMarker(markerOptions)
                                         for (lodgingPlace in surroundLodgingPlaceList) {
                                             if (lodgingPlace.place_id == place.placeId) {
-                                                item.tag = lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
+                                                item.tag =
+                                                    lodgingPlace  // DB 정보가 있는 장소의 마커에 LodgingPlace 객체를 붙여줌
                                             }
                                         }
                                         previousMarker?.add(item)
@@ -449,7 +460,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
             .listener(this)
             .key(getString(R.string.google_maps_key))
             .latlng(location.latitude, location.longitude) // 현재 위치
-            .radius(10000) // 2000 미터 내에서 검색
+            .radius(5000) // 5000 미터 내에서 검색
             .type(PlaceType.LODGING) // 숙박 업소
             .build()
             .execute()
@@ -457,28 +468,33 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
 
     private fun getCurrentAddress(latlng: LatLng): String {
         // GPS 를 주소로 변환
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        val addresses: List<Address>
-        addresses = try {
-            geocoder.getFromLocation(
-                latlng.latitude,
-                latlng.longitude,
-                1
-            )
-        } catch (ioException: IOException) {
-            // 네트워크 문제
-            Toast.makeText(context, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
-            return "지오코더 서비스 사용불가"
-        } catch (illegalArgumentException: IllegalArgumentException) {
-            Toast.makeText(context, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
-            return "잘못된 GPS 좌표"
-        }
-        return if (addresses.isEmpty()) {
+        try{
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            val addresses: List<Address>
+            addresses = try {
+                geocoder.getFromLocation(
+                    latlng.latitude,
+                    latlng.longitude,
+                    1
+                )
+            } catch (ioException: IOException) {
+                // 네트워크 문제
+                Toast.makeText(context, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+                return "지오코더 서비스 사용불가"
+            } catch (illegalArgumentException: IllegalArgumentException) {
+                Toast.makeText(context, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+                return "잘못된 GPS 좌표"
+            }
+            return if (addresses.isEmpty()) {
 //            Toast.makeText(context, "주소 미발견", Toast.LENGTH_LONG).show()
-            "주소 미발견"
-        } else {
-            val address: Address = addresses[0]
-            address.getAddressLine(0).toString()
+                "주소 미발견"
+            } else {
+                val address: Address = addresses[0]
+                address.getAddressLine(0).toString()
+            }
+        }catch(e: Exception) {
+
         }
+        return ""
     }
 }
