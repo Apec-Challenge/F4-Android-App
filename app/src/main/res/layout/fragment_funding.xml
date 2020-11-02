@@ -121,7 +121,6 @@
 
             </LinearLayout>
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/funding_recyclerview"
                 android:layout_width="match_parent"

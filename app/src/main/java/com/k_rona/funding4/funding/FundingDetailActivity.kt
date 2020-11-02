@@ -212,11 +212,11 @@ class FundingDetailActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    val fundingSummaryFragment = FundingContentFragment()
-                    fundingSummaryFragment.arguments = Bundle().apply {
+                    val fundingContentFragment = FundingContentFragment()
+                    fundingContentFragment.arguments = Bundle().apply {
 
                     }
-                    return fundingSummaryFragment
+                    return fundingContentFragment
                 }
             }
         }

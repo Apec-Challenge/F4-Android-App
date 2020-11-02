@@ -231,17 +231,18 @@
                 </RelativeLayout>
 
                 <androidx.cardview.widget.CardView
-                    android:visibility="gone"
                     android:id="@+id/review_form"
                     app:cardElevation="0dp"
                     android:layout_marginTop="16dp"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/review_write_layout"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
 
                         <RatingBar
                             android:layout_gravity="center_horizontal"

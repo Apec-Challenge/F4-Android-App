@@ -135,22 +135,26 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <com.chauthai.overscroll.RecyclerViewBouncy
-                    android:id="@+id/home_popular_place_recyclerview"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="8dp"
-                    app:friction="200"
-                    app:gapLimit="220"
-                    app:maxAdapterSizeToEstimate="5"
-                    app:speedFactor="5"
-                    app:tension="1000"
-                    tools:itemCount="5"
-                    app:viewCountEstimateSize="5"
-                    tools:listitem="@layout/popular_place_item" />
+                    android:layout_height="wrap_content">
+                    <com.chauthai.overscroll.RecyclerViewBouncy
+                        android:id="@+id/home_popular_place_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        app:friction="200"
+                        app:gapLimit="220"
+                        app:maxAdapterSizeToEstimate="5"
+                        app:speedFactor="5"
+                        app:tension="1000"
+                        tools:itemCount="5"
+                        app:viewCountEstimateSize="5"
+                        tools:listitem="@layout/popular_place_item" />
+                </RelativeLayout>
 
             </LinearLayout>
 

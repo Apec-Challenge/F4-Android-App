@@ -2,6 +2,8 @@ package com.k_rona.funding4.place
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -110,7 +112,7 @@ class PlaceDetailActivity : AppCompatActivity() {
                     (place_like_count.text.toString().toInt() - 1).toString()
             }
             // 서버 단에서는 자동으로 반영/취소 여부를 결정할 수 있기 때문에 같은 요청으로 전달
-            noticeUserPushedLikeButton(userProfile!!.nickname, placeDetail.place_id)
+            noticeUserPushedLikeButton(userProfile.nickname, placeDetail.place_id)
         }
 
         review_write_button.setOnClickListener {
@@ -125,19 +127,18 @@ class PlaceDetailActivity : AppCompatActivity() {
             if (review_edit_text.text.isNullOrBlank()) {
                 review_edit_text.error = "You have to write comment"
             } else {
-                if (userProfile != null) {  // 사용자 정보가 유효하면
-                    writeReview(
-                        userID = userProfile.pk,
-                        placeID = placeDetail.place_id,
-                        content = review_edit_text.text.toString(),
-                        rating = review_rating.rating.toInt()
-                    )
+                // 사용자 정보가 유효하면
+                writeReview(
+                    userID = userProfile.pk,
+                    placeID = placeDetail.place_id,
+                    content = review_edit_text.text.toString(),
+                    rating = review_rating.rating.toInt()
+                )
 
-                    Log.d("writeReview()", userProfile.pk.toString())
-                    Log.d("writeReview()", placeDetail.place_id)
-                    Log.d("writeReview()", review_edit_text.text.toString())
-                    Log.d("writeReview()", review_rating.rating.toString())
-                }
+                Log.d("writeReview()", userProfile.pk.toString())
+                Log.d("writeReview()", placeDetail.place_id)
+                Log.d("writeReview()", review_edit_text.text.toString())
+                Log.d("writeReview()", review_rating.rating.toString())
             }
         }
 

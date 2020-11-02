@@ -29,7 +29,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,7 +60,6 @@
                                 android:textSize="24sp"
                                 android:textStyle="bold" />
 
-
                             <ImageView
                                 android:id="@+id/funding_like_heart"
                                 android:layout_width="25dp"
@@ -70,7 +68,6 @@
                                 android:layout_toLeftOf="@+id/funding_like_count"
                                 android:src="@drawable/heart_state"
                                 app:tint="@color/colorAccent" />
-
 
                             <TextView
                                 android:id="@+id/funding_like_count"

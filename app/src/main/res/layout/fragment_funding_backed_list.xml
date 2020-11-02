@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".funding.funding_detail_tab.FundingBackedListFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/backed_list_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="asdf" />
-
+        android:layout_height="match_parent"/>
 </FrameLayout>
