@@ -61,11 +61,12 @@
                                 android:layout_centerVertical="true"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/ic_baseline_favorite_empty_24"
-                                android:layout_toLeftOf="@+id/place_like_button"/>
+                                android:src="@drawable/heart_state"
+                                android:layout_toLeftOf="@+id/place_like_count"
+                                app:tint="@color/colorAccent" />
 
                             <TextView
-                                android:id="@+id/place_like_button"
+                                android:id="@+id/place_like_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:layout_alignParentRight="true"

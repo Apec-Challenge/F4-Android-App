@@ -1,5 +1,6 @@
 package com.k_rona.funding4.place
 
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,7 +22,7 @@ import com.k_rona.funding4.network.Server
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_funding_detail.*
 import kotlinx.android.synthetic.main.activity_place_detail.*
-import kotlinx.android.synthetic.main.activity_place_detail.place_like_button
+import kotlinx.android.synthetic.main.activity_place_detail.place_like_count
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,11 +66,7 @@ class PlaceDetailActivity : AppCompatActivity() {
         val isAlreadyLikedPlace =
             placeDetail.user_likes.any { it == userProfile?.pk }
 
-        if (isAlreadyLikedPlace) {
-            place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
-        } else {
-            place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
-        }
+        place_like_heart.isActivated = isAlreadyLikedPlace
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = ReviewListAdapter(reviewList, this)
@@ -87,7 +84,7 @@ class PlaceDetailActivity : AppCompatActivity() {
             .thumbnail(0.1f)
             .into(place_image)
 
-        place_like_button.text = placeDetail.total_likes.toString()
+        place_like_count.text = placeDetail.total_likes.toString()
 
         place_title.text = placeDetail.title
         place_address.text = placeDetail.address
@@ -102,16 +99,15 @@ class PlaceDetailActivity : AppCompatActivity() {
         place_temperature.setOnTouchListener { view, motionEvent -> true }
 
         place_like_heart.setOnClickListener {
-            Log.d("hear_onClick()", "Heart Pushed!")
-            if ( // 좋아요가 안 눌린 상태면 좋아요 반영 동작
-                place_like_heart.resources == ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_baseline_favorite_empty_24
-                )
-            ) {
-                place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
+            // 좋아요가 안 눌린 상태면 좋아요 반영 동작
+            if (!place_like_heart.isActivated) {
+                place_like_heart.isActivated = true
+                place_like_count.text =
+                    (place_like_count.text.toString().toInt() + 1).toString()
             } else { // 좋아요가 이미 눌린 상태면 좋아요 취소 동작
-                place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
+                place_like_heart.isActivated = false
+                place_like_count.text =
+                    (place_like_count.text.toString().toInt() - 1).toString()
             }
             // 서버 단에서는 자동으로 반영/취소 여부를 결정할 수 있기 때문에 같은 요청으로 전달
             noticeUserPushedLikeButton(userProfile!!.nickname, placeDetail.place_id)

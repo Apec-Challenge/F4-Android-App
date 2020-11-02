@@ -1,11 +1,14 @@
 package com.k_rona.funding4.funding
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -30,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_funding_detail.*
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_description
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_thumbnail_image
 import kotlinx.android.synthetic.main.activity_funding_detail.funding_title
-import kotlinx.android.synthetic.main.activity_place_detail.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -73,23 +75,19 @@ class FundingDetailActivity : AppCompatActivity() {
         val isAlreadyLikedFunding =
             fundingDetail.user_likes.any { it == userProfile?.pk }
 
-        if (isAlreadyLikedFunding) {
-            funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
-        } else {
-            funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
-        }
+        funding_like_heart.isActivated = isAlreadyLikedFunding
 
         funding_like_heart.setOnClickListener {
-            Log.d("hear_onClick()", "Heart Pushed!")
             if ( // 좋아요가 안 눌린 상태면 좋아요 반영 동작
-                funding_like_heart.resources == ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_baseline_favorite_empty_24
-                )
+                !funding_like_heart.isActivated
             ) {
-                funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
+                funding_like_heart.isActivated = true
+                funding_like_count.text =
+                    (funding_like_count.text.toString().toInt() + 1).toString()
             } else { // 좋아요가 이미 눌린 상태면 좋아요 취소 동작
-                funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
+                funding_like_heart.isActivated = false
+                funding_like_count.text =
+                    (funding_like_count.text.toString().toInt() - 1).toString()
             }
             // 서버 단에서는 자동으로 반영/취소 여부를 결정할 수 있기 때문에 같은 요청으로 전달
             Log.d("funding Detail", fundingDetail.id.toString())
@@ -121,7 +119,7 @@ class FundingDetailActivity : AppCompatActivity() {
 
         funding_title.text = fundingDetail.title
         funding_description.text = fundingDetail.description
-        funding_like_button.text = fundingDetail.total_likes.toString()
+        funding_like_count.text = fundingDetail.total_likes.toString()
         funding_backed_count.text = fundingDetail.backed_list.size.toString()
         funding_owner.text = fundingDetail.owner_user
 
@@ -235,7 +233,6 @@ class FundingDetailActivity : AppCompatActivity() {
             .enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() == 200) {
-                        Toast.makeText(applicationContext, "Like!", Toast.LENGTH_LONG).show()
                         Log.d("UserPushedLikeButton()", "Like button success!")
                     }
                 }

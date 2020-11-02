@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -16,7 +15,6 @@ import com.k_rona.funding4.data.User
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import io.paperdb.Paper
-import kotlinx.android.synthetic.main.activity_place_detail.*
 import kotlinx.android.synthetic.main.place_review_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,8 +30,8 @@ class ReviewListAdapter(
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        init{
-            view.review_like_button.setOnClickListener(this)
+        init {
+            view.review_like_heart.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -41,31 +39,18 @@ class ReviewListAdapter(
             Paper.init(context)
             val userProfile: User? = Paper.book().read("user_profile")
 
-            if ( // 좋아요가 안 눌린 상태면 좋아요 반영 동작
-                view.review_like_button.compoundDrawables == ContextCompat.getDrawable(
-                    context,
-                    R.drawable.ic_baseline_favorite_empty_24
-                )
-            ) {
-                view.review_like_button.setCompoundDrawables(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ic_baseline_favorite_24
-                    ), null, null, null
-                )
-            } else{ // 좋아요가 이미 눌린 상태면 좋아요 취소 동작
-                view.review_like_button.setCompoundDrawables(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ic_baseline_favorite_empty_24
-                    ), null, null, null
-                )
+            // 좋아요가 안 눌린 상태면 좋아요 반영 동작
+            if (!view.review_like_heart.isActivated) {
+                view.review_like_heart.isActivated = true
+                view.review_like_count.text = (view.review_like_count.text.toString().toInt() + 1).toString()
+            } else { // 좋아요가 이미 눌린 상태면 좋아요 취소 동작
+                view.review_like_heart.isActivated = false
+                view.review_like_count.text = (view.review_like_count.text.toString().toInt() - 1).toString()
             }
-
 
             if (userProfile != null) {
                 noticeUserPushedLikeButton(userProfile.nickname, reviewList[adapterPosition - 1].id)
-            }else{
+            } else {
                 Toast.makeText(context, "User invalid", Toast.LENGTH_LONG).show()
                 Log.d("review onClick()", "User Info Invalid!")
             }
@@ -93,18 +78,14 @@ class ReviewListAdapter(
         val isAlreadyLikedReview =
             reviewList[position].user_likes.any { it == userProfile?.pk }
 
-        if(isAlreadyLikedReview){
-            holder.view.review_like_button.setCompoundDrawables(ContextCompat.getDrawable(context, R.drawable.ic_baseline_favorite_24),null, null, null)
-        }else{
-            holder.view.review_like_button.setCompoundDrawables(ContextCompat.getDrawable(context, R.drawable.ic_baseline_favorite_empty_24),null, null, null)
-        }
+        holder.view.review_like_heart.isActivated = isAlreadyLikedReview
 
         holder.view.review_created_at.text = reviewCreatedAt
 
         holder.view.review_rating.rating = reviewList[position].rating
         holder.view.review_content.text = reviewList[position].content
         holder.view.review_writer.text = reviewList[position].user.toString()
-        holder.view.review_like_button.text = reviewList[position].total_likes.toString()
+        holder.view.review_like_count.text = reviewList[position].total_likes.toString()
     }
 
     override fun getItemCount(): Int {
@@ -123,14 +104,17 @@ class ReviewListAdapter(
 
         val retrofitService: RetrofitService = retrofit.create(RetrofitService::class.java)
 
-        retrofitService.requestReviewLikeButtonPushed(nickname, placeID).enqueue(object: Callback<Void>{
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                Toast.makeText(context, "Like!", Toast.LENGTH_LONG).show()
-            }
+        retrofitService.requestReviewLikeButtonPushed(nickname, placeID)
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        Log.d("UserPushedLikeButton()", "Like button success!")
+                    }
+                }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
 
-            }
-        })
+                }
+            })
     }
 }

@@ -113,6 +113,14 @@ class HomeFragment : Fragment() {
         getPopularPlaceList()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getRecommendFundingList()
+        getPopularFundingList()
+        getPopularPlaceList()
+    }
+
     private fun getRecommendFundingList(){
         retrofitService.requestFundingList("like_count")
             .enqueue(object : Callback<ArrayList<Funding>> {

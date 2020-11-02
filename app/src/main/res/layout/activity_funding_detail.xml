@@ -54,7 +54,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_centerVertical="true"
-                                android:layout_toLeftOf="@id/funding_like_button"
+                                android:layout_marginRight="8dp"
+                                android:layout_toLeftOf="@id/funding_like_heart"
                                 android:text="Funding Title"
                                 android:textColor="@color/title"
                                 android:textSize="24sp"
@@ -63,21 +64,22 @@
 
                             <ImageView
                                 android:id="@+id/funding_like_heart"
-                                android:layout_centerVertical="true"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/ic_baseline_favorite_empty_24"
-                                android:layout_toLeftOf="@+id/funding_like_button"/>
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/funding_like_count"
+                                android:src="@drawable/heart_state"
+                                app:tint="@color/colorAccent" />
 
 
                             <TextView
-                                android:id="@+id/funding_like_button"
+                                android:id="@+id/funding_like_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:gravity="bottom"
                                 android:layout_marginLeft="8dp"
+                                android:gravity="bottom"
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:text="1,300"
@@ -86,10 +88,10 @@
                         </RelativeLayout>
 
                         <TextView
-                            android:layout_marginTop="8dp"
                             android:id="@+id/funding_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:text="This funding is for you."
                             android:textColor="@color/sub_title"
                             android:textSize="16sp" />
@@ -139,16 +141,17 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_marginTop="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
-                        android:padding="24dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
@@ -267,15 +270,15 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:layout_marginTop="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
+                    android:layout_marginTop="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/funding_detail_tab"
@@ -293,7 +296,6 @@
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
 
 
             </LinearLayout>
