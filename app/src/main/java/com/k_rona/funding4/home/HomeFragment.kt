@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRecommendFundingList(){
-        retrofitService.requestFundingList("like_count")
+        retrofitService.requestFundingList("like_count", "", "", "")
             .enqueue(object : Callback<ArrayList<Funding>> {
                 override fun onResponse(call: Call<ArrayList<Funding>>, response: Response<ArrayList<Funding>>) {
                     if (response.code() == 200 && !response.body().isNullOrEmpty()) {

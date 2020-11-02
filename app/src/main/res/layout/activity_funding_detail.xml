@@ -64,8 +64,8 @@
 
                             <ImageView
                                 android:id="@+id/funding_like_heart"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@+id/funding_like_count"
                                 android:src="@drawable/heart_state"
@@ -83,7 +83,8 @@
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:text="1,300"
-                                android:textColor="#515151" />
+                                android:textColor="#515151"
+                                android:textSize="16sp" />
 
                         </RelativeLayout>
 

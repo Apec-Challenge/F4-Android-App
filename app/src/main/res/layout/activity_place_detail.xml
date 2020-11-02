@@ -59,8 +59,8 @@
                             <ImageView
                                 android:id="@+id/place_like_heart"
                                 android:layout_centerVertical="true"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
                                 android:src="@drawable/heart_state"
                                 android:layout_toLeftOf="@+id/place_like_count"
                                 app:tint="@color/colorAccent" />
@@ -76,6 +76,7 @@
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:text="1,300"
+                                android:textSize="16sp"
                                 android:textColor="#515151" />
 
                         </RelativeLayout>

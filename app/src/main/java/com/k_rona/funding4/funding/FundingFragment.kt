@@ -49,6 +49,7 @@ class FundingFragment : Fragment() {
         .build()
     private val retrofitService: RetrofitService = retrofit.create(RetrofitService::class.java)
 
+
     // Sort 를 위한 Filter Option 상수 선언
     companion object {
         const val SORT_RECOMMEND = 0  // 추천 순 (좋아요 개수 순)
@@ -96,14 +97,14 @@ class FundingFragment : Fragment() {
 
         search_funding_edit_text.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                // Enter Action
                 userInputKeyword = search_funding_edit_text.text.toString() + " "
+                getFundingList(keyword = userInputKeyword, filter = FILTER_RECOMMEND)
 
-                getFundingList(userInputKeyword)
+                Log.d("userInputKeyword", userInputKeyword)
 
                 true
             } else if (search_funding_edit_text.text.toString() == "") {
-                search_funding_edit_text.error = "검색할 키워드를 입력해주세요"
+                getFundingList(keyword = "", filter = FILTER_RECOMMEND)
                 true
             } else {
                 false
@@ -131,10 +132,12 @@ class FundingFragment : Fragment() {
                             select_filter_button.text = getString(R.string.filter_recommend)
                             getFundingList(keyword = userInputKeyword, filter = FILTER_RECOMMEND)
                         }
+
                         SORT_LATEST -> {
                             select_filter_button.text = getString(R.string.filter_latest)
                             getFundingList(keyword = userInputKeyword, filter = FILTER_LATEST)
                         }
+
                         SORT_CLOSING_LIMIT -> {
                             select_filter_button.text = getString(R.string.filter_closing_limit)
                             getFundingList(
@@ -142,10 +145,12 @@ class FundingFragment : Fragment() {
                                 filter = FILTER_CLOSING_LIMIT
                             )
                         }
+
                         SORT_POPULAR -> {
                             select_filter_button.text = getString(R.string.filter_popular)
                             getFundingList(keyword = userInputKeyword, filter = FILTER_POPULAR)
                         }
+
                         SORT_FUNDING_AMOUNT -> {
                             select_filter_button.text = getString(R.string.filter_funding_amount)
                             getFundingList(
@@ -153,6 +158,7 @@ class FundingFragment : Fragment() {
                                 filter = FILTER_FUNDING_AMOUNT
                             )
                         }
+
                         else -> {
                             select_filter_button.text = getString(R.string.filter)
                         }
@@ -167,17 +173,30 @@ class FundingFragment : Fragment() {
         keyword: String = "",
         filter: String = FILTER_RECOMMEND
     ) {
-        retrofitService.requestFundingList(filter) // keyword
-            .enqueue(object : Callback<ArrayList<Funding>> {
-                override fun onResponse(call: Call<ArrayList<Funding>>, response: Response<ArrayList<Funding>>) {
-                    if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+        Log.d("getFundingList()", keyword)
+
+        retrofitService.requestFundingList(
+            filter = filter,
+            titleKeyword = keyword,
+            descriptionKeyword = keyword,
+            contentKeyword = keyword
+        ).enqueue(object : Callback<ArrayList<Funding>> {
+                override fun onResponse(
+                    call: Call<ArrayList<Funding>>,
+                    response: Response<ArrayList<Funding>>
+                ) {
+                    if (response.code() == 200 && response.body() != null) {
+                        Log.d("requestFundingList()", "RESPONSE : " + response.body().toString())
+
+                        fundingList.clear()
                         responseBody.clear()
                         responseBody = response.body()!!
 
                         fundingList.addAll(responseBody)
                         viewAdapter.notifyDataSetChanged()
-                    }else{
-                        Log.d("requestFundingList()", "ERROR CODE : "+ response.code().toString())
+
+                    } else {
+                        Log.d("requestFundingList()", "ERROR CODE : " + response.code().toString())
                         Log.d("requestFundingList()", "RESPONSE : " + response.body().toString())
                     }
                 }
