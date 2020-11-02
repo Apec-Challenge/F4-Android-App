@@ -61,17 +61,23 @@
                                 android:textStyle="bold" />
 
 
+                            <ImageView
+                                android:id="@+id/funding_like_heart"
+                                android:layout_centerVertical="true"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_baseline_favorite_empty_24"
+                                android:layout_toLeftOf="@+id/funding_like_button"/>
+
+
                             <TextView
                                 android:id="@+id/funding_like_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="50dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:drawableStart="@drawable/ic_baseline_favorite_empty_24"
-                                android:drawablePadding="8dp"
-                                android:drawableTint="@color/colorAccent"
                                 android:gravity="bottom"
-                                android:paddingLeft="16dp"
+                                android:layout_marginLeft="8dp"
                                 android:paddingTop="16dp"
                                 android:paddingBottom="16dp"
                                 android:text="1,300"

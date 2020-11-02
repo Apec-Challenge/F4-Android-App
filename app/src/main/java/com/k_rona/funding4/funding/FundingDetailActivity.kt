@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -72,10 +73,29 @@ class FundingDetailActivity : AppCompatActivity() {
         val isAlreadyLikedFunding =
             fundingDetail.user_likes.any { it == userProfile?.pk }
 
-        if(isAlreadyLikedFunding){
-            funding_like_button.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24),null, null, null)
-        }else{
-            funding_like_button.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_empty_24),null, null, null)
+        if (isAlreadyLikedFunding) {
+            funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
+        } else {
+            funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
+        }
+
+        funding_like_heart.setOnClickListener {
+            Log.d("hear_onClick()", "Heart Pushed!")
+            if ( // 좋아요가 안 눌린 상태면 좋아요 반영 동작
+                funding_like_heart.resources == ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_baseline_favorite_empty_24
+                )
+            ) {
+                funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
+            } else { // 좋아요가 이미 눌린 상태면 좋아요 취소 동작
+                funding_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
+            }
+            // 서버 단에서는 자동으로 반영/취소 여부를 결정할 수 있기 때문에 같은 요청으로 전달
+            Log.d("funding Detail", fundingDetail.id.toString())
+            Log.d("funding Detail", userProfile!!.nickname)
+
+            noticeUserPushedLikeButton(userProfile!!.nickname, fundingDetail.id)
         }
 
         val fundingDateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -121,7 +141,6 @@ class FundingDetailActivity : AppCompatActivity() {
         pagerAdapter = PagerAdaper(supportFragmentManager)
         viewPager = this.findViewById(R.id.funding_detail_viewpager)
         viewPager.adapter = pagerAdapter
-
     }
 
     private fun getFundingPlace(placeID: String) {
@@ -209,6 +228,22 @@ class FundingDetailActivity : AppCompatActivity() {
         override fun getPageTitle(position: Int): CharSequence? {
             return tabTitle[position]
         }
+    }
+
+    private fun noticeUserPushedLikeButton(nickname: String, fundingID: Int) {
+        retrofitService.requestFundingLikeButtonPushed(nickname, fundingID)
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        Toast.makeText(applicationContext, "Like!", Toast.LENGTH_LONG).show()
+                        Log.d("UserPushedLikeButton()", "Like button success!")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                }
+            })
     }
 }
 

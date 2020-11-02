@@ -72,6 +72,12 @@ interface RetrofitService {
         @Part("hand_sanitizer") handSanitizer: RequestBody
     ): Call<LodgingPlace>
 
+    @GET("place_like/{nickname}/{id}/")
+    fun requestPlaceLikeButtonPushed(
+        @Path("nickname") nickname: String,
+        @Path("id") placeID: String
+    ): Call<Void>
+
     /** Funding **/
 
     @GET("api/funding/")
@@ -80,6 +86,12 @@ interface RetrofitService {
 
     @GET("api/funding/")
     fun requestPopularFundingList(@Query("q") filter: String): Call<ArrayList<Funding>>
+
+    @GET("funding_like/{nickname}/{id}")
+    fun requestFundingLikeButtonPushed(
+        @Path("nickname") nickname: String,
+        @Path("id") fundingID: Int
+    ): Call<Void>
 
     /** Review **/
 
@@ -96,4 +108,10 @@ interface RetrofitService {
         @Field("content") content: String,
         @Field("rating") rating: Int
     ): Call<Review>
+
+    @GET("review_like/{nickname}/{id}/")
+    fun requestReviewLikeButtonPushed(
+        @Path("nickname") nickname: String,
+        @Path("id") reviewID: Int
+    ): Call<Void>
 }

@@ -19,14 +19,15 @@ import com.k_rona.funding4.data.User
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import io.paperdb.Paper
+import kotlinx.android.synthetic.main.activity_funding_detail.*
 import kotlinx.android.synthetic.main.activity_place_detail.*
+import kotlinx.android.synthetic.main.activity_place_detail.place_like_button
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.roundToInt
-
 
 class PlaceDetailActivity : AppCompatActivity() {
 
@@ -55,6 +56,8 @@ class PlaceDetailActivity : AppCompatActivity() {
         Paper.init(this)
         val userProfile: User? = Paper.book().read("user_profile")
 
+        Log.d("user Profile", userProfile!!.nickname)
+
         val placeDetail: LodgingPlace = intent.getSerializableExtra("place_object") as LodgingPlace
         val placePPE =
             (((placeDetail.body_temperature_check.toFloat() + placeDetail.hand_sanitizer.toFloat() + placeDetail.person_hygiene).toFloat() / 3) * 100).roundToInt() / 100f
@@ -62,10 +65,10 @@ class PlaceDetailActivity : AppCompatActivity() {
         val isAlreadyLikedPlace =
             placeDetail.user_likes.any { it == userProfile?.pk }
 
-        if(isAlreadyLikedPlace){
-            place_like_count.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24),null, null, null)
-        }else{
-            place_like_count.setCompoundDrawables(ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_empty_24),null, null, null)
+        if (isAlreadyLikedPlace) {
+            place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
+        } else {
+            place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
         }
 
         viewManager = LinearLayoutManager(this)
@@ -84,7 +87,7 @@ class PlaceDetailActivity : AppCompatActivity() {
             .thumbnail(0.1f)
             .into(place_image)
 
-        place_like_count.text = placeDetail.total_likes.toString()
+        place_like_button.text = placeDetail.total_likes.toString()
 
         place_title.text = placeDetail.title
         place_address.text = placeDetail.address
@@ -97,6 +100,22 @@ class PlaceDetailActivity : AppCompatActivity() {
         place_hand_sanitizer.setOnTouchListener { view, motionEvent -> true }
         place_hygiene.setOnTouchListener { view, motionEvent -> true }
         place_temperature.setOnTouchListener { view, motionEvent -> true }
+
+        place_like_heart.setOnClickListener {
+            Log.d("hear_onClick()", "Heart Pushed!")
+            if ( // 좋아요가 안 눌린 상태면 좋아요 반영 동작
+                place_like_heart.resources == ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_baseline_favorite_empty_24
+                )
+            ) {
+                place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_24)
+            } else { // 좋아요가 이미 눌린 상태면 좋아요 취소 동작
+                place_like_heart.setImageResource(R.drawable.ic_baseline_favorite_empty_24)
+            }
+            // 서버 단에서는 자동으로 반영/취소 여부를 결정할 수 있기 때문에 같은 요청으로 전달
+            noticeUserPushedLikeButton(userProfile!!.nickname, placeDetail.place_id)
+        }
 
         review_write_button.setOnClickListener {
             review_form.visibility = View.VISIBLE
@@ -155,16 +174,35 @@ class PlaceDetailActivity : AppCompatActivity() {
         retrofitService.requestPostReview(userID, placeID, content, rating)
             .enqueue(object : Callback<Review> {
                 override fun onResponse(call: Call<Review>, response: Response<Review>) {
-                    if(response.code() == 201 && response.body() != null){
-                        Toast.makeText(this@PlaceDetailActivity, "Review Created!", Toast.LENGTH_LONG).show()
+                    if (response.code() == 201 && response.body() != null) {
+                        Toast.makeText(
+                            this@PlaceDetailActivity,
+                            "Review Created!",
+                            Toast.LENGTH_LONG
+                        ).show()
                         requestReviewList(placeID = placeID)
-                    }else{
+                    } else {
                         Log.d("writeReview()", response.code().toString())
                     }
                 }
 
                 override fun onFailure(call: Call<Review>, t: Throwable) {
                     Log.e("writeReview()", t.message)
+                }
+            })
+    }
+
+    private fun noticeUserPushedLikeButton(nickname: String, placeID: String) {
+        retrofitService.requestPlaceLikeButtonPushed(nickname, placeID)
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.code() == 200) {
+                        Log.d("UserPushedLikeButton()", "Like button success!")
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.d("UserPushedLikeButton()", t.message)
                 }
             })
     }
