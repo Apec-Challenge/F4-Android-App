@@ -121,17 +121,12 @@
 
             </LinearLayout>
 
-            <com.chauthai.overscroll.RecyclerViewBouncy
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/funding_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="900dp"
                 android:padding="16dp"
-                app:friction="200"
-                app:gapLimit="220"
-                app:maxAdapterSizeToEstimate="5"
-                app:speedFactor="5"
-                app:tension="1000"
-                app:viewCountEstimateSize="5"
                 tools:itemCount="5"
                 tools:listitem="@layout/funding_recyclerview_item" />
 

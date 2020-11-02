@@ -114,11 +114,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onResume() {
-        super.onResume()
-
         getRecommendFundingList()
         getPopularFundingList()
         getPopularPlaceList()
+
+        super.onResume()
     }
 
     private fun getRecommendFundingList(){

@@ -310,19 +310,26 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <com.chauthai.overscroll.RecyclerViewBouncy
-                    android:id="@+id/review_recyclerview"
+                <RelativeLayout
+                    android:layout_marginBottom="30dp"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:layout_marginTop="16dp"
-                    app:friction="200"
-                    app:gapLimit="220"
-                    app:maxAdapterSizeToEstimate="5"
-                    app:speedFactor="5"
-                    app:tension="1000"
-                    app:viewCountEstimateSize="5"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/place_review_item" />
+                    android:layout_height="500dp">
+
+                    <com.chauthai.overscroll.RecyclerViewBouncy
+                        android:id="@+id/review_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:friction="200"
+                        app:gapLimit="220"
+                        app:maxAdapterSizeToEstimate="5"
+                        app:speedFactor="5"
+                        app:tension="1000"
+                        app:viewCountEstimateSize="5"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/place_review_item" />
+                </RelativeLayout>
+
 
             </LinearLayout>
 
