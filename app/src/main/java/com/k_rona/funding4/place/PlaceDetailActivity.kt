@@ -199,7 +199,9 @@ class PlaceDetailActivity : AppCompatActivity() {
                             "Review Created!",
                             Toast.LENGTH_LONG
                         ).show()
-                        requestReviewList(placeID = placeID)
+                        reviewList.add(0, response.body()!!)
+                        viewAdapter.notifyDataSetChanged()
+                        review_form.visibility = View.GONE
                     } else {
                         Log.d("writeReview()", response.code().toString())
                     }

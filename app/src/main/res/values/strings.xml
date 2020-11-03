@@ -33,4 +33,5 @@
     <string name="ppe_temp_check">Temperature Check</string>
     <string name="ppe_description">Check this place\'s PPE Rating. The higher the score, the higher the level of quarantine, the safer it is.</string>
     <string name="review_notice">Please leave a review of this place and rate it. It can be useful information for other users.</string>
+    <string name="comment_notice">Please leave a comment of this funding. Free exchange of opinions, cheering phrases, etc. are all good.</string>
 </resources>

@@ -1,12 +1,10 @@
 package com.k_rona.funding4.network
 
-import com.k_rona.funding4.data.Funding
-import com.k_rona.funding4.data.LodgingPlace
-import com.k_rona.funding4.data.Review
-import com.k_rona.funding4.data.User
+import com.k_rona.funding4.data.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 interface RetrofitService {
@@ -96,6 +94,14 @@ interface RetrofitService {
         @Path("nickname") nickname: String,
         @Path("id") fundingID: Int
     ): Call<Void>
+
+    @FormUrlEncoded
+    @POST("api/funding-comment/")
+    fun requestPostComment(
+        @Field("user") userID: Int,
+        @Field("funding") fundingID: Int,
+        @Field("content") content: String
+    ):Call<FundingComment>
 
     /** Review **/
 

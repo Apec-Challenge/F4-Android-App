@@ -191,6 +191,7 @@ class FundingDetailActivity : AppCompatActivity() {
                     val fundingCommentFragment = FundingCommentFragment()
                     fundingCommentFragment.arguments = Bundle().apply {
                         putSerializable("funding_comment_list", fundingDetail.comment_list)
+                        putSerializable("funding_id", fundingDetail.id)
                     }
                     return fundingCommentFragment
                 }
