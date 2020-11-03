@@ -55,7 +55,6 @@ class FundingDetailActivity : AppCompatActivity() {
     private val retrofitService: RetrofitService = retrofit.create(RetrofitService::class.java)
 
     private lateinit var fundingDetail: Funding
-    private lateinit var fundingPlace: LodgingPlace
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +124,7 @@ class FundingDetailActivity : AppCompatActivity() {
         funding_deadline.text = fundingEndedAt
         funding_remaining_day.text = dDay.toString()
 
-        getFundingPlace(fundingDetail.place)
+        linkFundingPlace(fundingDetail.place)
 
 //        funding_backed_count.text = fundingDetail.backed
 //        funding_owner.text = fundingDetail.user
@@ -134,31 +133,21 @@ class FundingDetailActivity : AppCompatActivity() {
         pagerAdapter = PagerAdaper(supportFragmentManager)
         viewPager = this.findViewById(R.id.funding_detail_viewpager)
         viewPager.adapter = pagerAdapter
+
+        tabLayout.setupWithViewPager(viewPager)
     }
 
-    private fun getFundingPlace(placeID: String) {
-        retrofitService.requestFundingPlace(placeID).enqueue(object : Callback<LodgingPlace> {
-            override fun onResponse(call: Call<LodgingPlace>, response: Response<LodgingPlace>) {
-                if (response.code() == 200 && response.body() != null) {
-                    fundingPlace = response.body()!!
-                    funding_place_title.text = fundingPlace.title
-                    funding_place_address.text = fundingPlace.address
+    private fun linkFundingPlace(place: LodgingPlace) {
+        funding_place_title.text = place.title
+        funding_place_address.text = place.address
 
-                    funding_place_detail.setOnClickListener {
-                        val intent = Intent(applicationContext, PlaceDetailActivity::class.java)
-                        val bundle = Bundle()
-                        bundle.putSerializable("place_object", fundingPlace)
-                        intent.putExtras(bundle)
-                        startActivity(intent)
-                    }
-
-                    tabLayout.setupWithViewPager(viewPager)
-                }
-            }
-
-            override fun onFailure(call: Call<LodgingPlace>, t: Throwable) {
-            }
-        })
+        funding_place_detail.setOnClickListener {
+            val intent = Intent(applicationContext, PlaceDetailActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("place_object", place)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
     }
 
     private val TAB_SUMMARY = 0
@@ -191,9 +180,9 @@ class FundingDetailActivity : AppCompatActivity() {
                 TAB_PPE -> {
                     val fundingPPEFragment = FundingPPEFragment()
                     fundingPPEFragment.arguments = Bundle().apply {
-                        putInt("funding_hand_sanitizer", fundingPlace.hand_sanitizer)
-                        putInt("funding_temperature_check", fundingPlace.body_temperature_check)
-                        putInt("funding_person_hygiene", fundingPlace.person_hygiene)
+                        putInt("funding_hand_sanitizer", fundingDetail.place.hand_sanitizer)
+                        putInt("funding_temperature_check", fundingDetail.place.body_temperature_check)
+                        putInt("funding_person_hygiene", fundingDetail.place.person_hygiene)
                     }
                     return fundingPPEFragment
                 }
@@ -201,7 +190,7 @@ class FundingDetailActivity : AppCompatActivity() {
                 TAB_COMMENT -> {
                     val fundingCommentFragment = FundingCommentFragment()
                     fundingCommentFragment.arguments = Bundle().apply {
-
+                        putSerializable("funding_comment_list", fundingDetail.comment_list)
                     }
                     return fundingCommentFragment
                 }
@@ -209,7 +198,6 @@ class FundingDetailActivity : AppCompatActivity() {
                 else -> {
                     val fundingContentFragment = FundingContentFragment()
                     fundingContentFragment.arguments = Bundle().apply {
-
                     }
                     return fundingContentFragment
                 }
