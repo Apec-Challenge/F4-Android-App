@@ -55,6 +55,7 @@ class RecommendFundingListAdapter(
             .thumbnail(0.1f)
             .into(holder.view.recommend_funding_thumbnail_image)
 
+        holder.view.recommend_funding_likes.text = fundingList[position].total_likes.toString()
         holder.view.recommend_funding_title.text = fundingList[position].title
         holder.view.recommend_funding_progress_text.text = (achievementRate * 100).toInt().toString() + "% in progress.."
     }

@@ -52,16 +52,44 @@
                         android:textStyle="bold"
                         tools:text="Funding Title" />
 
-                    <TextView
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:id="@+id/recommend_funding_progress_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <RelativeLayout
                         android:layout_marginTop="4dp"
-                        android:text="280%"
-                        android:textColor="#656565"
-                        android:textSize="12sp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:id="@+id/recommend_funding_progress_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="280%"
+                            android:textColor="#656565"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:paddingTop="1dp"
+                            android:layout_centerVertical="true"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:tint="@color/colorAccent"
+                            android:layout_toLeftOf="@+id/recommend_funding_likes"
+                            android:src="@drawable/ic_baseline_favorite_24"/>
+
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/recommend_funding_likes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="35"
+                            android:textColor="#656565"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
 
                 </LinearLayout>
             </RelativeLayout>

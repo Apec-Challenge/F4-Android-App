@@ -224,7 +224,6 @@ class HomeFragment : Fragment() {
 
                         popularFundingList.addAll(popularFundingResponseBody)
                         popularFundingAdapter.notifyDataSetChanged()
-
                     }
                 }
 

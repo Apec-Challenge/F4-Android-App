@@ -167,7 +167,8 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
 
             card_place_title.text = lodgingPlace.title
             card_place_address.text = lodgingPlace.address
-//            card_place_rating = lodgingPlace.
+            card_place_rating.rating = lodgingPlace.review_average
+            card_place_rating_text.text = "(${lodgingPlace.review_average})"
 
             show_place_info_card_view.setOnClickListener {
                 val intent = Intent(requireContext(), PlaceDetailActivity::class.java)
@@ -427,7 +428,7 @@ class SurroundPlaceFragment : Fragment(), OnMapReadyCallback, PlacesListener,
                                     }
                                 }
                             } else {
-                                Log.d("Error lodging place", response.errorBody().toString())
+                                Log.d("Error lodging place", response.body().toString())
                             }
                         }
 

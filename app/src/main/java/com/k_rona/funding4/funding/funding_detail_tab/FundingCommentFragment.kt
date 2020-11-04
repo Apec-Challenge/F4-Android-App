@@ -95,7 +95,7 @@ class FundingCommentFragment : Fragment() {
                 // 사용자 정보가 유효하면
                 if (userProfile != null) {
                     writeComment(
-                        nickname = userProfile.nickname,
+                        userID = userProfile.pk,
                         fundingID = fundingID,
                         content = comment_edit_text.text.toString()
                     )
@@ -105,8 +105,8 @@ class FundingCommentFragment : Fragment() {
         }
     }
 
-    private fun writeComment(nickname: String, fundingID: Int, content:String){
-        retrofitService.requestPostComment(nickname, fundingID, content).enqueue(object: Callback<FundingComment>{
+    private fun writeComment(userID: Int, fundingID: Int, content:String){
+        retrofitService.requestPostComment(userID, fundingID, content).enqueue(object: Callback<FundingComment>{
             override fun onResponse(
                 call: Call<FundingComment>,
                 response: Response<FundingComment>

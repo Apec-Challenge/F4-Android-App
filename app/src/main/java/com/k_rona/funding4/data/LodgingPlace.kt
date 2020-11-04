@@ -14,5 +14,6 @@ class LodgingPlace(
     var total_likes: Int = 0,
     var hand_sanitizer: Int,
     var person_hygiene: Int,
-    var body_temperature_check: Int
+    var body_temperature_check: Int,
+    var review_average: Float
 ): Serializable
