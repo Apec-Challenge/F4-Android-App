@@ -5,7 +5,7 @@ import java.util.*
 
 class FundingComment(
     var id: Int,
-    var user: String,
+    var username: String,
     var funding: Int,
     var content: String,
     var created_at: Date

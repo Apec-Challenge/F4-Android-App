@@ -1,6 +1,7 @@
 package com.k_rona.funding4.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,20 +15,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
+import com.k_rona.funding4.adapter.MainFundingViewPagerAdapter
 import com.k_rona.funding4.adapter.PopularFundingListAdapter
 import com.k_rona.funding4.adapter.PopularPlaceListAdapter
 import com.k_rona.funding4.adapter.RecommendFundingListAdapter
 import com.k_rona.funding4.data.Funding
 import com.k_rona.funding4.data.LodgingPlace
+import com.k_rona.funding4.data.MainFunding
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
+import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment : Fragment() {
+
+    private var mainFundingList: ArrayList<Funding> = arrayListOf()
+    private lateinit var mainFundingResponseBody: MainFunding
+
+    // ViewPager 자동 전환 기능을 위한 Timer 선언, Interval 선언
+    var timer = Timer()
+    private val DELAY_MS: Long = 500
+    private val PERIOD_MS: Long = 3000
+    var currentPage: Int = 0
 
     private var recommendFundingList: ArrayList<Funding> = arrayListOf()
     private var recommendResponseBody: ArrayList<Funding> = arrayListOf()
@@ -79,7 +94,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recommendFundingManager = GridLayoutManager(requireContext(), 2)
-        recommendFundingAdapter = RecommendFundingListAdapter(recommendFundingList, requireContext())
+        recommendFundingAdapter =
+            RecommendFundingListAdapter(recommendFundingList, requireContext())
 
         recommendFundingRecyclerView =
             view.findViewById<RecyclerView>(R.id.home_recommend_funding_recyclerview).apply {
@@ -98,7 +114,8 @@ class HomeFragment : Fragment() {
                 adapter = popularFundingAdapter
             }
 
-        popularPlaceManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        popularPlaceManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         popularPlaceAdapter = PopularPlaceListAdapter(popularPlaceList, requireContext())
 
         popularPlaceRecyclerView =
@@ -108,6 +125,7 @@ class HomeFragment : Fragment() {
                 adapter = popularPlaceAdapter
             }
 
+        getMainFundingList()
         getRecommendFundingList()
         getPopularFundingList()
         getPopularPlaceList()
@@ -117,22 +135,72 @@ class HomeFragment : Fragment() {
         getRecommendFundingList()
         getPopularFundingList()
         getPopularPlaceList()
+        timer = Timer()
 
         super.onResume()
     }
+    override fun onStop() {
+        super.onStop()
 
-    private fun getRecommendFundingList(){
+        timer.cancel()
+    }
+
+    private fun getMainFundingList() {
+        retrofitService.requestMainFundingList().enqueue(object : Callback<ArrayList<MainFunding>> {
+            override fun onFailure(call: Call<ArrayList<MainFunding>>, t: Throwable) {
+                Log.d("getMainFundingList()", "실패!")
+            }
+
+            override fun onResponse(call: Call<ArrayList<MainFunding>>, response: Response<ArrayList<MainFunding>>) {
+                if(response.code() == 200 && response.body() != null && main_funding_viewpager != null){
+                    mainFundingResponseBody = response.body()!![0]
+                    mainFundingList.addAll(mainFundingResponseBody.main_funding)
+
+                    main_funding_viewpager.adapter = MainFundingViewPagerAdapter(context!!, mainFundingList)
+                    main_funding_viewpager.currentItem = 0
+
+                    // 자동 전환 View Pager 동작을 위한 Handler 객체 + 동작부
+                    val handler = Handler()
+                    val updateTask: Runnable =
+                        Runnable {
+                            if (currentPage == mainFundingList.size) {
+                                currentPage = 0
+                            }
+                            if (main_funding_viewpager != null) {
+                                main_funding_viewpager.setCurrentItem(currentPage++, true)
+                            }
+                        }
+                    timer = Timer()
+                    timer.schedule(object : TimerTask() {
+                        override fun run() {
+                            handler.post(updateTask)
+                        }
+                    }, DELAY_MS, PERIOD_MS)
+                }else{
+                    Log.d("Main funding", "Failed!")
+                }
+            }
+        })
+    }
+
+    private fun getRecommendFundingList() {
         retrofitService.requestFundingList("like_count", "", "", "")
             .enqueue(object : Callback<ArrayList<Funding>> {
-                override fun onResponse(call: Call<ArrayList<Funding>>, response: Response<ArrayList<Funding>>) {
+                override fun onResponse(
+                    call: Call<ArrayList<Funding>>,
+                    response: Response<ArrayList<Funding>>
+                ) {
                     if (response.code() == 200 && !response.body().isNullOrEmpty()) {
                         recommendResponseBody.clear()
                         recommendResponseBody = response.body()!!
 
                         recommendFundingList.addAll(recommendResponseBody)
                         recommendFundingAdapter.notifyDataSetChanged()
-                    }else{
-                        Log.d("RecommendFundingList()", "ERROR CODE : "+ response.code().toString())
+                    } else {
+                        Log.d(
+                            "RecommendFundingList()",
+                            "ERROR CODE : " + response.code().toString()
+                        )
                         Log.d("RecommendFundingList()", "RESPONSE : " + response.body().toString())
                     }
                 }
@@ -143,49 +211,52 @@ class HomeFragment : Fragment() {
             })
     }
 
-    private fun getPopularFundingList(){
-        retrofitService.requestPopularFundingList("hot").enqueue(object : Callback<ArrayList<Funding>>{
-            override fun onResponse(
-                call: Call<ArrayList<Funding>>,
-                response: Response<ArrayList<Funding>>
-            ) {
-                if (response.code() == 200 && !response.body().isNullOrEmpty()) {
-                    popularFundingResponseBody.clear()
-                    popularFundingResponseBody = response.body()!!
+    private fun getPopularFundingList() {
+        retrofitService.requestPopularFundingList("hot")
+            .enqueue(object : Callback<ArrayList<Funding>> {
+                override fun onResponse(
+                    call: Call<ArrayList<Funding>>,
+                    response: Response<ArrayList<Funding>>
+                ) {
+                    if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                        popularFundingResponseBody.clear()
+                        popularFundingResponseBody = response.body()!!
 
-                    popularFundingList.addAll(popularFundingResponseBody)
-                    popularFundingAdapter.notifyDataSetChanged()
+                        popularFundingList.addAll(popularFundingResponseBody)
+                        popularFundingAdapter.notifyDataSetChanged()
 
-                }else{
-
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ArrayList<Funding>>, t: Throwable) {
-            }
-        })
+                override fun onFailure(call: Call<ArrayList<Funding>>, t: Throwable) {
+                }
+            })
     }
 
-    private fun getPopularPlaceList(){
-        retrofitService.requestPopularPlaceList("like_count").enqueue(object : Callback<ArrayList<LodgingPlace>>{
-            override fun onResponse(
-                call: Call<ArrayList<LodgingPlace>>,
-                response: Response<ArrayList<LodgingPlace>>
-            ) {
-                if (response.code() == 200 && !response.body().isNullOrEmpty()) {
-                    popularPlaceResponseBody.clear()
-                    popularPlaceResponseBody = response.body()!!
+    private fun getPopularPlaceList() {
+        retrofitService.requestPopularPlaceList("like_count")
+            .enqueue(object : Callback<ArrayList<LodgingPlace>> {
+                override fun onResponse(
+                    call: Call<ArrayList<LodgingPlace>>,
+                    response: Response<ArrayList<LodgingPlace>>
+                ) {
+                    if (response.code() == 200 && !response.body().isNullOrEmpty()) {
+                        popularPlaceResponseBody.clear()
+                        popularPlaceResponseBody = response.body()!!
 
-                    popularPlaceList.addAll(popularPlaceResponseBody)
-                    popularPlaceAdapter.notifyDataSetChanged()
-                }else{
-                    Log.d("requestPopularPlaceList", "ERROR CODE : "+ response.code().toString())
-                    Log.d("requestPopularPlaceList", "RESPONSE : " + response.body().toString())
+                        popularPlaceList.addAll(popularPlaceResponseBody)
+                        popularPlaceAdapter.notifyDataSetChanged()
+                    } else {
+                        Log.d(
+                            "requestPopularPlaceList",
+                            "ERROR CODE : " + response.code().toString()
+                        )
+                        Log.d("requestPopularPlaceList", "RESPONSE : " + response.body().toString())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ArrayList<LodgingPlace>>, t: Throwable) {
-            }
-        })
+                override fun onFailure(call: Call<ArrayList<LodgingPlace>>, t: Throwable) {
+                }
+            })
     }
 }

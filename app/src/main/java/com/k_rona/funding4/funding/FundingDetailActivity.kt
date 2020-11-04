@@ -113,14 +113,18 @@ class FundingDetailActivity : AppCompatActivity() {
 
         funding_title.text = fundingDetail.title
         funding_description.text = fundingDetail.description
+
         funding_like_count.text = fundingDetail.total_likes.toString()
+
         funding_backed_count.text = fundingDetail.backed_list.size.toString()
+
         funding_owner.text = fundingDetail.owner_username
 
         funding_progress.progress = (achievementRate * 100).toInt()
         funding_achievement_rate.text = (achievementRate * 100).toInt().toString() + "%"
 
         funding_amount.text = "$ " + fundingDetail.funding_amount.toString()
+
         funding_deadline.text = fundingEndedAt
         funding_remaining_day.text = dDay.toString()
 
@@ -222,12 +226,8 @@ class FundingDetailActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-
+                    Log.e("UserPushedLikeButton()", "Like button failed..! : " + t.message)
                 }
             })
     }
 }
-
-
-
-

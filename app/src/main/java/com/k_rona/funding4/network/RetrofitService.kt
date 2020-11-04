@@ -98,10 +98,13 @@ interface RetrofitService {
     @FormUrlEncoded
     @POST("api/funding-comment/")
     fun requestPostComment(
-        @Field("user") userID: Int,
+        @Field("username") nickname: String,
         @Field("funding") fundingID: Int,
         @Field("content") content: String
     ):Call<FundingComment>
+
+    @GET("api/main-funding/")
+    fun requestMainFundingList(): Call<ArrayList<MainFunding>>
 
     /** Review **/
 

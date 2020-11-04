@@ -42,7 +42,7 @@ class FundingCommentListAdapter(
 
         holder.view.comment_created_at.text = commentCreatedAt
         holder.view.comment_content.text = commentList[position].content
-        holder.view.comment_writer.text = commentList[position].user
+        holder.view.comment_writer.text = commentList[position].username
     }
 
     override fun getItemCount(): Int {

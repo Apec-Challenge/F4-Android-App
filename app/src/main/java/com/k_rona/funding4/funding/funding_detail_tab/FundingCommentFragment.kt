@@ -93,19 +93,20 @@ class FundingCommentFragment : Fragment() {
                 comment_edit_text.error = "You have to write comment"
             } else {
                 // 사용자 정보가 유효하면
-                userProfile?.pk?.let { userID ->
+                if (userProfile != null) {
                     writeComment(
-                        userID = userID,
+                        nickname = userProfile.nickname,
                         fundingID = fundingID,
                         content = comment_edit_text.text.toString()
                     )
                 }
+
             }
         }
     }
 
-    private fun writeComment(userID: Int, fundingID: Int, content:String){
-        retrofitService.requestPostComment(userID, fundingID, content).enqueue(object: Callback<FundingComment>{
+    private fun writeComment(nickname: String, fundingID: Int, content:String){
+        retrofitService.requestPostComment(nickname, fundingID, content).enqueue(object: Callback<FundingComment>{
             override fun onResponse(
                 call: Call<FundingComment>,
                 response: Response<FundingComment>
@@ -121,6 +122,11 @@ class FundingCommentFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }else{
+                    Toast.makeText(
+                        context,
+                        "Comment Create Failed",
+                        Toast.LENGTH_LONG
+                    ).show()
                     Log.d("writeComment()", response.code().toString())
                 }
             }
