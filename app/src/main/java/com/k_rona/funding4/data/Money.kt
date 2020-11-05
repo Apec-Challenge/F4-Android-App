@@ -1,5 +1,5 @@
 package com.k_rona.funding4.data
 
-class MoneyCharge(
+class Money(
     var money: Int
 )

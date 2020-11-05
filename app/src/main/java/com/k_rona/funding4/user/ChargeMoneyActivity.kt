@@ -1,6 +1,5 @@
 package com.k_rona.funding4.user
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +7,12 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.k_rona.funding4.R
-import com.k_rona.funding4.data.MoneyCharge
+import com.k_rona.funding4.data.Money
 import com.k_rona.funding4.data.User
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_charge_money.*
-import kotlinx.android.synthetic.main.fragment_menu.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +39,10 @@ class ChargeMoneyActivity : AppCompatActivity() {
         Paper.init(this)
         val userProfile: User? = Paper.book().read("user_profile")
 
+        if (userProfile != null) {
+            requestCurrentMoney("Token " + userProfile.key)
+        }
+
         cancel_charge_button.setOnClickListener {
             finish()
         }
@@ -57,14 +59,28 @@ class ChargeMoneyActivity : AppCompatActivity() {
         }
     }
 
+    private fun requestCurrentMoney(token: String){
+        retrofitService.requestCurrentMoney(token).enqueue(object: Callback<Money>{
+            override fun onFailure(call: Call<Money>, t: Throwable) {
+                Log.e("requestCurrentMoney()", t.message)
+            }
+
+            override fun onResponse(call: Call<Money>, response: Response<Money>) {
+                if(response.code() == 200 && response.body() != null){
+                    current_money.text = response.body()!!.money.toString()
+                }
+            }
+        })
+    }
+
     private fun requestChargeMoney(token: String, money: Int) {
         Log.d("requestChargeMoney()", token)
-        retrofitService.requestChargeMoney(token, MoneyCharge(money)).enqueue(object : Callback<MoneyCharge> {
-            override fun onFailure(call: Call<MoneyCharge>, t: Throwable) {
+        retrofitService.requestChargeMoney(token, Money(money)).enqueue(object : Callback<Money> {
+            override fun onFailure(call: Call<Money>, t: Throwable) {
                 Log.e("requestChargeMoney()", t.message)
             }
 
-            override fun onResponse(call: Call<MoneyCharge>, response: Response<MoneyCharge>) {
+            override fun onResponse(call: Call<Money>, response: Response<Money>) {
                 if (response.code() == 200 && response.body() != null) {
                     Log.d("requestChargeMoney()", response.body()!!.money.toString())
                     Toast.makeText(this@ChargeMoneyActivity, "Charging Complete!", Toast.LENGTH_LONG).show()

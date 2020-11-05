@@ -1,11 +1,9 @@
 package com.k_rona.funding4.network
 
-import com.google.gson.annotations.JsonAdapter
 import com.k_rona.funding4.data.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.*
 
 interface RetrofitService {
@@ -41,12 +39,16 @@ interface RetrofitService {
         @Field("email") email: String
     ): Call<String>
 
-
     @PUT("api/accounts/money-recharge/")
     fun requestChargeMoney(
         @Header("Authorization") token: String,
-        @Body money: MoneyCharge
-    ): Call<MoneyCharge>
+        @Body money: Money
+    ): Call<Money>
+
+    @GET("api/accounts/money-recharge/")
+    fun requestCurrentMoney(
+        @Header("Authorization") token: String
+    ): Call<Money>
 
     /** Place **/
 
