@@ -107,13 +107,13 @@
                     </LinearLayout>
 
 
-<!--                    <ImageView-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:layout_alignParentRight="true"-->
-<!--                        android:layout_centerVertical="true"-->
-<!--                        android:src="@drawable/ic_baseline_arrow_forward_ios_24"-->
-<!--                        app:tint="#B1B1B1" />-->
+                    <!--                    <ImageView-->
+                    <!--                        android:layout_width="20dp"-->
+                    <!--                        android:layout_height="20dp"-->
+                    <!--                        android:layout_alignParentRight="true"-->
+                    <!--                        android:layout_centerVertical="true"-->
+                    <!--                        android:src="@drawable/ic_baseline_arrow_forward_ios_24"-->
+                    <!--                        app:tint="#B1B1B1" />-->
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -196,6 +196,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/user_liked_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -203,7 +204,6 @@
                                 android:textSize="28sp" />
 
                             <TextView
-                                android:id="@+id/user_liked_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Liked" />
@@ -219,7 +219,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
                 app:cardElevation="1dp">
 
                 <LinearLayout
@@ -233,13 +232,14 @@
                         android:layout_height="25dp"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_baseline_monetization_on_24" />
+                        android:src="@drawable/ic_baseline_monetization_on_24"
+                        app:tint="#AAAAAA" />
 
                     <TextView
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp"
                         android:text="Charge money"
                         android:textColor="#434343"
                         android:textSize="16sp" />
@@ -248,39 +248,73 @@
 
             </androidx.cardview.widget.CardView>
 
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/card_create_funding"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                app:cardElevation="1dp">-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                app:cardElevation="1dp">
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:padding="24dp">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="24dp">
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/create_funding_icon"-->
-<!--                        android:layout_width="25dp"-->
-<!--                        android:layout_height="25dp"-->
-<!--                        android:layout_centerVertical="true"-->
-<!--                        android:layout_gravity="center_vertical"-->
-<!--                        android:src="@drawable/ic_baseline_add_circle_24" />-->
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_password"
+                        app:tint="#AAAAAA" />
 
-<!--                    <TextView-->
-<!--                        android:layout_gravity="center_vertical"-->
-<!--                        android:layout_marginLeft="16dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Create Funding"-->
-<!--                        android:textColor="#434343"-->
-<!--                        android:textSize="16sp" />-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp"
+                        android:text="Logout"
+                        android:textColor="#434343"
+                        android:textSize="16sp" />
 
-<!--                </LinearLayout>-->
+                </LinearLayout>
 
-<!--            </androidx.cardview.widget.CardView>-->
+            </androidx.cardview.widget.CardView>
+
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:id="@+id/card_create_funding"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                app:cardElevation="1dp">-->
+
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:padding="24dp">-->
+
+            <!--                    <ImageView-->
+            <!--                        android:id="@+id/create_funding_icon"-->
+            <!--                        android:layout_width="25dp"-->
+            <!--                        android:layout_height="25dp"-->
+            <!--                        android:layout_centerVertical="true"-->
+            <!--                        android:layout_gravity="center_vertical"-->
+            <!--                        android:src="@drawable/ic_baseline_add_circle_24" />-->
+
+            <!--                    <TextView-->
+            <!--                        android:layout_gravity="center_vertical"-->
+            <!--                        android:layout_marginLeft="16dp"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:text="Create Funding"-->
+            <!--                        android:textColor="#434343"-->
+            <!--                        android:textSize="16sp" />-->
+
+            <!--                </LinearLayout>-->
+
+            <!--            </androidx.cardview.widget.CardView>-->
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

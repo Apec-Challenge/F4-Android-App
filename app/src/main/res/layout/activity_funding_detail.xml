@@ -8,6 +8,7 @@
     tools:context=".funding.FundingDetailActivity">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/funding_detail_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

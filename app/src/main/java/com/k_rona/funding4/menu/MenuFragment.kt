@@ -1,8 +1,13 @@
 package com.k_rona.funding4.menu
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +21,7 @@ import com.k_rona.funding4.data.UserInfo
 import com.k_rona.funding4.network.RetrofitService
 import com.k_rona.funding4.network.Server
 import com.k_rona.funding4.user.ChargeMoneyActivity
+import com.k_rona.funding4.user.LoginActivity
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.fragment_menu.*
 import retrofit2.Call
@@ -66,9 +72,28 @@ class MenuFragment : Fragment() {
         user_nickname.text = userProfile.nickname
         user_email.text = userProfile.email
 
-
         card_charge_money.setOnClickListener {
             startActivity(Intent(context, ChargeMoneyActivity::class.java))
+        }
+
+        card_logout.setOnClickListener {
+            val builder: AlertDialog.Builder =
+                AlertDialog.Builder(requireContext())
+            builder.setTitle("Logout")
+            builder.setMessage("\nAre you sure you want to sign out?")
+            builder.setPositiveButton("Yes",
+                DialogInterface.OnClickListener { dialog, which ->
+                    Paper.book().delete("user_profile")
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                })
+            builder.setNegativeButton("No",
+                DialogInterface.OnClickListener{ dialog, which ->
+
+                })
+            val alertDialog = builder.create()
+            alertDialog.show()
+            alertDialog.getButton(Dialog.BUTTON_NEGATIVE)
+                .setTextColor(Color.parseColor("#808080"))
         }
 
 //        card_create_funding.setOnClickListener {
@@ -79,11 +104,18 @@ class MenuFragment : Fragment() {
     private fun getUserInfo(userID: Int){
         retrofitService.requestUserInfo(userID).enqueue(object: Callback<UserInfo>{
             override fun onFailure(call: Call<UserInfo>, t: Throwable) {
-
+                Log.e("getUserInfo()", t.message)
             }
 
             override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
-
+                if(response.code() == 200 && response.body() != null){
+                    val userInfo: UserInfo = response.body()!!
+                    user_current_money.text = "$${userInfo.money}"
+                    user_backed_count.text = userInfo.backed_list.size.toString()
+                    user_liked_count.text = userInfo.place_likes.size.toString()
+                }else{
+                    Log.d("getUserInfo()", response.code().toString())
+                }
             }
         })
     }

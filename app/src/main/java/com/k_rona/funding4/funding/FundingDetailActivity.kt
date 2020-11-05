@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -37,7 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FundingDetailActivity : AppCompatActivity() {
+class FundingDetailActivity : AppCompatActivity(){
 
     private lateinit var pagerAdapter: FragmentStatePagerAdapter
     private lateinit var viewPager: ViewPager
@@ -56,6 +58,7 @@ class FundingDetailActivity : AppCompatActivity() {
 
     private lateinit var fundingDetail: Funding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_funding_detail)
@@ -65,6 +68,14 @@ class FundingDetailActivity : AppCompatActivity() {
 
         fundingDetail = intent.getSerializableExtra("funding_object") as Funding
         Log.d("Funding intent test", fundingDetail.title)
+
+        funding_detail_scrollview.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if(scrollY > 0){
+                fund_place_button.show()
+            }else{
+                fund_place_button.hide()
+            }
+        }
 
         val isAlreadyLikedFunding =
             fundingDetail.user_likes.any { it == userProfile?.pk }
