@@ -4,6 +4,7 @@ import com.k_rona.funding4.data.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 interface RetrofitService {
@@ -49,6 +50,12 @@ interface RetrofitService {
     fun requestCurrentMoney(
         @Header("Authorization") token: String
     ): Call<Money>
+
+    @GET("/api/user/{id}")
+    fun requestUserInfo(
+        @Path("id")userID: Int
+    ): Call<UserInfo>
+
 
     /** Place **/
 
@@ -117,14 +124,11 @@ interface RetrofitService {
     fun requestMainFundingList(
     ): Call<ArrayList<MainFunding>>
 
-    @FormUrlEncoded
     @POST("api/accounts/fund-place/")
     fun requestFundPlace(
         @Header("Authorization") token: String,
-        @Field("place_id") placeID: String,
-        @Field("money") money: Int
+        @Body placeID: FundingPayment
     ): Call<Void>
-
 
     /** Review **/
 

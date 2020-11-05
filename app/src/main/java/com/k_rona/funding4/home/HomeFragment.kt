@@ -1,11 +1,13 @@
 package com.k_rona.funding4.home
 
+import android.Manifest
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.gson.GsonBuilder
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import com.k_rona.funding4.R
 import com.k_rona.funding4.adapter.MainFundingViewPagerAdapter
 import com.k_rona.funding4.adapter.PopularFundingListAdapter
@@ -33,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.collections.ArrayList
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), PermissionListener {
 
     private var mainFundingList: ArrayList<Funding> = arrayListOf()
     private lateinit var mainFundingResponseBody: MainFunding
@@ -61,7 +65,6 @@ class HomeFragment : Fragment() {
     lateinit var popularPlaceAdapter: RecyclerView.Adapter<*>
     lateinit var popularPlaceManager: RecyclerView.LayoutManager
 
-    lateinit var popularFundingRecyclerView: RecyclerView
     lateinit var popularFundingAdapter: RecyclerView.Adapter<*>
     lateinit var popularFundingManager: RecyclerView.LayoutManager
 
@@ -76,7 +79,13 @@ class HomeFragment : Fragment() {
     private val retrofitService: RetrofitService = retrofit.create(RetrofitService::class.java)
 
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var googleMap: GoogleMap
+
+    override fun onPermissionGranted() {
+    }
+
+    override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -92,6 +101,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        TedPermission.with(requireContext())
+            .setPermissionListener(this)
+            .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on Location permissions at [Setting] > [Permission]")
+            .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+            .check()
 
         recommendFundingManager = GridLayoutManager(requireContext(), 2)
         recommendFundingAdapter =
@@ -139,6 +154,7 @@ class HomeFragment : Fragment() {
 
         super.onResume()
     }
+
     override fun onStop() {
         super.onStop()
 
@@ -151,12 +167,16 @@ class HomeFragment : Fragment() {
                 Log.d("getMainFundingList()", "실패!")
             }
 
-            override fun onResponse(call: Call<ArrayList<MainFunding>>, response: Response<ArrayList<MainFunding>>) {
-                if(response.code() == 200 && response.body() != null && main_funding_viewpager != null){
+            override fun onResponse(
+                call: Call<ArrayList<MainFunding>>,
+                response: Response<ArrayList<MainFunding>>
+            ) {
+                if (response.code() == 200 && response.body() != null && main_funding_viewpager != null) {
                     mainFundingResponseBody = response.body()!![0]
                     mainFundingList.addAll(mainFundingResponseBody.main_funding)
 
-                    main_funding_viewpager.adapter = MainFundingViewPagerAdapter(context!!, mainFundingList)
+                    main_funding_viewpager.adapter =
+                        MainFundingViewPagerAdapter(context!!, mainFundingList)
                     main_funding_viewpager.currentItem = 0
 
                     // 자동 전환 View Pager 동작을 위한 Handler 객체 + 동작부
@@ -176,7 +196,7 @@ class HomeFragment : Fragment() {
                             handler.post(updateTask)
                         }
                     }, DELAY_MS, PERIOD_MS)
-                }else{
+                } else {
                     Log.d("Main funding", "Failed!")
                 }
             }
