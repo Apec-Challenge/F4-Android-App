@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E8E8"
-    android:orientation="vertical"
     tools:context=".funding.FundingDetailActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -295,9 +294,25 @@
 
                 </androidx.cardview.widget.CardView>
 
-
             </LinearLayout>
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        app:iconTint="#fff"
+        android:backgroundTint="@color/colorAccent"
+        android:id="@+id/fund_place_button"
+        app:icon="@drawable/ic_baseline_attach_money_24"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="Hello!"
+        android:layout_gravity="bottom"
+        android:textColor="#fff"
+        android:text="Funding"
+        android:layout_margin="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

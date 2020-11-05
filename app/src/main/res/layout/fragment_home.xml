@@ -17,11 +17,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/main_funding_viewpager"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@color/title" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:elevation="1dp"
+                    android:layout_margin="24dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/app_logo_light"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/main_funding_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+            </FrameLayout>
 
             <!--            <RelativeLayout-->
             <!--                android:layout_width="match_parent"-->

@@ -1,5 +1,6 @@
 package com.k_rona.funding4.network
 
+import com.google.gson.annotations.JsonAdapter
 import com.k_rona.funding4.data.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -39,6 +40,13 @@ interface RetrofitService {
     fun requestResetPassword(
         @Field("email") email: String
     ): Call<String>
+
+
+    @PUT("api/accounts/money-recharge/")
+    fun requestChargeMoney(
+        @Header("Authorization") token: String,
+        @Body money: MoneyCharge
+    ): Call<MoneyCharge>
 
     /** Place **/
 
@@ -104,7 +112,17 @@ interface RetrofitService {
     ):Call<FundingComment>
 
     @GET("api/main-funding/")
-    fun requestMainFundingList(): Call<ArrayList<MainFunding>>
+    fun requestMainFundingList(
+    ): Call<ArrayList<MainFunding>>
+
+    @FormUrlEncoded
+    @POST("api/accounts/fund-place/")
+    fun requestFundPlace(
+        @Header("Authorization") token: String,
+        @Field("place_id") placeID: String,
+        @Field("money") money: Int
+    ): Call<Void>
+
 
     /** Review **/
 

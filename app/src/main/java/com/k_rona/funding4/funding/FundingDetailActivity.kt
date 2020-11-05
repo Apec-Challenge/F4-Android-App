@@ -90,6 +90,17 @@ class FundingDetailActivity : AppCompatActivity() {
             noticeUserPushedLikeButton(userProfile!!.nickname, fundingDetail.id)
         }
 
+        /** 펀딩 버튼 누를 시 **/
+
+        fund_place_button.setOnClickListener {
+            val intent = Intent(this, FundingPaymentActivity::class.java)
+            val bundle: Bundle = Bundle()
+            bundle.putSerializable("funding_detail", fundingDetail)
+
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
+
         val fundingDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val fundingEndedAt = fundingDateFormat.format(fundingDetail.ended_at)
 

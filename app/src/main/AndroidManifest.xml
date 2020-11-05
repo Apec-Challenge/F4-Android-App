@@ -16,13 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".place.PlaceDetailActivity"></activity>
-        <activity android:name=".place.PlaceRegisterActivity">
-
-        </activity>
-        <activity android:name=".funding.FundingDetailActivity">
-
-        </activity>
+        <activity android:name=".funding.FundingPaymentActivity"></activity>
+        <activity android:name=".funding.CreateFundingActivity" />
+        <activity android:name=".user.ChargeMoneyActivity" />
+        <activity android:name=".place.PlaceDetailActivity" />
+        <activity android:name=".place.PlaceRegisterActivity" />
+        <activity android:name=".funding.FundingDetailActivity" />
         <activity android:name=".user.PasswordResetConfirmActivity" />
         <activity android:name=".user.PasswordResetActivity" />
         <activity android:name=".user.RegisterActivity" />
@@ -43,9 +42,7 @@
 
         <activity
             android:name=".home.HomeActivity"
-            android:label="@string/title_activity_home">
-        </activity>
-
+            android:label="@string/title_activity_home" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
