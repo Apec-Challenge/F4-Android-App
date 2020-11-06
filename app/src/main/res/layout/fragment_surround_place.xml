@@ -11,22 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <EditText
-        android:id="@+id/search_funding_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/custom_input"
-        android:backgroundTint="#fff"
-        android:drawableStart="@drawable/ic_baseline_search_24"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="@string/place_search"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="14sp" />
+<!--    <EditText-->
+<!--        android:id="@+id/search_funding_edit_text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:layout_marginRight="16dp"-->
+<!--        android:background="@drawable/custom_input"-->
+<!--        android:backgroundTint="#fff"-->
+<!--        android:drawableStart="@drawable/ic_baseline_search_24"-->
+<!--        android:drawablePadding="12dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="@string/place_search"-->
+<!--        android:paddingStart="16dp"-->
+<!--        android:paddingEnd="16dp"-->
+<!--        android:textSize="14sp" />-->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register_place_info_button"

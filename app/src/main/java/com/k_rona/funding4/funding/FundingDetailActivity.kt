@@ -58,7 +58,6 @@ class FundingDetailActivity : AppCompatActivity(){
 
     private lateinit var fundingDetail: Funding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_funding_detail)
@@ -72,7 +71,7 @@ class FundingDetailActivity : AppCompatActivity(){
         funding_detail_scrollview.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if(scrollY > 0){
                 fund_place_button.show()
-            }else{
+            } else{
                 fund_place_button.hide()
             }
         }
@@ -121,7 +120,7 @@ class FundingDetailActivity : AppCompatActivity(){
 
         val fundingEndAtLong = fundingEndAtDate.timeInMillis / 86400000
         val todayDateLong = todayDateCal.timeInMillis / 86400000
-
+        
         val dDay = (fundingEndAtLong - todayDateLong) + 1
 
         val achievementRate: Double =
@@ -231,7 +230,7 @@ class FundingDetailActivity : AppCompatActivity(){
             }
         }
 
-        private val tabTitle: ArrayList<String> = arrayListOf("Summary", "Backed", "PPE", "Comment")
+        private val tabTitle: ArrayList<String> = arrayListOf("Summary", "Backer", "PPE", "Comment")
 
         override fun getPageTitle(position: Int): CharSequence? {
             return tabTitle[position]

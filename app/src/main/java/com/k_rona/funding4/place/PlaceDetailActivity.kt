@@ -1,6 +1,8 @@
 package com.k_rona.funding4.place
 
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
@@ -89,7 +91,15 @@ class PlaceDetailActivity : AppCompatActivity() {
         place_like_count.text = placeDetail.total_likes.toString()
 
         place_title.text = placeDetail.title
+
         place_address.text = placeDetail.address
+        place_address.setOnClickListener {
+            val gmmIntentUri = Uri.parse("geo:0,0?q=${placeDetail.address}")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
+
         place_description.text = placeDetail.description
 
         place_hand_sanitizer.progress = placeDetail.hand_sanitizer
